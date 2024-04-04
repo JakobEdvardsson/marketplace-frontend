@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "xo",
+    "xo-react",
+    "plugin:tailwindcss/recommended",
+    "next/core-web-vitals",
+    "prettier"
+  ],
+  "rules": {
+    "new-cap": "off",
+    "no-warning-comments": "off",
+    "capitalized-comments": "off",
+    "spaced-comment": "off"
+  }
+}
