@@ -1,8 +1,6 @@
 'use client'
 import Link from "next/link";
-import {router} from "next/client";
-import {useEffect, useState} from "react";
-
+// import {router} from "next/client";
 export default function Navbar() {
 
     const navLinks = [
@@ -13,23 +11,18 @@ export default function Navbar() {
         {name: "Settings", link: "/settings"}
     ]
 
-
-    const renderLinks = () => {
-        return (
-            <ul id={"navbar"} className={"w-full h-10 lg:h-[5%] fixed top-0 flex flex-row items-center justify-around"}>
-                {navLinks.map((link) => {
-                    return (
+    const renderLinks = () => (
+            <ul id="navbar" className="fixed top-0 flex h-10 w-full flex-row items-center justify-around lg:h-[5%]">
+                {navLinks.map((link) => (
                         <li key={link.name}
-                            className={"text-center lg:hover:scale-110 sm:ease-in-out sm:duration-300 w-fit"}>
+                            className="w-fit text-center sm:duration-300 sm:ease-in-out lg:hover:scale-110">
                             <Link href={link.link} >
-                                <button className={"activeLink text-xl lg:text-3xl"}>{link.name}</button>
+                                <button type="button" className="text-xl lg:text-3xl">{link.name}</button>
                             </Link>
                         </li>
-                    );
-                })}
+                    ))}
             </ul>
-        );
-    }
+        )
 
     return renderLinks();
 }
