@@ -1,7 +1,7 @@
 export default function Home() {
   return (
-    <div>
-      <p className="mt-10 animate-bounce content-center text-center text-lg">
+    <div className="w-full bg-yellow-300">
+      <p className="mt-10 animate-bounce content-center text-center text-3xl">
         Hello world
       </p>
     </div>
