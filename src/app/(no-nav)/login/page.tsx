@@ -29,6 +29,7 @@ export default function Page() {
   }
 
   return (
+    // eslint-disable-next-line react/jsx-no-bind
     <form onSubmit={handleSubmit}>
       <input required type="email" name="email" placeholder="Email" />
       <input required type="password" name="password" placeholder="Password" />
