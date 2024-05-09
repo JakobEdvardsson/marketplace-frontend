@@ -16,7 +16,7 @@ export default function TestEndpoint() {
   };
 
   return (
-    <form action={onSubmit} className="bg-white">
+    <form action={onSubmit} className="bg-white text-black">
       <input name="username" type="text" placeholder="Username" />
       <input name="password" type="password" placeholder="Password" />
       <button className="bg-blue-500 p-2" type="submit">
