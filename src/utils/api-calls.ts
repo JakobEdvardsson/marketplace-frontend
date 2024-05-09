@@ -23,3 +23,31 @@ export function logout() {
     credentials: "include",
   });
 }
+
+// eslint-disable-next-line max-params
+export function register(
+  firstName: string,
+  lastName: string,
+  email: string,
+  username: string,
+  password: string,
+  dateOfBirth: Date,
+) {
+  const url = `${BACKEND_URL}/accounts/register`;
+
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "omit",
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      username,
+      password,
+      dateOfBirth,
+    }),
+  });
+}
