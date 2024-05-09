@@ -51,3 +51,12 @@ export function register(
     }),
   });
 }
+
+export function deleteAccount() {
+  const url = `${BACKEND_URL}/accounts`;
+
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
