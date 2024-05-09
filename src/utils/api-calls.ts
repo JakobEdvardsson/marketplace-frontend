@@ -14,3 +14,12 @@ export function login(username: string, password: string) {
     body: `username=${username}&password=${password}`,
   });
 }
+
+export function logout() {
+  const url = `${BACKEND_URL}/accounts/logout`;
+
+  return fetch(url, {
+    method: "POST",
+    credentials: "include",
+  });
+}
