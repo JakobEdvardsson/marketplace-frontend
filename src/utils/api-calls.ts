@@ -52,6 +52,15 @@ export function register(
   });
 }
 
+export function getCategories() {
+  const url = `${BACKEND_URL}/categories`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "omit",
+  });
+}
+
 export function deleteAccount() {
   const url = `${BACKEND_URL}/accounts`;
 
