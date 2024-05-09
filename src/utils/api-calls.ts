@@ -63,7 +63,32 @@ export function getCategories() {
 
 // TODO products endpoints
 
-// TODO inbox endpoints
+export function deleteInboxMessage(id: string) {
+  const url = `${BACKEND_URL}/inbox/${id}`;
+
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+export function getInboxMessages() {
+  const url = `${BACKEND_URL}/inbox`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+export function getInboxMessage(id: string) {
+  const url = `${BACKEND_URL}/inbox/${id}`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
 
 export function deleteAccount() {
   const url = `${BACKEND_URL}/accounts`;
