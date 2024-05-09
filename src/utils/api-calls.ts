@@ -61,11 +61,24 @@ export function getCategories() {
   });
 }
 
+// TODO products endpoints
+
+// TODO inbox endpoints
+
 export function deleteAccount() {
   const url = `${BACKEND_URL}/accounts`;
 
   return fetch(url, {
     method: "DELETE",
+    credentials: "include",
+  });
+}
+
+export function testAuth() {
+  const url = `${BACKEND_URL}/tests/username`;
+
+  return fetch(url, {
+    method: "GET",
     credentials: "include",
   });
 }
