@@ -1,3 +1,7 @@
+// TODO: add enums for condition, color, etc
+// TODO: add endpoints that are not yet created
+// TODO: add more query params for "search" endpoints + pagination?
+
 const BACKEND_HOST = process.env.BACKEND_URL || "http://localhost:8080";
 const BACKEND_API_VERSION = process.env.BACKEND_API_VERSION || "v1";
 const BACKEND_URL = `${BACKEND_HOST}/${BACKEND_API_VERSION}`;
@@ -64,7 +68,7 @@ export function getCategories() {
 // eslint-disable-next-line max-params
 export function postProduct(
   name: string,
-  productCategory: string,
+  productCategoryId: string,
   price: number,
   condition: number,
   description: string,
@@ -83,7 +87,7 @@ export function postProduct(
       [
         JSON.stringify({
           name,
-          productCategory,
+          productCategory: productCategoryId,
           price,
           condition,
           description,
@@ -109,9 +113,9 @@ export function postProduct(
   });
 }
 
-export function getProducts(categoryName: string | undefined) {
-  const url = categoryName
-    ? `${BACKEND_URL}/products?category=${categoryName}`
+export function getProducts(productCategoryName: string | undefined) {
+  const url = productCategoryName
+    ? `${BACKEND_URL}/products?category=${productCategoryName}`
     : `${BACKEND_URL}/products`;
 
   return fetch(url, {
@@ -120,8 +124,8 @@ export function getProducts(categoryName: string | undefined) {
   });
 }
 
-export function deleteProduct(id: string) {
-  const url = `${BACKEND_URL}/products/${id}`;
+export function deleteProduct(productId: string) {
+  const url = `${BACKEND_URL}/products/${productId}`;
 
   return fetch(url, {
     method: "DELETE",
@@ -129,8 +133,8 @@ export function deleteProduct(id: string) {
   });
 }
 
-export function getProduct(id: string) {
-  const url = `${BACKEND_URL}/products/${id}`;
+export function getProduct(productId: string) {
+  const url = `${BACKEND_URL}/products/${productId}`;
 
   return fetch(url, {
     method: "GET",
@@ -138,8 +142,8 @@ export function getProduct(id: string) {
   });
 }
 
-export function deleteInboxMessage(id: string) {
-  const url = `${BACKEND_URL}/inbox/${id}`;
+export function deleteInboxMessage(messageId: string) {
+  const url = `${BACKEND_URL}/inbox/${messageId}`;
 
   return fetch(url, {
     method: "DELETE",
@@ -156,8 +160,8 @@ export function getInboxMessages() {
   });
 }
 
-export function getInboxMessage(id: string) {
-  const url = `${BACKEND_URL}/inbox/${id}`;
+export function getInboxMessage(messageId: string) {
+  const url = `${BACKEND_URL}/inbox/${messageId}`;
 
   return fetch(url, {
     method: "GET",
