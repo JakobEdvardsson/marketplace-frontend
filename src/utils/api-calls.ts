@@ -61,7 +61,82 @@ export function getCategories() {
   });
 }
 
-// TODO products endpoints
+// eslint-disable-next-line max-params
+export function postProduct(
+  name: string,
+  productCategory: string,
+  price: number,
+  condition: number,
+  description: string,
+  color: number | undefined,
+  productionYear: number | undefined,
+  images: (File | string)[],
+) {
+  const url = `${BACKEND_URL}/products`;
+
+  const formData = new FormData();
+
+  // add product info
+  formData.append(
+    "json",
+    new Blob(
+      [
+        JSON.stringify({
+          name,
+          productCategory,
+          price,
+          condition,
+          description,
+          color,
+          productionYear,
+        }),
+      ],
+      { type: "application/json" },
+    ),
+  );
+
+  // add images
+  images.forEach((file) => {
+    if (file && file instanceof File) {
+      formData.append("data", file);
+    }
+  });
+
+  return fetch(url, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+}
+
+export function getProducts(categoryName: string | undefined) {
+  const url = categoryName
+    ? `${BACKEND_URL}/products?category=${categoryName}`
+    : `${BACKEND_URL}/products`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+export function deleteProduct(id: string) {
+  const url = `${BACKEND_URL}/products/${id}`;
+
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+export function getProduct(id: string) {
+  const url = `${BACKEND_URL}/products/${id}`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
 
 export function deleteInboxMessage(id: string) {
   const url = `${BACKEND_URL}/inbox/${id}`;
