@@ -11,8 +11,7 @@ export default function TestEndpoint() {
     }
 
     await login(username, password);
-
-    // test authenticated endpoint here:
+    // * test endpoint with auth here *
   };
 
   return (
