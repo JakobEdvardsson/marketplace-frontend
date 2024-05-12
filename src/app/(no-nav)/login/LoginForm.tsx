@@ -41,8 +41,8 @@ export default function LoginForm() {
       </div>
       <p className="mt-5 w-5/6 text-sm">
         Marketplace does not works in partnership with anybody. You need an
-        account to continue. You can use the same account on all websites, so it
-        will be easier for us
+        account to continue. You can use the same account details on all
+        websites, so it will be easier for us
       </p>
       <button
         type="submit"
