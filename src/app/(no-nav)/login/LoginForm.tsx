@@ -4,6 +4,7 @@ export default function LoginForm() {
   const handleSubmit = async (formData: FormData) => {
     const username = formData.get("username");
     const password = formData.get("password");
+    //TODO: uncomment this line after implementing login function
     // await login(username, password).then(res => {...});
   };
 
