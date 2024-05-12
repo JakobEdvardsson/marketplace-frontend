@@ -2,8 +2,9 @@
 
 export default function LoginForm() {
   const handleSubmit = async (formData: FormData) => {
-    const username = formData.get("username");
-    const password = formData.get("password");
+    //TODO: delete undrelines after joining with db
+    const _username = formData.get("username");
+    const _password = formData.get("password");
     //TODO: uncomment this line after implementing login function
     // await login(username, password).then(res => {...});
   };
