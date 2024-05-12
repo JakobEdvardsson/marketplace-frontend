@@ -1,6 +1,7 @@
 // TODO: add enums for condition, color, etc
 // TODO: add endpoints that are not yet created
 // TODO: add more query params for "search" endpoints + pagination?
+// TODO: add types to all endpoints
 
 const BACKEND_HOST = process.env.BACKEND_URL || "http://localhost:8080";
 const BACKEND_API_VERSION = process.env.BACKEND_API_VERSION || "v1";
@@ -186,3 +187,52 @@ export function testAuth() {
     credentials: "include",
   });
 }
+
+// TODO: test Watchlist endpoints with final version of PR
+export function getWatchlist() {
+  const url = `${BACKEND_URL}/watchlist`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// TODO: uncomment when a decision has been made whether to use product name or not in POST /watchlist:
+/*
+export function addToWatchlist(productCategoryId: string, productCategoryName: string) {
+  const url = `${BACKEND_URL}/watchlist`;
+
+  return fetch(url, {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(
+      {
+        id: productCategoryId,
+        name: productCategoryName
+      }
+    )
+  });
+}
+
+export function addToWatchlist(productCategoryId: string) {
+  const url = `${BACKEND_URL}/watchlist/${productCategoryId}`;
+
+  return fetch(url, {
+    method: "POST",
+    credentials: "include"
+  });
+}
+
+ */
+
+export function deleteWatchlistItem(watchlistItemId: string) {
+  const url = `${BACKEND_URL}/watchlist/${watchlistItemId}`;
+
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+// TODO: Orders endpoints
