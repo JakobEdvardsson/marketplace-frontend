@@ -26,9 +26,9 @@ export default function Page() {
         </div>
         <div className="w-2/5">
           <LoginForm />
-          <p className="text-sm text-gray-600">
+          <p className="ml-10 text-sm text-gray-600">
             No account?
-            <Link href="/register" className="hover:underline">
+            <Link href="/register" className="ml-1 hover:underline">
               Register here!
             </Link>
           </p>
