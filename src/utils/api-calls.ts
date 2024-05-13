@@ -78,7 +78,15 @@ export function register(
   });
 }
 
-// TODO: GET /accounts/{id}
+// GET /accounts/{id}
+export function getProfile(id: string) {
+  const url = `${BACKEND_URL}/accounts/${id}`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "omit",
+  });
+}
 
 // GET /categories
 export function getCategories() {
