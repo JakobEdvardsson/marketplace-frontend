@@ -7,6 +7,15 @@ const BACKEND_HOST = process.env.BACKEND_URL || "http://localhost:8080";
 const BACKEND_API_VERSION = process.env.BACKEND_API_VERSION || "v1";
 const BACKEND_URL = `${BACKEND_HOST}/${BACKEND_API_VERSION}`;
 
+/*
+     \      _ \ _ _|                       |               _)         |
+    _ \    |   |  |        _ \  __ \    _` |  __ \    _ \   |  __ \   __|   __|
+   ___ \   ___/   |        __/  |   |  (   |  |   |  (   |  |  |   |  |   \__ \
+ _/    _\ _|    ___|     \___| _|  _| \__,_|  .__/  \___/  _| _|  _| \__| ____/
+                                             _|
+ */
+
+// POST /accounts/login
 export function login(username: string, password: string) {
   const url = `${BACKEND_URL}/accounts/login`;
 
@@ -20,6 +29,7 @@ export function login(username: string, password: string) {
   });
 }
 
+// POST /accounts/logout
 export function logout() {
   const url = `${BACKEND_URL}/accounts/logout`;
 
@@ -29,6 +39,17 @@ export function logout() {
   });
 }
 
+// DELETE /accounts
+export function deleteAccount() {
+  const url = `${BACKEND_URL}/accounts`;
+
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+// POST /accounts/register
 // eslint-disable-next-line max-params
 export function register(
   firstName: string,
@@ -57,6 +78,9 @@ export function register(
   });
 }
 
+// TODO: GET /accounts/{id}
+
+// GET /categories
 export function getCategories() {
   const url = `${BACKEND_URL}/categories`;
 
@@ -66,6 +90,20 @@ export function getCategories() {
   });
 }
 
+// TODO: add more search params
+// GET /products?
+export function getProducts(productCategoryName: string | undefined) {
+  const url = productCategoryName
+    ? `${BACKEND_URL}/products?category=${productCategoryName}`
+    : `${BACKEND_URL}/products`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// POST /products
 // eslint-disable-next-line max-params
 export function postProduct(
   name: string,
@@ -114,26 +152,11 @@ export function postProduct(
   });
 }
 
-export function getProducts(productCategoryName: string | undefined) {
-  const url = productCategoryName
-    ? `${BACKEND_URL}/products?category=${productCategoryName}`
-    : `${BACKEND_URL}/products`;
+// TODO: GET /products/my-active-listings
 
-  return fetch(url, {
-    method: "GET",
-    credentials: "include",
-  });
-}
+// TODO: GET /products/my-sold-products
 
-export function deleteProduct(productId: string) {
-  const url = `${BACKEND_URL}/products/${productId}`;
-
-  return fetch(url, {
-    method: "DELETE",
-    credentials: "include",
-  });
-}
-
+// GET /products/{id}
 export function getProduct(productId: string) {
   const url = `${BACKEND_URL}/products/${productId}`;
 
@@ -143,8 +166,9 @@ export function getProduct(productId: string) {
   });
 }
 
-export function deleteInboxMessage(messageId: string) {
-  const url = `${BACKEND_URL}/inbox/${messageId}`;
+// DELETE /products/{id}
+export function deleteProduct(productId: string) {
+  const url = `${BACKEND_URL}/products/${productId}`;
 
   return fetch(url, {
     method: "DELETE",
@@ -152,33 +176,7 @@ export function deleteInboxMessage(messageId: string) {
   });
 }
 
-export function getInboxMessages() {
-  const url = `${BACKEND_URL}/inbox`;
-
-  return fetch(url, {
-    method: "GET",
-    credentials: "include",
-  });
-}
-
-export function getInboxMessage(messageId: string) {
-  const url = `${BACKEND_URL}/inbox/${messageId}`;
-
-  return fetch(url, {
-    method: "GET",
-    credentials: "include",
-  });
-}
-
-export function deleteAccount() {
-  const url = `${BACKEND_URL}/accounts`;
-
-  return fetch(url, {
-    method: "DELETE",
-    credentials: "include",
-  });
-}
-
+// GET /tests/username
 export function testAuth() {
   const url = `${BACKEND_URL}/tests/username`;
 
@@ -188,7 +186,37 @@ export function testAuth() {
   });
 }
 
-// TODO: test Watchlist endpoints with final version of PR
+// GET /inbox
+export function getInboxMessages() {
+  const url = `${BACKEND_URL}/inbox`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// GET /inbox/{id}
+export function getInboxMessage(messageId: string) {
+  const url = `${BACKEND_URL}/inbox/${messageId}`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// DELETE /inbox/{id}
+export function deleteInboxMessage(messageId: string) {
+  const url = `${BACKEND_URL}/inbox/${messageId}`;
+
+  return fetch(url, {
+    method: "DELETE",
+    credentials: "include",
+  });
+}
+
+// GET /watchlist
 export function getWatchlist() {
   const url = `${BACKEND_URL}/watchlist`;
 
@@ -198,34 +226,21 @@ export function getWatchlist() {
   });
 }
 
-// TODO: uncomment when a decision has been made whether to use product name or not in POST /watchlist:
-/*
-export function addToWatchlist(productCategoryId: string, productCategoryName: string) {
+// POST /watchlist
+export function addToWatchlist(productCategoryId: string) {
   const url = `${BACKEND_URL}/watchlist`;
 
   return fetch(url, {
     method: "POST",
     credentials: "include",
-    body: JSON.stringify(
-      {
-        id: productCategoryId,
-        name: productCategoryName
-      }
-    )
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(productCategoryId),
   });
 }
 
-export function addToWatchlist(productCategoryId: string) {
-  const url = `${BACKEND_URL}/watchlist/${productCategoryId}`;
-
-  return fetch(url, {
-    method: "POST",
-    credentials: "include"
-  });
-}
-
- */
-
+// DELETE /watchlist/{productCategoryID}
 export function deleteWatchlistItem(watchlistItemId: string) {
   const url = `${BACKEND_URL}/watchlist/${watchlistItemId}`;
 
@@ -235,4 +250,24 @@ export function deleteWatchlistItem(watchlistItemId: string) {
   });
 }
 
-// TODO: Orders endpoints
+// TODO: GET /orders
+
+// POST /orders
+export function placeOrder(productsIds: { productId: string }[]) {
+  const url = `${BACKEND_URL}/orders`;
+
+  return fetch(url, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      orderItemDTOS: productsIds,
+    }),
+  });
+}
+
+// TODO: GET /orders/{id}
+
+// TODO: PATCH /orders/{productId}
