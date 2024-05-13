@@ -24,19 +24,29 @@ export default function LoginForm() {
           required
           type="text"
           name="username"
-          placeholder="Write your user-name*"
-          className=" m-auto size-full rounded-t-lg border-b border-b-gray-400 bg-gray-200 outline-none duration-200 placeholder:items-center placeholder:pl-5 placeholder:font-semibold placeholder:text-gray-500 hover:bg-gray-300 hover:ease-in-out"
+          placeholder=""
+          className=" focus:animate-inputSelect peer m-auto size-full rounded-t-lg border-b border-b-gray-400 bg-gray-200
+          outline-none duration-200 placeholder:items-center placeholder:pl-5 placeholder:font-semibold
+          placeholder:text-gray-500 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
         />
+        <p className="pointer-events-none absolute left-14 top-40 font-semibold text-gray-500 duration-200 peer-focus:top-36 peer-focus:text-xs peer-focus:ease-in-out">
+          Write your user-name*
+        </p>
         <p className="m-1 text-xs text-gray-500">*Required field</p>
       </div>
-      <div className="m-5 h-16 w-5/6">
+      <div className="relative m-5 h-16 w-5/6">
         <input
           required
           type="password"
           name="password"
-          placeholder="Password"
-          className="m-auto size-full rounded-t-lg border-b border-b-gray-400 bg-gray-200 outline-none duration-200 placeholder:items-center placeholder:pl-5 placeholder:font-semibold placeholder:text-gray-500 hover:bg-gray-300 hover:ease-in-out"
+          placeholder=""
+          className="peer m-auto size-full rounded-t-lg border-b border-b-gray-400 bg-gray-200
+          outline-none duration-200 placeholder:items-center placeholder:pl-5 placeholder:font-semibold
+          placeholder:text-gray-500 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
         />
+        <p className="pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:ease-in-out">
+          Password
+        </p>
         <p className="m-1 text-xs text-gray-500">*Required field</p>
       </div>
       <p className="mt-5 w-5/6 text-sm">

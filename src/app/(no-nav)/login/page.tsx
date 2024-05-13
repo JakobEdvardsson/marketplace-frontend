@@ -4,8 +4,8 @@ import Link from "next/link";
 export default function Page() {
   return (
     <div className="flex h-screen w-screen items-center bg-gray-100 align-middle">
-      <div className="m-auto flex w-3/4">
-        <div className="w-3/5 bg-gray-600 text-white">
+      <div className="relative m-auto flex w-3/4">
+        <div className="w-3/5 bg-[url('/images/cat.jpg')] bg-cover text-white">
           <h1 className="m-10 text-4xl font-black text-red-600">Marketplace</h1>
           <h1 className="ml-10 w-2/3 text-5xl font-bold">
             Login for the best experience
@@ -29,7 +29,6 @@ export default function Page() {
           <p className="text-sm text-gray-600">
             No account?
             <Link href="/register" className="hover:underline">
-              {" "}
               Register here!
             </Link>
           </p>
