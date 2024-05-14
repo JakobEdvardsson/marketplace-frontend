@@ -274,7 +274,15 @@ export function deleteWatchlistItem(watchlistItemId: string) {
   });
 }
 
-// TODO: GET /orders
+// GET /orders
+export function getAllBuyOrders() {
+  const url = `${BACKEND_URL}/orders`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
 
 // POST /orders
 export function placeOrder(productsIds: { productId: string }[]) {
@@ -292,6 +300,28 @@ export function placeOrder(productsIds: { productId: string }[]) {
   });
 }
 
-// TODO: GET /orders/{id}
+// GET /orders/{id}
+export function getBuyOrderById(buyOrderId: string) {
+  const url = `${BACKEND_URL}/orders/${buyOrderId}`;
 
-// TODO: PATCH /orders/{productId}
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// PATCH /orders/{productId}
+export function handleBuyOrderRequest(productId: string, accept: boolean) {
+  const url = `${BACKEND_URL}/orders/${productId}`;
+
+  return fetch(url, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      accept,
+    }),
+  });
+}
