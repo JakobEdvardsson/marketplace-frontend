@@ -96,8 +96,8 @@ export function register(
 }
 
 // GET /accounts/{id}
-export function getProfile(id: string) {
-  const url = `${BACKEND_URL}/accounts/${id}`;
+export function getProfile(accountId: string) {
+  const url = `${BACKEND_URL}/accounts/${accountId}`;
 
   return fetch(url, {
     method: "GET",
@@ -106,7 +106,7 @@ export function getProfile(id: string) {
 }
 
 // GET /categories
-export function getCategories() {
+export function getAllProductCategories() {
   const url = `${BACKEND_URL}/categories`;
 
   return fetch(url, {
@@ -198,7 +198,7 @@ export function getMySoldProducts() {
 }
 
 // GET /products/{id}
-export function getProduct(productId: string) {
+export function getProductById(productId: string) {
   const url = `${BACKEND_URL}/products/${productId}`;
 
   return fetch(url, {
@@ -208,7 +208,7 @@ export function getProduct(productId: string) {
 }
 
 // DELETE /products/{id}
-export function deleteProduct(productId: string) {
+export function deleteProductById(productId: string) {
   const url = `${BACKEND_URL}/products/${productId}`;
 
   return fetch(url, {
@@ -228,7 +228,7 @@ export function testAuth() {
 }
 
 // GET /inbox
-export function getInboxMessages() {
+export function getAllInboxMessages() {
   const url = `${BACKEND_URL}/inbox`;
 
   return fetch(url, {
@@ -238,7 +238,7 @@ export function getInboxMessages() {
 }
 
 // GET /inbox/{id}
-export function getInboxMessage(messageId: string) {
+export function getInboxMessageById(messageId: string) {
   const url = `${BACKEND_URL}/inbox/${messageId}`;
 
   return fetch(url, {
@@ -248,7 +248,7 @@ export function getInboxMessage(messageId: string) {
 }
 
 // DELETE /inbox/{id}
-export function deleteInboxMessage(messageId: string) {
+export function deleteInboxMessageById(messageId: string) {
   const url = `${BACKEND_URL}/inbox/${messageId}`;
 
   return fetch(url, {
@@ -258,7 +258,7 @@ export function deleteInboxMessage(messageId: string) {
 }
 
 // GET /watchlist
-export function getWatchlist() {
+export function getAllWatchlistEntries() {
   const url = `${BACKEND_URL}/watchlist`;
 
   return fetch(url, {
@@ -268,7 +268,7 @@ export function getWatchlist() {
 }
 
 // POST /watchlist
-export function addToWatchlist(productCategoryId: string) {
+export function addEntryToWatchlist(productCategoryId: string) {
   const url = `${BACKEND_URL}/watchlist`;
 
   return fetch(url, {
@@ -282,7 +282,7 @@ export function addToWatchlist(productCategoryId: string) {
 }
 
 // DELETE /watchlist/{productCategoryID}
-export function deleteWatchlistItem(watchlistItemId: string) {
+export function deleteWatchlistEntryById(watchlistItemId: string) {
   const url = `${BACKEND_URL}/watchlist/${watchlistItemId}`;
 
   return fetch(url, {
@@ -292,7 +292,7 @@ export function deleteWatchlistItem(watchlistItemId: string) {
 }
 
 // GET /orders
-export function getAllBuyOrders() {
+export function getAllMyBuyOrders() {
   const url = `${BACKEND_URL}/orders`;
 
   return fetch(url, {
