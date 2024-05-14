@@ -2,7 +2,8 @@ export default function Page() {
   return (
     <div>
       <p className="mt-10 animate-bounce content-center text-center text-lg">
-        Hello login!
+        Hello register!
+        <a href="/login">Go to Login</a>
       </p>
     </div>
   );
