@@ -49,6 +49,23 @@ export function deleteAccount() {
   });
 }
 
+// POST /accounts/password
+export function passwordUpdate(oldPassword: string, newPassword: string) {
+  const url = `${BACKEND_URL}/accounts/password`;
+
+  return fetch(url, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      oldPassword,
+      newPassword,
+    }),
+  });
+}
+
 // POST /accounts/register
 // eslint-disable-next-line max-params
 export function register(
