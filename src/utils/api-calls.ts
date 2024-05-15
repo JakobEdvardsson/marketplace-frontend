@@ -3,6 +3,8 @@
 // TODO: add more query params for "search" endpoints + pagination?
 // TODO: add types to all endpoints
 
+import { ProductCondition, ProductSortMode } from "@/utils/api-call-types";
+
 const BACKEND_HOST =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
 const BACKEND_API_VERSION = process.env.NEXT_PUBLIC_BACKEND_API_VERSION || "v1";
@@ -126,11 +128,54 @@ export function getAllProductCategories() {
   });
 }
 
-// GET /products || /products?category=?
-export function getProducts(productCategoryName: string | undefined) {
-  const url = productCategoryName
-    ? `${BACKEND_URL}/products?category=${productCategoryName}`
-    : `${BACKEND_URL}/products`;
+// GET /products
+export function get20LatestProducts() {
+  return getProducts(null, null, null, null, null);
+}
+
+// GET /products?category=${productCategoryName}&minPrice=${minimumPrice}&maxPrice=${maximumPrice}&condition=${condition}&sort=${sortMode}
+/**
+ * All options can be left undefined to fetch the latest 20 product postings.
+ *
+ * @param productCategoryName name of target product category
+ * @param minimumPrice minimum product price
+ * @param maximumPrice maximum product price
+ * @param condition product condition enum
+ * @param sortMode
+ */
+// eslint-disable-next-line max-params
+export function getProducts(
+  productCategoryName: string | null,
+  minimumPrice: number | null,
+  maximumPrice: number | null,
+  condition: ProductCondition | null,
+  sortMode: ProductSortMode | null,
+) {
+  let url = `${BACKEND_URL}/products?`;
+
+  if (productCategoryName !== null) {
+    url += `category=${productCategoryName}&`;
+  }
+
+  if (minimumPrice !== null) {
+    url += `minPrice=${minimumPrice}&`;
+  }
+
+  if (maximumPrice !== null) {
+    url += `maxPrice=${maximumPrice}&`;
+  }
+
+  if (condition !== null) {
+    url += `condition=${condition}&`;
+  }
+
+  if (sortMode !== null) {
+    url += `sort=${sortMode}&`;
+  }
+
+  if (url.endsWith("&")) {
+    url = url.slice(0, -1);
+  }
 
   return fetch(url, {
     method: "GET",
