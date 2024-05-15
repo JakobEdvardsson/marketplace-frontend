@@ -141,7 +141,7 @@ export function get20LatestProducts() {
  * @param minimumPrice minimum product price
  * @param maximumPrice maximum product price
  * @param condition product condition enum
- * @param sortMode
+ * @param sortMode product sort mode enum
  */
 // eslint-disable-next-line max-params
 export function getProducts(
