@@ -50,6 +50,16 @@ export function deleteAccount() {
   });
 }
 
+// GET /accounts/me
+export function getMyProfile() {
+  const url = `${BACKEND_URL}/accounts/me`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
 // POST /accounts/password
 export function passwordUpdate(oldPassword: string, newPassword: string) {
   const url = `${BACKEND_URL}/accounts/password`;
