@@ -1,5 +1,4 @@
 import RegisterForm from "@/app/(no-nav)/register/RegisterForm";
-import Link from "next/link";
 
 export default function Page() {
   return (
