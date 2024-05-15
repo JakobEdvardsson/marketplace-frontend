@@ -2,9 +2,11 @@
 
 import { register } from "@/utils/api-calls";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const router = useRouter();
 
   //TODO: Improve error handling (maybe?)
   const handleSubmit = async (formData: FormData) => {
@@ -57,7 +59,7 @@ export default function RegisterForm() {
     )
       .then((res) => {
         if (res.ok) {
-          window.location.href = "/";
+          router.push("/");
         } else {
           console.log(res);
         }
