@@ -1,7 +1,6 @@
 "use client";
 
 import { register } from "@/utils/api-calls";
-import Link from "next/link";
 import { useState } from "react";
 
 export default function RegisterForm() {
@@ -71,7 +70,7 @@ export default function RegisterForm() {
   return (
     <form
       action={handleSubmit}
-      className=" relative -top-10 flex h-[120%] w-full animate-fadeIn flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
+      className=" relative -top-10 flex h-[110%] w-full flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
     >
       <div className="m-7 flex w-5/6 items-center justify-between">
         <h2 className="font-black text-red-600">Marketplace</h2>
@@ -188,14 +187,8 @@ export default function RegisterForm() {
           type="submit"
           className="mx-5 h-10 w-5/6 rounded bg-blue-500 font-semibold text-white duration-200 hover:bg-blue-600 hover:drop-shadow-xl hover:ease-in-out"
         >
-          Login
+          Register account
         </button>
-        <p className="mx-auto mt-2 w-fit text-sm text-gray-600">
-          Already have an account?
-          <Link href="/login" className="ml-1 hover:underline">
-            login here!
-          </Link>
-        </p>
       </div>
     </form>
   );
