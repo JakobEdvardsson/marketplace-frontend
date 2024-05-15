@@ -154,7 +154,7 @@ export default function RegisterForm() {
           <p
             className={`pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500 ${passwordsMatch ? "" : "peer-[&:not(:placeholder-shown)]:text-red-600"}`}
           >
-            Password
+            Password*
           </p>
           <p
             className={`m-1 text-xs text-gray-500 ${passwordsMatch ? "" : "text-red-500"}`}
@@ -173,7 +173,7 @@ export default function RegisterForm() {
           <p
             className={`pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500 ${passwordsMatch ? "" : "peer-[&:not(:placeholder-shown)]:text-red-600"}`}
           >
-            Confirm password
+            Confirm password*
           </p>
           <p
             className={`m-1 text-xs text-gray-500 ${passwordsMatch ? "" : "text-red-500"}`}
