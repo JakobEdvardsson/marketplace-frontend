@@ -13,7 +13,7 @@ export default function Navbar() {
   const renderLinks = () => (
     <ul
       id="navbar"
-      className="fixed top-0 flex h-10 w-full flex-row items-center justify-around lg:h-[5%]"
+      className="flex w-full flex-row items-center justify-around lg:h-[5%]"
     >
       {navLinks.map((link) => (
         <li
