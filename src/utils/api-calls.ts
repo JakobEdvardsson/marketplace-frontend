@@ -1,9 +1,9 @@
-// TODO: add enums for condition, color, etc
-// TODO: add endpoints that are not yet created
-// TODO: add more query params for "search" endpoints + pagination?
-// TODO: add types to all endpoints
-
-import { ProductCondition, ProductSortMode } from "@/utils/api-call-types";
+import {
+  ProductColor,
+  ProductCondition,
+  ProductBuyOrder,
+  ProductSortMode,
+} from "@/utils/api-call-types";
 
 const BACKEND_HOST =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
@@ -189,9 +189,9 @@ export function postProduct(
   name: string,
   productCategoryId: string,
   price: number,
-  condition: number,
+  condition: ProductCondition,
   description: string,
-  color: number | undefined,
+  color: ProductColor | undefined,
   productionYear: number | undefined,
   images: (File | string)[],
 ) {
@@ -367,7 +367,7 @@ export function getMyBuyOrdersBetween(start: Date, end: Date) {
 }
 
 // POST /orders
-export function placeOrder(productsIds: { productId: string }[]) {
+export function placeOrder(productsIds: ProductBuyOrder[]) {
   const url = `${BACKEND_URL}/orders`;
 
   return fetch(url, {
