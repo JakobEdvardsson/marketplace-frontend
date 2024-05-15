@@ -12,3 +12,24 @@ export enum ProductSortMode {
   ASCENDING,
   DESCENDING,
 }
+
+export enum ProductColor {
+  UNDEFINED,
+  BLACK,
+  WHITE,
+  RED,
+  BLUE,
+  GREEN,
+  YELLOW,
+  ORANGE,
+  PURPLE,
+  PINK,
+  GRAY,
+  BROWN,
+  SILVER,
+  GOLD,
+}
+
+export type ProductBuyOrder = {
+  productId: string;
+};
