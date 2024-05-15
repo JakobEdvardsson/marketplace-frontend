@@ -2,10 +2,11 @@
 
 import { login } from "@/utils/api-calls";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [userFound, setUserFound] = useState(true);
-
+  const router = useRouter();
   const handleSubmit = async (formData: FormData) => {
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
@@ -14,7 +15,7 @@ export default function LoginForm() {
       .then((res) => {
         if (res.ok) {
           console.log("Login successful");
-          window.location.href = "/";
+          router.push("/");
         } else {
           setUserFound(false);
           console.log("Login failed");
