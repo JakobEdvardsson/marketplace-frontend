@@ -116,8 +116,7 @@ export function getAllProductCategories() {
   });
 }
 
-// TODO: add more search params
-// GET /products?
+// GET /products || /products?category=?
 export function getProducts(productCategoryName: string | undefined) {
   const url = productCategoryName
     ? `${BACKEND_URL}/products?category=${productCategoryName}`
@@ -295,6 +294,16 @@ export function deleteWatchlistEntryById(watchlistItemId: string) {
 // GET /orders
 export function getAllMyBuyOrders() {
   const url = `${BACKEND_URL}/orders`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// GET /orders?start=?&end=?
+export function getMyBuyOrdersBetween(start: Date, end: Date) {
+  const url = `${BACKEND_URL}/orders?start=${start.toISOString()}&end=${end.toISOString()}`;
 
   return fetch(url, {
     method: "GET",
