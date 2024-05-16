@@ -22,8 +22,8 @@ export interface ProductDTO {
   price: number;
   condition: number;
   description: string;
-  color?: number;
-  productionYear?: number;
+  color: number | undefined;
+  productionYear: number | undefined;
 }
 
 export interface StatusDTO {
