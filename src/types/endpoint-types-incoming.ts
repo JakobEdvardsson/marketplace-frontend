@@ -66,8 +66,8 @@ export interface ProductGetResponseDTO {
   description: string;
   seller: string;
   buyer: string;
-  color: number;
-  productionYear: number;
+  color: number | undefined;
+  productionYear: number | undefined;
   createdAt: string; // Instant
 }
 
@@ -80,8 +80,8 @@ export interface ProductRegisteredResponseDTO {
   description: string;
   seller: string; // UUID
   imageUrls: string[];
-  color: number;
-  productionYear: number;
+  color: number | undefined;
+  productionYear: number | undefined;
 }
 
 export interface InboxGetAllResponseDTO {
