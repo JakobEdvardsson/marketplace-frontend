@@ -1,22 +1,26 @@
 import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
+import Image from "next/image";
 
 export default function ProductCard(productInfo: ProductGetResponseDTO) {
   const createdAt: Date = new Date(productInfo.createdAt);
 
   return (
-    <div className="flex h-96 w-1/2 flex-col items-center rounded-2xl bg-gray-200 p-2 shadow-2xl sm:h-48 sm:flex-row">
+    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-200 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
       {/*Image*/}
-      <img
-        src="https://wallpaperaccess.com/full/167767.jpg"
-        className="mr-0  h-1/2 w-full flex-1 rounded-2xl object-cover sm:mr-2 sm:h-full"
+      <Image
+        src={productInfo.imageUrls[0]}
+        className="mr-0 h-2/3 w-full rounded-2xl object-cover sm:mr-2 sm:h-full sm:w-2/5"
+        alt="Product Image"
+        width={1000}
+        height={1000}
       />
 
       {/*Description*/}
 
-      <div className="mt-2 flex size-full flex-1 flex-col justify-around rounded-2xl bg-gray-100 p-3 sm:mt-0">
+      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-100 p-3 sm:mt-0 sm:w-3/5">
         <div>
-          <p>{productInfo.name}</p>
+          <p className="truncate">{productInfo.name}</p>
           <p>
             {ProductCondition[productInfo.condition]
               .replace(/_/g, " ")

@@ -177,9 +177,16 @@ export function getProducts(
     url = url.slice(0, -1);
   }
 
+  if (url.endsWith("?")) {
+    url = url.slice(0, -1);
+  }
+
   return fetch(url, {
     method: "GET",
-    credentials: "include",
+    credentials: "omit",
+    next: {
+      revalidate: 0,
+    },
   });
 }
 
