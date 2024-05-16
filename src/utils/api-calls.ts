@@ -1,7 +1,9 @@
-// TODO: add enums for condition, color, etc
-// TODO: add endpoints that are not yet created
-// TODO: add more query params for "search" endpoints + pagination?
-// TODO: add types to all endpoints
+import {
+  ProductColor,
+  ProductCondition,
+  ProductBuyOrder,
+  ProductSortMode,
+} from "@/utils/api-call-types";
 
 const BACKEND_HOST =
   process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8080";
@@ -46,6 +48,16 @@ export function deleteAccount() {
 
   return fetch(url, {
     method: "DELETE",
+    credentials: "include",
+  });
+}
+
+// GET /accounts/me
+export function getMyProfile() {
+  const url = `${BACKEND_URL}/accounts/me`;
+
+  return fetch(url, {
+    method: "GET",
     credentials: "include",
   });
 }
@@ -116,11 +128,54 @@ export function getAllProductCategories() {
   });
 }
 
-// GET /products || /products?category=?
-export function getProducts(productCategoryName: string | undefined) {
-  const url = productCategoryName
-    ? `${BACKEND_URL}/products?category=${productCategoryName}`
-    : `${BACKEND_URL}/products`;
+// GET /products
+export function get20LatestProducts() {
+  return getProducts(null, null, null, null, null);
+}
+
+// GET /products?category=${productCategoryName}&minPrice=${minimumPrice}&maxPrice=${maximumPrice}&condition=${condition}&sort=${sortMode}
+/**
+ * All options can be left undefined to fetch the latest 20 product postings.
+ *
+ * @param productCategoryName name of target product category
+ * @param minimumPrice minimum product price
+ * @param maximumPrice maximum product price
+ * @param condition product condition enum
+ * @param sortMode product sort mode enum
+ */
+// eslint-disable-next-line max-params
+export function getProducts(
+  productCategoryName: string | null,
+  minimumPrice: number | null,
+  maximumPrice: number | null,
+  condition: ProductCondition | null,
+  sortMode: ProductSortMode | null,
+) {
+  let url = `${BACKEND_URL}/products?`;
+
+  if (productCategoryName !== null) {
+    url += `category=${productCategoryName}&`;
+  }
+
+  if (minimumPrice !== null) {
+    url += `minPrice=${minimumPrice}&`;
+  }
+
+  if (maximumPrice !== null) {
+    url += `maxPrice=${maximumPrice}&`;
+  }
+
+  if (condition !== null) {
+    url += `condition=${condition}&`;
+  }
+
+  if (sortMode !== null) {
+    url += `sort=${sortMode}&`;
+  }
+
+  if (url.endsWith("&")) {
+    url = url.slice(0, -1);
+  }
 
   return fetch(url, {
     method: "GET",
@@ -134,9 +189,9 @@ export function postProduct(
   name: string,
   productCategoryId: string,
   price: number,
-  condition: number,
+  condition: ProductCondition,
   description: string,
-  color: number | undefined,
+  color: ProductColor | undefined,
   productionYear: number | undefined,
   images: (File | string)[],
 ) {
@@ -312,7 +367,7 @@ export function getMyBuyOrdersBetween(start: Date, end: Date) {
 }
 
 // POST /orders
-export function placeOrder(productsIds: { productId: string }[]) {
+export function placeOrder(productsIds: ProductBuyOrder[]) {
   const url = `${BACKEND_URL}/orders`;
 
   return fetch(url, {
