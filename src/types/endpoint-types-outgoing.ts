@@ -24,6 +24,7 @@ export interface ProductDTO {
   description: string;
   color: number | undefined;
   productionYear: number | undefined;
+  productId: string;
 }
 
 export interface StatusDTO {
