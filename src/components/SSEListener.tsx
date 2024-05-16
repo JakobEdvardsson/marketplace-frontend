@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { connectToSSE } from "@/utils/api-calls";
+import { connectToSSE, testAuth } from "@/utils/api-calls";
 import { ProductDTO } from "@/types/endpoint-types-outgoing";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
@@ -37,11 +37,19 @@ export function SSEListener() {
         newEventSource.close();
       }
 
-      if (auth.loggedIn) {
-        setTimeout(() => {
-          newEventSource = connectToSSE(handleIncomingMessage, handleError);
-        }, 5000);
-      }
+      testAuth()
+        .then((response) => {
+          if (response.ok) {
+            setTimeout(() => {
+              newEventSource = connectToSSE(handleIncomingMessage, handleError);
+            }, 5000);
+          } else {
+            auth.logout();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
 
     if (auth.loggedIn) {
