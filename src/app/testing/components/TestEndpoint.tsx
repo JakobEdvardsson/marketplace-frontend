@@ -1,6 +1,7 @@
 "use client";
 
 import { login } from "@/utils/api-calls";
+import { productSearchTests } from "@/utils/product-search-tests";
 
 export default function TestEndpoint() {
   const onSubmit = async (formData: FormData) => {
@@ -11,6 +12,7 @@ export default function TestEndpoint() {
     }
 
     await login(username, password);
+    await productSearchTests();
     // * test endpoint with auth here *
   };
 
