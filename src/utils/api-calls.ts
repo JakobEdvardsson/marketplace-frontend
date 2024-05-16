@@ -184,9 +184,7 @@ export function getProducts(
   return fetch(url, {
     method: "GET",
     credentials: "omit",
-    next: {
-      revalidate: 0,
-    },
+    cache: "no-store",
   });
 }
 
