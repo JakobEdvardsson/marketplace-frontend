@@ -4,7 +4,7 @@ export enum ProductCondition {
   BRAND_NEW,
   NEW,
   USED,
-  USED_POOR_CONDITION,
+  POOR_CONDITION,
   NOT_WORKING,
 }
 
