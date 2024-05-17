@@ -17,6 +17,7 @@ export default function MyProfile() {
     if (!auth.loggedIn) {
       router.push("/login");
     }
+
     getMyProfile()
       .then((response) => {
         if (response.status === 401) {
@@ -28,7 +29,7 @@ export default function MyProfile() {
         });
       })
       .catch((e) => console.error(e));
-  }, [router]);
+  }, [auth.loggedIn, router]);
 
   return (
     <div className="w-full">
