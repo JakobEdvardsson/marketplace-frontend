@@ -145,7 +145,6 @@ export default function CreateProduct() {
           value={category}
           onChange={(e) => extractName(e.target.value)}
         >
-          <option>Select an category</option>
           {renderCategories()}
         </select>
       </div>

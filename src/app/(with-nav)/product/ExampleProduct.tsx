@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
-
 export default function Page({
   files,
   name,
@@ -26,11 +25,11 @@ export default function Page({
       return files.map((file: File) => {
         const objectUrl = URL.createObjectURL(file);
         return (
-          <div key={file.name} className="h-72 w-full ">
+          <div key={file.name} className="mx-auto h-72 w-full shrink-0 pr-2">
             <Image
               src={objectUrl}
               alt={file.name}
-              className="size-full rounded"
+              className="size-full rounded object-cover"
               width={100}
               height={100}
               onLoad={() => URL.revokeObjectURL(objectUrl)}
@@ -41,7 +40,7 @@ export default function Page({
     }
 
     return (
-      <div className="mx-auto flex h-56 w-11/12 cursor-default items-center justify-center rounded border-2 border-dotted border-gray-300 bg-white">
+      <div className="mx-auto flex h-72 w-full cursor-default items-center justify-center rounded border-2 border-dotted border-gray-300 bg-white">
         <span className="text-gray-500">No pics :(</span>
       </div>
     );
@@ -49,7 +48,9 @@ export default function Page({
 
   return (
     <div className="fixed right-64 top-20 w-1/4 rounded-xl bg-white p-2">
-      <div className="overflow-x flex">{renderFiles()}</div>
+      <div className=" mx-auto flex w-11/12 overflow-x-auto">
+        {renderFiles()}
+      </div>
 
       <div className="w-full">
         <h1
@@ -69,13 +70,13 @@ export default function Page({
 
       <div className="w-full">
         <h1 className="mx-auto w-10/12 cursor-default text-sm text-gray-400">
-          {"Condition: " + ProductCondition[condition]}
+          {condition ? "Condition: " + ProductCondition[condition] : ""}
         </h1>
       </div>
 
       <div className="w-full">
         <h1 className="mx-auto w-10/12 cursor-default text-sm text-gray-400">
-          {"Color: " + ProductColor[color]}
+          {color ? "Color: " + ProductColor[color] : ""}
         </h1>
       </div>
 
