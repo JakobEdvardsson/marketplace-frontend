@@ -90,6 +90,7 @@ export interface InboxGetAllResponseDTO {
   message: string;
   isRead: boolean;
   sentAt: string; // Instant
+  productId: string;
 }
 
 export interface MyProfileResponseDTO {
