@@ -4,6 +4,8 @@ import { getMyProfile } from "@/utils/api-calls";
 import { useEffect, useState } from "react";
 import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 function ProfileSkeleton() {
   return (
@@ -35,10 +37,19 @@ export default function MyProfile() {
   }, [router]);
 
   return profile ? (
-    <div className="w-full bg-blue-200">
-      <h1 className="text-center text-3xl">{profile.username}</h1>
-      <p className="my-1 text-center">At marketplace since 2013</p>
-      <p className="text-center">Date of birth: {profile.dateOfBirth}</p>
+    <div className="w-full">
+      <div className="flex items-center">
+        <Avatar>
+          <AvatarImage src="https://blocket-clone.ams3.cdn.digitaloceanspaces.com/default-avatar-profile-icon-of-social-media-user-vector.jpg" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <h1 className="truncate text-2xl font-bold">
+          {profile.username
+            .toLowerCase()
+            .replace(/\b\w/g, (char) => char.toUpperCase())}
+        </h1>
+      </div>
+      <br />
     </div>
   ) : (
     <ProfileSkeleton />

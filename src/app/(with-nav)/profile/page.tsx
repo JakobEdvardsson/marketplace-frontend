@@ -1,11 +1,13 @@
-import MyProfile from "@/app/(with-nav)/profile/components/profile";
+import MyProfile from "@/app/(with-nav)/profile/components/Profile";
+import Logout from "@/app/(with-nav)/profile/components/Logout";
+import MyMarketplace from "@/app/(with-nav)/profile/components/MyMarketplace";
 
 export default function Profile() {
   return (
-    <div className="w-full bg-yellow-300">
-      <div className="mx-auto mt-10 px-2 sm:w-4/5">
-        <MyProfile />
-      </div>
+    <div className="mx-auto mt-10 w-8/12 px-2">
+      <MyProfile />
+      <MyMarketplace />
+      <Logout />
     </div>
   );
 }
