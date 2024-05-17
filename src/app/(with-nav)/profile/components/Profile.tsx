@@ -4,18 +4,7 @@ import { getMyProfile } from "@/utils/api-calls";
 import { useEffect, useState } from "react";
 import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
-
-function ProfileSkeleton() {
-  return (
-    <div className="flex animate-pulse flex-col items-center">
-      <div className="mb-4 h-4 w-64 rounded-full bg-gray-200 dark:bg-gray-700" />
-      <div className="mb-2.5 h-3 w-52 rounded-full bg-gray-200 dark:bg-gray-700" />
-      <div className="mb-2.5 h-3 w-48 rounded-full bg-gray-200 dark:bg-gray-700" />
-    </div>
-  );
-}
+import Image from "next/image";
 
 export default function MyProfile() {
   const router = useRouter();
@@ -36,22 +25,26 @@ export default function MyProfile() {
       .catch((e) => console.error(e));
   }, [router]);
 
-  return profile ? (
+  return (
     <div className="w-full">
       <div className="flex items-center">
-        <Avatar>
-          <AvatarImage src="https://blocket-clone.ams3.cdn.digitaloceanspaces.com/default-avatar-profile-icon-of-social-media-user-vector.jpg" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <h1 className="truncate text-2xl font-bold">
-          {profile.username
-            .toLowerCase()
-            .replace(/\b\w/g, (char) => char.toUpperCase())}
-        </h1>
+        <Image
+          src="/images/default_profile.jpg"
+          alt="Default Profile"
+          width={100}
+          height={100}
+        />
+        {profile ? (
+          <h1 className="truncate text-2xl font-bold">
+            {profile.username
+              .toLowerCase()
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          </h1>
+        ) : (
+          <div className="mb-2.5 h-3 w-48 rounded-full bg-gray-200 dark:bg-gray-700" />
+        )}
       </div>
       <br />
     </div>
-  ) : (
-    <ProfileSkeleton />
   );
 }
