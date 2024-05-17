@@ -142,6 +142,7 @@ export function get20LatestProducts() {
  * @param maximumPrice maximum product price
  * @param condition product condition enum
  * @param sortMode product sort mode enum
+ * @param query product name search query
  */
 // eslint-disable-next-line max-params
 export function getProducts(
@@ -150,8 +151,18 @@ export function getProducts(
   maximumPrice: number | null,
   condition: ProductCondition | null,
   sortMode: ProductSortMode | null,
+  query?: string,
 ) {
   let url = `${BACKEND_URL}/products?`;
+
+  if (query) {
+    url += `query=${query}`;
+    return fetch(url, {
+      method: "GET",
+      credentials: "omit",
+      cache: "no-store",
+    });
+  }
 
   if (productCategoryName !== null) {
     url += `category=${productCategoryName}&`;
