@@ -1,9 +1,19 @@
+import CategorySelector from "../components/CategorySelector";
+import SearchBar from "../components/SearchBar";
+
 export default function Page() {
   return (
-    <div className="w-full bg-yellow-300">
-      <p className="mt-10 animate-spin content-center text-center text-3xl">
-        Hello Search!
-      </p>
+    <div className="bg-gray-100">
+      <div className="py-10 text-center">
+        <p
+          className="text-4xl"
+          style={{ fontFamily: "Roboto", fontWeight: "bold", color: "red" }}
+        >
+          Marketplace
+        </p>
+        <CategorySelector />
+        <SearchBar />
+      </div>
     </div>
   );
 }
