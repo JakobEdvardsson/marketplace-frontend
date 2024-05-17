@@ -6,10 +6,10 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
   const createdAt: Date = new Date(productInfo.createdAt);
 
   return (
-    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-200 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
+    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
       {/*Image*/}
       <Image
-        src={productInfo.imageUrls[0]}
+        src={productInfo.imageUrls[0] || "/images/emptyImage.jpg"}
         className="mr-0 h-2/3 w-full rounded-2xl object-cover sm:mr-2 sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
@@ -18,7 +18,7 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
 
       {/*Description*/}
 
-      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-100 p-3 sm:mt-0 sm:w-3/5">
+      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
         <div>
           <p className="truncate">{productInfo.name}</p>
           <p>
