@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyProfile } from "@/utils/api-calls";
 import { useRouter } from "next/navigation";
 import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
+import { useAuth } from "@/components/AuthContext";
 
 function ProfileSkeleton() {
   return (
@@ -17,10 +18,15 @@ function ProfileSkeleton() {
 
 export default function MyUserProfile() {
   const router = useRouter();
+  const auth = useAuth();
 
   const [profile, setProfile] = useState<MyProfileResponseDTO | undefined>();
 
   useEffect(() => {
+    if (!auth.loggedIn) {
+      router.push("/login");
+    }
+
     getMyProfile()
       .then((response) => {
         if (response.status === 401) {
@@ -28,14 +34,14 @@ export default function MyUserProfile() {
         }
 
         response.json().then((res) => {
-          setProfile(res);
+          setProfile(res as MyProfileResponseDTO);
         });
       })
       .catch((e) => console.error(e));
   }, [router]);
 
   return profile ? (
-    <div className="w-full bg-blue-200">
+    <div className="w-full">
       <h1 className="text-center text-3xl">
         {profile.firstName + " " + profile.lastName} ({profile.username})
       </h1>
