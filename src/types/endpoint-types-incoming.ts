@@ -69,6 +69,7 @@ export interface ProductGetResponseDTO {
   color: number | undefined;
   productionYear: number | undefined;
   createdAt: string; // Instant
+  imageUrls: string[];
 }
 
 export interface ProductRegisteredResponseDTO {
