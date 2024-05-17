@@ -11,8 +11,8 @@ export default function Page() {
             Login for the best experience
           </h1>
           <p className="m-10 w-2/3 font-semibold">
-            Marketplace uses your details to sale it with disparately low prices
-            in India
+            Marketplace uses your details to sell it with disparately low prices
+            in China
           </p>
           <p className="m-10 mt-20">
             Have a problem?{" "}

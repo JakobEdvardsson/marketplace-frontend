@@ -32,7 +32,7 @@ export function login(username: string, password: string) {
   });
 }
 
-// POST /accounts/logout
+// POST /accounts/Logout.tsx
 export function logout() {
   const url = `${BACKEND_URL}/accounts/logout`;
 
