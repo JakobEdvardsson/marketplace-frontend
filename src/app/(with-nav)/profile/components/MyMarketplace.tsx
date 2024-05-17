@@ -46,7 +46,7 @@ export default function MyMarketplace() {
           </Card>
         </Link>
 
-        <Link href="/bajs">
+        <Link href="/settings">
           <Card>
             <CardHeader>
               <Image
