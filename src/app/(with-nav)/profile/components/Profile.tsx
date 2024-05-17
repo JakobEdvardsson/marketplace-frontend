@@ -5,13 +5,18 @@ import { useEffect, useState } from "react";
 import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useAuth } from "@/components/AuthContext";
 
 export default function MyProfile() {
   const router = useRouter();
+  const auth = useAuth();
 
   const [profile, setProfile] = useState<MyProfileResponseDTO | undefined>();
 
   useEffect(() => {
+    if (!auth.loggedIn) {
+      router.push("/login");
+    }
     getMyProfile()
       .then((response) => {
         if (response.status === 401) {
