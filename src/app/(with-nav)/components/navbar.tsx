@@ -1,14 +1,25 @@
 "use client";
+
 import Link from "next/link";
-// import {router} from "next/client";
+import { useAuth } from "@/components/AuthContext";
+
 export default function Navbar() {
-  const navLinks = [
+  const { loggedIn } = useAuth();
+
+  const authenticatedNavLinks = [
     { name: "Home", link: "/" },
     { name: "Search", link: "/search" },
     { name: "Shopping cart", link: "/cart" },
     { name: "Profile", link: "/profile" },
-    { name: "Settings", link: "/settings" },
   ];
+
+  const anonymousNavLinks = [
+    { name: "Home", link: "/" },
+    { name: "Search", link: "/search" },
+    { name: "Login", link: "/login" },
+  ];
+
+  const navLinks = loggedIn ? authenticatedNavLinks : anonymousNavLinks;
 
   const renderLinks = () => (
     <ul
