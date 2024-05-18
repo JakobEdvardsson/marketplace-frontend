@@ -20,7 +20,7 @@ import ProductCardIsRead from "@/app/(with-nav)/profile/watchlist/components/Pro
 import { ProductSortMode } from "@/utils/api-call-types";
 
 export default function MyWatchlist() {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("-1");
 
   const [categories, setCategories] = useState<
     WatchListResponseDTO[] | undefined
