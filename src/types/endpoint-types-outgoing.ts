@@ -39,3 +39,19 @@ export interface UserDTO {
   password: string;
   dateOfBirth: string; // Date
 }
+
+export interface CartProductDTO {
+  productId: string;
+  name: string;
+  productCategory: ProductCategoryDTO;
+  price: number;
+  condition: number;
+  status: number;
+  description: string;
+  seller: string;
+  buyer: string;
+  color: number | undefined;
+  productionYear: number | undefined;
+  createdAt: string; // Instant
+  imageUrls: string[];
+}
