@@ -13,9 +13,9 @@ export default function Navbar() {
   const renderLinks = () => (
     <ul
       id="navbar"
-      className="flex w-full flex-row items-center justify-around shadow-md lg:h-14"
+      className="flex h-14 w-full flex-row items-center justify-around shadow-md"
     >
-      <li className="cursor-default pr-32 text-3xl font-black text-red-600">
+      <li className="cursor-default font-black text-red-600 lg:pr-32 lg:text-3xl">
         Marketplace
       </li>
       {navLinks.map((link) => (
@@ -24,7 +24,7 @@ export default function Navbar() {
           className="w-fit text-center text-gray-500 hover:border-b-2 hover:border-b-black hover:text-gray-600 sm:duration-100 sm:ease-in-out "
         >
           <Link href={link.link}>
-            <button type="button" className="lg:text-xl ">
+            <button type="button" className="text-xs lg:text-xl ">
               {link.name}
             </button>
           </Link>
