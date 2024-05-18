@@ -1,21 +1,25 @@
 "use client";
+
 import Link from "next/link";
-// import {router} from "next/client";
+import { useAuth } from "@/components/AuthContext";
+import Image from "next/image";
+
 export default function Navbar() {
-  const navLinks = [
-    { name: "Home", link: "/" },
-    { name: "Shopping cart", link: "/cart" },
-    { name: "Settings", link: "/settings" },
-    { name: "Profile", link: "/profile" },
-  ];
+  const { loggedIn } = useAuth();
+
+  const authenticatedNavLinks = [{ name: "Shopping cart", link: "/cart" }];
+
+  const anonymousNavLinks = [{ name: "Login", link: "/login" }];
+
+  const navLinks = loggedIn ? authenticatedNavLinks : anonymousNavLinks;
 
   const renderLinks = () => (
     <ul
       id="navbar"
       className="flex h-14 w-full flex-row items-center justify-around shadow-md"
     >
-      <li className="cursor-default font-black text-red-600 lg:pr-32 lg:text-3xl">
-        Marketplace
+      <li className="font-black text-red-600 lg:mr-32 lg:text-3xl">
+        <Link href="/">Marketplace</Link>
       </li>
       {navLinks.map((link) => (
         <li
@@ -29,6 +33,18 @@ export default function Navbar() {
           </Link>
         </li>
       ))}
+      {loggedIn && (
+        <li key="avatar" className="w-fit text-center text-gray-500">
+          <Link href="/profile">
+            <Image
+              src="/images/default-profile-picture.svg"
+              alt="Default Profile"
+              width={50}
+              height={50}
+            />
+          </Link>
+        </li>
+      )}
     </ul>
   );
 

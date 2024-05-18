@@ -3,7 +3,6 @@
 import React, {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -39,18 +38,15 @@ export function AuthProvider(props: { readonly children: ReactNode }) {
     checkAuthStatus();
   }, []);
 
-  const login = useCallback(() => {
+  const login = () => {
     setLoggedIn(true);
-  }, []);
+  };
 
-  const logout = useCallback(() => {
+  const logout = () => {
     setLoggedIn(false);
-  }, []);
+  };
 
-  const contextValue = useMemo(
-    () => ({ login, logout, loggedIn }),
-    [login, logout, loggedIn],
-  );
+  const contextValue = useMemo(() => ({ login, logout, loggedIn }), [loggedIn]);
   return (
     <AuthContext.Provider value={contextValue}>
       {props.children}
