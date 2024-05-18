@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Card,
   CardDescription,
@@ -30,7 +28,7 @@ export default function MyMarketplace() {
             </CardHeader>
           </Card>
         </Link>
-        <Link href="/profile/inbox">
+        <Link href="/profile/watchlist">
           <Card>
             <CardHeader>
               <Image

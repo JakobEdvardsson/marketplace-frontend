@@ -267,6 +267,16 @@ export function getMySoldProducts() {
   });
 }
 
+// GET /products/my-subscribed-categories
+export function getMyProductsFromSubscribedCategories() {
+  const url = `${BACKEND_URL}/products/my-subscribed-categories`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
 // GET /products/{id}
 export function getProductById(productId: string) {
   const url = `${BACKEND_URL}/products/${productId}`;

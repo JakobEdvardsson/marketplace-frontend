@@ -22,6 +22,7 @@ export default function MyProfile() {
       .then((response) => {
         if (response.status === 401) {
           router.push("/login");
+          return;
         }
 
         response.json().then((res) => {
