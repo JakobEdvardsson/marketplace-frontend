@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react"; // lägg till useEffect?
 import { getProducts } from "@/utils/api-calls";
 import Image from "next/image";
+import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
 
 type Category = {
   name: string;
@@ -9,7 +9,9 @@ type Category = {
 };
 type Categories = Category[];
 
-function CategorySelector() {
+function CategorySelector(props: {
+  readonly setProducts: (_: ProductGetAllResponseDTO) => void;
+}) {
   const categories: Categories = [
     { name: "electronics", image: "/images/electronicsIcon.png" },
     { name: "cars", image: "/images/carIcon.png" },
@@ -18,8 +20,6 @@ function CategorySelector() {
     { name: "kebab", image: "/images/kebabIcon.png" },
     // Add other categories similarly
   ];
-
-  const [products, setProducts] = useState([]); // ta bort sen?
 
   const handleCategoryClick = async (categoryName: string) => {
     try {
@@ -32,8 +32,7 @@ function CategorySelector() {
       );
       if (!fetchedProducts.ok) return null;
       const productData = await fetchedProducts.json();
-      setProducts(productData);
-      console.log(products);
+      props.setProducts(productData);
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }

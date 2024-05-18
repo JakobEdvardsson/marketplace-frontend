@@ -1,8 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { getProducts } from "@/utils/api-calls";
+import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
 
-function SearchBar() {
+function SearchBar(props: {
+  readonly setProducts: (_: ProductGetAllResponseDTO) => void;
+}) {
   const [searchTerm, setSearchTerm] = useState("");
   //const [results, setResults] = useState([]);
   const [error, setError] = useState("");
@@ -16,13 +19,20 @@ function SearchBar() {
     }
 
     try {
-      const response = await getProducts(searchTerm, null, null, null, null); //fix this
+      const response = await getProducts(
+        null,
+        null,
+        null,
+        null,
+        null,
+        searchTerm,
+      ); //fix this
       if (!response.ok) {
         return null;
       }
 
-      //const fetchedProducts = await response.json();
-      // setResults(fetchedProducts);
+      const fetchedProducts = await response.json();
+      props.setProducts(fetchedProducts);
     } catch (error) {
       console.error("Search error:", error);
       setError("Failed to load products.");

@@ -4,7 +4,6 @@ import Link from "next/link";
 export default function Navbar() {
   const navLinks = [
     { name: "Home", link: "/" },
-    { name: "Search", link: "/search" },
     { name: "Shopping cart", link: "/cart" },
     { name: "Settings", link: "/settings" },
     { name: "Profile", link: "/profile" },
