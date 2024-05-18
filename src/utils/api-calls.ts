@@ -195,7 +195,6 @@ export function getProducts(
   return fetch(url, {
     method: "GET",
     credentials: "omit",
-    cache: "no-store",
   });
 }
 
@@ -261,6 +260,16 @@ export function getMyActiveListings() {
 // GET /products/my-sold-products
 export function getMySoldProducts() {
   const url = `${BACKEND_URL}/products/my-sold-products`;
+
+  return fetch(url, {
+    method: "GET",
+    credentials: "include",
+  });
+}
+
+// GET /products/my-subscribed-categories
+export function getMyProductsFromSubscribedCategories() {
+  const url = `${BACKEND_URL}/products/my-subscribed-categories`;
 
   return fetch(url, {
     method: "GET",

@@ -1,22 +1,25 @@
 "use client";
+
 import Link from "next/link";
-// import {router} from "next/client";
+import { useAuth } from "@/components/AuthContext";
+import Image from "next/image";
+
 export default function Navbar() {
-  const navLinks = [
-    { name: "Home", link: "/" },
-    { name: "Search", link: "/search" },
-    { name: "Shopping cart", link: "/cart" },
-    { name: "Settings", link: "/settings" },
-    { name: "Profile", link: "/profile" },
-  ];
+  const { loggedIn } = useAuth();
+
+  const authenticatedNavLinks = [{ name: "Shopping cart", link: "/cart" }];
+
+  const anonymousNavLinks = [{ name: "Login", link: "/login" }];
+
+  const navLinks = loggedIn ? authenticatedNavLinks : anonymousNavLinks;
 
   const renderLinks = () => (
     <ul
       id="navbar"
-      className="flex w-full flex-row items-center justify-around shadow-md lg:h-14"
+      className="flex h-14 w-full flex-row items-center justify-around shadow-md"
     >
-      <li className="cursor-default pr-32 text-3xl font-black text-red-600">
-        Marketplace
+      <li className="font-black text-red-600 lg:mr-32 lg:text-3xl">
+        <Link href="/">Marketplace</Link>
       </li>
       {navLinks.map((link) => (
         <li
@@ -24,12 +27,24 @@ export default function Navbar() {
           className="w-fit text-center text-gray-500 hover:border-b-2 hover:border-b-black hover:text-gray-600 sm:duration-100 sm:ease-in-out "
         >
           <Link href={link.link}>
-            <button type="button" className="lg:text-xl ">
+            <button type="button" className="text-xs lg:text-xl ">
               {link.name}
             </button>
           </Link>
         </li>
       ))}
+      {loggedIn && (
+        <li key="avatar" className="w-fit text-center text-gray-500">
+          <Link href="/profile">
+            <Image
+              src="/images/default-profile-picture.svg"
+              alt="Default Profile"
+              width={50}
+              height={50}
+            />
+          </Link>
+        </li>
+      )}
     </ul>
   );
 

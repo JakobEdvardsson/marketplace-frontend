@@ -38,7 +38,7 @@ export default function MyUserProfile() {
         });
       })
       .catch((e) => console.error(e));
-  }, [router]);
+  }, [auth.loggedIn, router]);
 
   return profile ? (
     <div className="w-full">
