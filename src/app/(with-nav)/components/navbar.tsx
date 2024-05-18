@@ -18,7 +18,7 @@ export default function Navbar() {
       id="navbar"
       className="flex h-14 w-full flex-row items-center justify-around shadow-md"
     >
-      <li className="justify-start font-black text-red-600 lg:pr-32 lg:text-3xl">
+      <li className="font-black text-red-600 lg:mr-32 lg:text-3xl">
         <Link href="/">Marketplace</Link>
       </li>
       {navLinks.map((link) => (
