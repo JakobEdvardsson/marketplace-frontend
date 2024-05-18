@@ -120,7 +120,20 @@ export default function CreateProduct() {
       productionYear,
       data,
     )
-      .then((res) => console.log(res))
+      .then((res) => {
+        //TODO: change to toaster
+        if (res.ok) {
+          console.log(res);
+          window.location.reload();
+        }
+
+        console.log(res);
+        return (
+          <h1 className="absolute left-1/2 top-1/2 bg-gray-600 text-2xl font-extrabold text-gray-50">
+            Please try again
+          </h1>
+        );
+      })
       .catch((err) => console.log(err));
   };
 
@@ -142,9 +155,9 @@ export default function CreateProduct() {
           id="productCategory"
           name="productCategory"
           className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-          value={category}
           onChange={(e) => extractName(e.target.value)}
         >
+          <option>Select category</option>
           {renderCategories()}
         </select>
       </div>
