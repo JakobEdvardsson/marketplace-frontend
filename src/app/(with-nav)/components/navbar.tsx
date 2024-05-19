@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const { loggedIn } = useAuth();
 
   const authenticatedNavLinks = [
-    { name: "Create Product", link: "/product" },
+    { name: "Post ad", link: "/product" },
     { name: "Shopping cart", link: "/cart" },
   ];
 
@@ -29,11 +30,9 @@ export default function Navbar() {
           key={link.name}
           className="w-fit text-center text-gray-500 hover:border-b-2 hover:border-b-black hover:text-gray-600 sm:duration-100 sm:ease-in-out "
         >
-          <Link href={link.link}>
-            <button type="button" className="text-xs lg:text-xl ">
-              {link.name}
-            </button>
-          </Link>
+          <button type="button" className="text-xs lg:text-xl ">
+            <Link href={link.link}>{link.name}</Link>
+          </button>
         </li>
       ))}
       {loggedIn && (

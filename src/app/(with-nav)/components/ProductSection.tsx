@@ -96,14 +96,13 @@ export default function ProductSection() {
     <div className="flex w-full flex-col items-center">
       <div className="mt-3 flex w-4/5 justify-center rounded-3xl bg-gray-100">
         <div className="w-4/5 py-4 text-center">
-          <h1 className="text-4xl font-black text-red-600">Marketplace</h1>
-
           <CategorySelector
             setProductCategoryName={setProductCategoryName}
             selectedCategory={productCategoryName}
           />
 
           <Separator />
+          <div className="mt-2" />
 
           <ConditionSelector
             condition={condition}
@@ -112,7 +111,7 @@ export default function ProductSection() {
 
           <Separator />
 
-          <div className="flex items-center">
+          <div className="mt-2 flex items-center">
             <p>Max:</p>
             <Input
               className="m-1"
