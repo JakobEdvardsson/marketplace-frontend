@@ -2,7 +2,6 @@ import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function ProductCard(productInfo: ProductGetResponseDTO) {
