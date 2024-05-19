@@ -348,7 +348,7 @@ export function getAllWatchlistEntries() {
 }
 
 // POST /watchlist
-export function addEntryToWatchlist(productCategoryId: string) {
+export function addEntryToWatchlist(productCategoryName: string) {
   const url = `${BACKEND_URL}/watchlist`;
 
   return fetch(url, {
@@ -357,7 +357,7 @@ export function addEntryToWatchlist(productCategoryId: string) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(productCategoryId),
+    body: productCategoryName,
   });
 }
 

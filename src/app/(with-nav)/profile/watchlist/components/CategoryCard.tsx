@@ -12,19 +12,23 @@ export default function CategoryCard(props: {
 }) {
   return (
     <div>
-      <Link
+      <div
         className={
           props.selected === props.productInfo.productCategory.name
-            ? "flex bg-sky-100 p-4 hover:font-bold"
-            : "flex p-4 hover:font-bold"
+            ? "flex flex-col bg-sky-100 p-4 "
+            : "flex flex-col p-4"
         }
-        href="/profile/watchlist"
-        onClick={() => {
-          props.handleCategoryUpdate(props.productInfo.productCategory);
-        }}
       >
-        {props.productInfo.productCategory.name}
-      </Link>
+        <Link
+          className="hover:font-bold"
+          href="/profile/watchlist"
+          onClick={() => {
+            props.handleCategoryUpdate(props.productInfo.productCategory);
+          }}
+        >
+          {props.productInfo.productCategory.name}
+        </Link>
+      </div>
       <Separator />
     </div>
   );
