@@ -21,9 +21,11 @@ export default function CreateProduct() {
   //End of states for the example product
 
   useEffect(() => {
-    getAllProductCategories().then((res) => {
-      res.json().then((data) => setCategories(data as ProductCategoryDTO[]));
-    });
+    getAllProductCategories()
+      .then((res) => {
+        res.json().then((data) => setCategories(data as ProductCategoryDTO[]));
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const extractName = (selectValue: string) => {
