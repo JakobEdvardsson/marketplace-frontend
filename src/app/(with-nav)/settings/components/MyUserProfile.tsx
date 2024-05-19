@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getMyProfile } from "@/utils/api-calls";
 import { useRouter } from "next/navigation";
-import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
-import { useAuth } from "@/components/AuthContext";
+import { useMyProfile } from "@/utils/api-calls-swr";
 
 function ProfileSkeleton() {
   return (
@@ -18,27 +15,12 @@ function ProfileSkeleton() {
 
 export default function MyUserProfile() {
   const router = useRouter();
-  const auth = useAuth();
 
-  const [profile, setProfile] = useState<MyProfileResponseDTO | undefined>();
+  const { data: profile, error } = useMyProfile();
 
-  useEffect(() => {
-    if (!auth.loggedIn) {
-      router.push("/login");
-    }
-
-    getMyProfile()
-      .then((response) => {
-        if (response.status === 401) {
-          router.push("/login");
-        }
-
-        response.json().then((res) => {
-          setProfile(res as MyProfileResponseDTO);
-        });
-      })
-      .catch((e) => console.error(e));
-  }, [auth.loggedIn, router]);
+  if (error) {
+    router.push("/login");
+  }
 
   return profile ? (
     <div className="w-full">
