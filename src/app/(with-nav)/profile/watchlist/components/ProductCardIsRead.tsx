@@ -2,8 +2,7 @@ import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
 import { getInboxMessageById } from "@/utils/api-calls";
-import { mutate } from "swr";
-import { BACKEND_URL } from "@/utils/api-calls-swr";
+import { mutateAllInboxMessages } from "@/utils/api-calls-swr";
 
 export default function ProductCardIsRead(props: {
   readonly productInfo: ProductGetResponseDTO;
@@ -14,7 +13,7 @@ export default function ProductCardIsRead(props: {
   const handleClickButton = () => {
     getInboxMessageById(props.productInfo.productId)
       .then((_) => {
-        mutate(`${BACKEND_URL}/inbox`);
+        mutateAllInboxMessages();
       })
       .catch((e) => {
         console.log(e);

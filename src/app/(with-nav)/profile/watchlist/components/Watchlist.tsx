@@ -25,6 +25,7 @@ import {
 import Image from "next/image";
 import {
   BACKEND_URL,
+  mutateAllWatchlistEntries,
   useAllInboxMessages,
   useAllWatchlistEntries,
 } from "@/utils/api-calls-swr";
@@ -77,7 +78,7 @@ export default function MyWatchlist() {
     deleteWatchlistEntryById(selectedCategoryId)
       .then((_) => {
         setSelected("-1");
-        mutate(`${BACKEND_URL}/watchlist`);
+        mutateAllWatchlistEntries();
       })
       .catch((e) => {
         console.log(e);
