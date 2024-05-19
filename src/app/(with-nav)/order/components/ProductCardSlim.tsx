@@ -16,7 +16,7 @@ export default function ProductCardSlim(props: {
       <b>{props.productPrice} kr</b>
 
       <Button type="button">
-        <Link href={`product/${props.productId}`}>
+        <Link href={`/product/${props.productId}`}>
           More info
         </Link>
       </Button>
