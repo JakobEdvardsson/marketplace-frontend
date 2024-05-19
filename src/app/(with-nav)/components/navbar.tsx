@@ -19,7 +19,7 @@ export default function Navbar() {
   const renderLinks = () => (
     <ul
       id="navbar"
-      className="flex h-14 w-full flex-row items-center justify-around shadow-md"
+      className="flex h-14 w-full flex-row items-center justify-around bg-white shadow-md drop-shadow-md"
     >
       <li className="font-black text-red-600 lg:mr-32 lg:text-3xl">
         <Link href="/">Marketplace</Link>
