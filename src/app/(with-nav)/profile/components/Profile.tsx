@@ -14,10 +14,6 @@ export default function MyProfile() {
   const [profile, setProfile] = useState<MyProfileResponseDTO | undefined>();
 
   useEffect(() => {
-    if (!auth.loggedIn) {
-      router.push("/login");
-    }
-
     getMyProfile()
       .then((response) => {
         if (response.status === 401) {
