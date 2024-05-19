@@ -29,7 +29,7 @@ import {
   useAllInboxMessages,
   useAllWatchlistEntries,
 } from "@/utils/api-calls-swr";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { authedFetcher } from "@/lib/fetcher-authed";
 
 function ProductSkeleton() {
