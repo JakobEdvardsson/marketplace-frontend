@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const { loggedIn } = useAuth();
