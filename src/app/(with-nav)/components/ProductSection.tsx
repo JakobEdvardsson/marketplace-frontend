@@ -3,7 +3,7 @@
 import CategorySelector from "@/app/(with-nav)/components/CategorySelector";
 import SearchBar from "@/app/(with-nav)/components/SearchBar";
 import ProductCard from "@/app/(with-nav)/components/ProductCard";
-import { getProducts } from "@/utils/api-calls";
+import { addEntryToWatchlist, getProducts } from "@/utils/api-calls";
 import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ProductCondition } from "@/utils/api-call-types";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export default function ProductSection() {
   const [productCategoryName, setProductCategoryName] = useState<string | null>(
@@ -82,6 +83,15 @@ export default function ProductSection() {
     setQuery("");
   };
 
+  const handleClickSubscribe = () => {
+    if (productCategoryName !== null) {
+      console.log(productCategoryName);
+      addEntryToWatchlist(productCategoryName).catch((e) => {
+        console.log(e);
+      });
+    }
+  };
+
   return (
     <div className="flex w-full flex-col items-center">
       <div className="mt-3 flex w-4/5 justify-center rounded-3xl bg-gray-100">
@@ -114,7 +124,7 @@ export default function ProductSection() {
             />
           </div>
 
-          <div className="flex items-center">
+          <div className="mb-10 flex items-center">
             <p>Min:</p>
             <Input
               className="m-1"
@@ -126,17 +136,31 @@ export default function ProductSection() {
             />
           </div>
 
-          <h3 className="my-2 text-xl font-bold">OR:</h3>
-
           {/*// search*/}
           <SearchBar handleSearch={handleQuerySearch} query={query} />
-
-          <Button className="mx-2" onClick={updateProduct}>
-            Search
-          </Button>
-          <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
-            Reset
-          </Button>
+          <div className="flex justify-between p-2">
+            <Button className="mx-2" onClick={updateProduct}>
+              Search
+            </Button>
+            <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
+              Reset
+            </Button>
+            <Button
+              variant="outline"
+              className="mx-2 border-black"
+              type="button"
+              onClick={handleClickSubscribe}
+            >
+              <Image
+                className="mr-2 size-4"
+                width="8"
+                height="8"
+                src="/images/bell.svg"
+                alt="bell"
+              />
+              Create watchlist
+            </Button>
+          </div>
         </div>
       </div>
 

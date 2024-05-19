@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import {
+  deleteWatchlistEntryById,
   getAllInboxMessages,
   getAllWatchlistEntries,
   getMyProductsFromSubscribedCategories,
@@ -18,9 +19,22 @@ import CategoryCard from "@/app/(with-nav)/profile/watchlist/components/Category
 import { Separator } from "@/components/ui/separator";
 import ProductCardIsRead from "@/app/(with-nav)/profile/watchlist/components/ProductCardIsRead";
 import { ProductSortMode } from "@/utils/api-call-types";
+import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Image from "next/image";
 
 export default function MyWatchlist() {
   const [selected, setSelected] = useState("-1");
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   const [categories, setCategories] = useState<
     WatchListResponseDTO[] | undefined
@@ -85,6 +99,13 @@ export default function MyWatchlist() {
 
   const handleCategoryUpdate = (productCategory: ProductCategoryDTO) => {
     setSelected(productCategory.name);
+    setSelectedCategoryId(productCategory.id);
+  };
+
+  const handleClickDeleteWatchlist = () => {
+    deleteWatchlistEntryById(selectedCategoryId).catch((e) => {
+      console.log(e);
+    });
   };
 
   return (
@@ -119,7 +140,48 @@ export default function MyWatchlist() {
         )}
       </div>
       <div className="w-2/3">
-        <h1 className="text-2xl font-bold">New ads in watchlist</h1>
+        {selected === "-1" ? (
+          <h1 className="mb-4 text-2xl font-bold">New ads in watchlist</h1>
+        ) : (
+          <div>
+            <h1 className="mb-4 text-2xl font-bold">Category: {selected}</h1>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button variant="outline">
+                  <Image
+                    className="mr-2 size-4"
+                    width="8"
+                    height="8"
+                    src="/images/trash.svg"
+                    alt="trash"
+                  />{" "}
+                  Remove
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to remove the subscription &quot;
+                    {selected}&quot;?
+                  </AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleClickDeleteWatchlist}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <div className="flex flex-row p-4 text-sm">
+              <p className="mr-1 font-bold">Searching on: </p>
+              <Link className="text-sky-400 hover:text-sky-300" href="/bajs">
+                &quot;{selected}&quot;
+              </Link>
+            </div>
+            <Separator />
+          </div>
+        )}
         {products &&
           products.products.map((product) => (
             <ProductCardIsRead
