@@ -7,7 +7,10 @@ import Image from "next/image";
 export default function Navbar() {
   const { loggedIn } = useAuth();
 
-  const authenticatedNavLinks = [{ name: "Shopping cart", link: "/cart" }];
+  const authenticatedNavLinks = [
+    { name: "Create Product", link: "/product" },
+    { name: "Shopping cart", link: "/cart" },
+  ];
 
   const anonymousNavLinks = [{ name: "Login", link: "/login" }];
 

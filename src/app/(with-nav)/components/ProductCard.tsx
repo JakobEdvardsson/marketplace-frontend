@@ -1,6 +1,8 @@
 import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function ProductCard(productInfo: ProductGetResponseDTO) {
   const createdAt: Date = new Date(productInfo.createdAt);
@@ -43,9 +45,10 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
               ":" +
               createdAt.getMinutes()}
           </p>
-          <button type="button" className="rounded bg-red-400 px-4 py-2">
-            See more
-          </button>
+
+          <Link href={`/product/${productInfo.productId}`}>
+            <Button type="button">See more!</Button>
+          </Link>
         </div>
       </div>
     </div>

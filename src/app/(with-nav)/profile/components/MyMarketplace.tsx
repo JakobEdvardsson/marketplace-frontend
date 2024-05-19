@@ -59,6 +59,22 @@ export default function MyMarketplace() {
             </CardHeader>
           </Card>
         </Link>
+
+        <Link href="/profile/purchases">
+          <Card>
+            <CardHeader>
+              <Image
+                src="/images/purchased.png"
+                className="w-12"
+                alt="Product Image"
+                width={1000}
+                height={1000}
+              />
+              <CardTitle>My purchases</CardTitle>
+              <CardDescription>View and manage your profile</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
       </div>
       <br />
     </div>
