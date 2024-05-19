@@ -13,7 +13,7 @@ export default function MyMarketplace() {
       <h1 className="text-3xl font-bold">My Marketplace</h1>
       <br />
       <div className="flex flex-wrap">
-        <Link href="/bajs">
+        <Link href="/profile/myads">
           <Card>
             <CardHeader>
               <Image
