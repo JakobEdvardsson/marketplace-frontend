@@ -59,7 +59,7 @@ export default function RegisterForm() {
     )
       .then((res) => {
         if (res.ok) {
-          router.push("/");
+          router.push("/login");
         } else {
           console.log(res);
         }
