@@ -33,7 +33,7 @@ export function ShoppingCart() {
                 <div className="text-gray-600">
                   Category: {item.productCategory.name}
                 </div>
-                <div className="text-gray-600">Price: ${item.price}</div>
+                <div className="text-gray-600">Price: {item.price} kr</div>
                 <div className="text-gray-600">
                   Description: {item.description}
                 </div>
