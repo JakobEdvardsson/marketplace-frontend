@@ -5,8 +5,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
 import ExampleProduct from "@/app/(with-nav)/product/ExampleProduct";
+import { useRouter } from "next/navigation";
 
 export default function CreateProduct() {
+  const router = useRouter();
+
   const [selectedFiles, setSelectedFiles] = useState<File[]>();
   const [categories, setCategories] = useState<ProductCategoryDTO[]>([]);
 
@@ -126,7 +129,10 @@ export default function CreateProduct() {
         //TODO: change to toaster
         if (res.ok) {
           console.log(res);
-          window.location.reload();
+          res.json().then((data) => {
+            console.log(data);
+            router.push(`/product/${data.id}`);
+          });
         }
 
         console.log(res);
@@ -204,10 +210,9 @@ export default function CreateProduct() {
           id="condition"
           name="condition"
           className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-          value={condition}
           onChange={(e) => setCondition(parseInt(e.target.value, 10))}
         >
-          <option value="">Choose from the list</option>
+          <option value={0}>Choose from the list</option>
           <option value={0}>Brand new</option>
           <option value={1}>New</option>
           <option value={2}>Used</option>
@@ -249,10 +254,9 @@ export default function CreateProduct() {
           id="color"
           name="color"
           className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-          value={color}
           onChange={(e) => setColor(parseInt(e.target.value, 10))}
         >
-          <option value="">Choose from the list</option>
+          <option value={0}>Choose from the list</option>
           <option value={0}>UNDEFINED</option>
           <option value={1}>BLACK</option>
           <option value={2}>WHITE</option>
@@ -277,6 +281,8 @@ export default function CreateProduct() {
           placeholder="Hope its younger then your grandma"
           type="number"
           id="productionYear"
+          min={2000}
+          max={2099}
           name="productionYear"
           className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
           value={year}
