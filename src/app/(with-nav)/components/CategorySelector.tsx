@@ -1,7 +1,6 @@
-"use client";
-import { getProducts } from "@/utils/api-calls";
 import Image from "next/image";
-import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
+import { Button } from "@/components/ui/button";
+import React from "react";
 
 type Category = {
   name: string;
@@ -9,8 +8,9 @@ type Category = {
 };
 type Categories = Category[];
 
-function CategorySelector(props: {
-  readonly setProducts: (_: ProductGetAllResponseDTO) => void;
+export default function CategorySelector(props: {
+  readonly setProductCategoryName: (_: string | null) => void;
+  readonly selectedCategory: string | null;
 }) {
   const categories: Categories = [
     { name: "electronics", image: "/images/electronicsIcon.png" },
@@ -21,31 +21,24 @@ function CategorySelector(props: {
     // Add other categories similarly
   ];
 
-  const handleCategoryClick = async (categoryName: string) => {
-    try {
-      const fetchedProducts = await getProducts(
-        categoryName,
-        null,
-        null,
-        null,
-        null,
-      );
-      if (!fetchedProducts.ok) return null;
-      const productData = await fetchedProducts.json();
-      props.setProducts(productData);
-    } catch (error) {
-      console.error("Failed to fetch products:", error);
-    }
+  const reset = () => {
+    props.setProductCategoryName(null);
   };
 
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="mt-1 flex flex-wrap items-center justify-center">
       {categories.map((category) => (
-        <div key={category.name} className="m-4 text-center">
+        <div
+          key={category.name}
+          className={
+            "mx-2 rounded p-1 text-center hover:bg-gray-200 " +
+            (props.selectedCategory === category.name && "bg-gray-200")
+          }
+        >
           <button
             type="button"
             className="flex flex-col items-center"
-            onClick={() => handleCategoryClick(category.name)} // Calling the click handler
+            onClick={() => props.setProductCategoryName(category.name)}
           >
             <Image
               src={category.image}
@@ -53,12 +46,17 @@ function CategorySelector(props: {
               width={24}
               height={24}
             />
-            <span>{category.name}</span>
+            <span>
+              {category.name
+                .toLowerCase()
+                .replace(/\b\w/g, (char) => char.toUpperCase())}
+            </span>
           </button>
         </div>
       ))}
+      <Button type="button" className="mx-2 bg-red-500" onClick={reset}>
+        Reset
+      </Button>
     </div>
   );
 }
-
-export default CategorySelector;
