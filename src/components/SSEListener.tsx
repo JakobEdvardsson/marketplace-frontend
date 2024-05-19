@@ -23,7 +23,7 @@ export function SSEListener() {
         action: (
           <ToastAction
             altText="Check out product"
-            onClick={() => router.push(`/products/${message.productId}`)}
+            onClick={() => router.push(`/product/${message.productId}`)}
           >
             Check out product
           </ToastAction>

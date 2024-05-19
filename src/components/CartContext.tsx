@@ -36,6 +36,7 @@ interface CartContextType {
   addToCart: (item: CartProductDTO) => void;
   // eslint-disable-next-line no-unused-vars
   removeFromCart: (productId: string) => void;
+  nukeCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -46,12 +47,17 @@ export function CartProvider({ children }: { readonly children: ReactNode }) {
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
-      setItems(JSON.parse(storedCart));
+      const jsonCart: CartProductDTO[] = JSON.parse(storedCart);
+      setItems(jsonCart);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(items));
+    if (items.length > 0) {
+      const json = JSON.stringify(items);
+      console.log(json);
+      localStorage.setItem("cart", json);
+    }
   }, [items]);
 
   const addToCart = (item: CartProductDTO) => {
@@ -71,8 +77,13 @@ export function CartProvider({ children }: { readonly children: ReactNode }) {
     setItems((prevItems) => prevItems.filter((i) => i.productId !== productId));
   };
 
+  const nukeCart = () => {
+    setItems([]);
+    localStorage.removeItem("cart");
+  };
+
   const contextValue = useMemo(
-    () => ({ items, addToCart, removeFromCart }),
+    () => ({ items, addToCart, removeFromCart, nukeCart }),
     [items],
   );
   return (
