@@ -1,15 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getMyActiveListings, deleteProductById } from "@/utils/api-calls";
-import {
-  ActiveListingDTO,
-  ActiveListingsDTO,
-} from "@/types/endpoint-types-incoming";
-import { useRouter } from "next/navigation";
+import { ActiveListingsDTO } from "@/types/endpoint-types-incoming";
 
 export default function MyProducts() {
-  const router = useRouter();
-
   const [products, setProducts] = useState<ActiveListingsDTO | undefined>();
 
   useEffect(() => {
@@ -45,25 +39,23 @@ export default function MyProducts() {
   };
 
   const unpackedProducts = products ? (
-    products.activeListings.map((product) => {
-      return (
-        <div
-          key={product.id}
-          className=" my-3 flex h-24 flex-row items-center justify-between rounded-lg bg-white p-5 shadow-md"
+    products.activeListings.map((product) => (
+      <div
+        key={product.id}
+        className=" my-3 flex h-24 flex-row items-center justify-between rounded-lg bg-white p-5 shadow-md"
+      >
+        <h1>{product.productName}</h1>
+        <p>{product.productCategoryName}</p>
+        <p>{product.price + " kr"}</p>
+        <button
+          className="cursor-help font-bold text-red-700"
+          type="button"
+          onClick={() => deleteProduct(product.id)}
         >
-          <h1>{product.productName}</h1>
-          <p>{product.productCategoryName}</p>
-          <p>{product.price + " kr"}</p>
-          <button
-            className="cursor-help font-bold text-red-700"
-            type="button"
-            onClick={() => deleteProduct(product.id)}
-          >
-            Delete
-          </button>
-        </div>
-      );
-    })
+          Delete
+        </button>
+      </div>
+    ))
   ) : (
     <div>
       <h1 className="text-2xl font-bold">Loading...</h1>
