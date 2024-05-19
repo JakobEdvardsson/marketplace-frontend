@@ -3,6 +3,7 @@
 import { getBuyOrderById } from "@/utils/api-calls";
 import { useEffect, useState } from "react";
 import { OrderGetResponseDTO } from "@/types/endpoint-types-incoming";
+import ProductCardSlim from "@/app/(with-nav)/order/components/ProductCardSlim";
 
 export default function Page({
                                params
@@ -24,8 +25,10 @@ export default function Page({
 
   return (
     <div>
-      <h1>Your order</h1>
-      {product && JSON.stringify(product)}
+      <h1 className="my-5 text-center text-3xl font-medium">Your order</h1>
+      {product ? (product.orderItems.map(item => (
+          <ProductCardSlim key={item.productId} isError={false} productId={item.productId} productName={item.productName} productPrice={item.price}/>
+        ))) : null}
     </div>
   );
 }
