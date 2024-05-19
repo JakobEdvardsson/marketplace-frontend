@@ -15,7 +15,7 @@ function SlimProductCard(props: {
 }) {
   return (
     <div
-      className="mt-2 w-full flex flex-col items-center rounded-2xl bg-gray-50 p-3 ">
+      className="mt-2 flex w-full flex-col items-center rounded-2xl bg-gray-50 p-3 ">
         <h1 className={props.isError ? "line-through" : ""}>{props.productName}</h1>
         {props.isError && (
           <p className="text-red-400">This item has already been purchased by another user!</p>)}
@@ -52,7 +52,7 @@ export default function Checkout() {
   return (
     <div className="flex items-center justify-center">
       {placedOrder ? (
-        <div className="flex flex-col items-center mt-10 mb-5">
+        <div className="mb-5 mt-10 flex flex-col items-center">
           <Button className="w-36">
             <Link href={`/order/${placedOrder.orderId}`}>
               Receipt
