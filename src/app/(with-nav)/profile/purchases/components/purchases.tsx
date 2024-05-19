@@ -15,7 +15,8 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 export default function MyPurchases() {
   const [orders, setOrders] = useState<OrderRegisteredResponseDTO[]>([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrder, setSelectedOrder] =
+    useState<OrderRegisteredResponseDTO | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -46,11 +47,11 @@ export default function MyPurchases() {
     fetchOrders();
   }, []);
 
-  const handleOrderClick = (order) => {
+  const handleOrderClick = (order: OrderRegisteredResponseDTO) => {
     setSelectedOrder(order);
   };
 
-  const handleCloseDialog = (open) => {
+  const handleCloseDialog = (open: boolean) => {
     if (!open) {
       setSelectedOrder(null);
     }
