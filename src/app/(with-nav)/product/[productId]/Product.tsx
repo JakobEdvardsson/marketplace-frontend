@@ -64,19 +64,19 @@ export default function Product({ id }: { readonly id: string }) {
       </div>
 
       <div className="w-full">
-        <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+        <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
           {product ? "Price: " + product.price + " kr" : ""}
         </p>
       </div>
 
       <div className="w-full">
-        <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+        <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
           {product ? "Category: " + product.productCategory.name : ""}
         </p>
       </div>
 
       <div className="w-full">
-        <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+        <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
           {product?.condition
             ? "Condition: " + ProductCondition[product.condition]
             : ""}
@@ -84,20 +84,20 @@ export default function Product({ id }: { readonly id: string }) {
       </div>
 
       <div className="w-full">
-        <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+        <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
           {product?.color ? "Color: " + ProductColor[product.color] : ""}
         </h1>
       </div>
 
       <div className="w-full">
-        <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+        <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
           {product?.productionYear
             ? "Production year: " + product.productionYear
             : ""}
         </h1>
       </div>
 
-      <div className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+      <div className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
         <h1 className="mx-auto w-full cursor-default text-sm">
           {product?.description ? "Description: " : ""}
         </h1>
@@ -107,7 +107,7 @@ export default function Product({ id }: { readonly id: string }) {
       </div>
 
       <div className="w-full">
-        <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
+        <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
           {seller &&
             `Seller: ${seller.firstName} ${seller.lastName} (${seller.username})`}
         </p>
