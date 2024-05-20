@@ -4,12 +4,14 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
 import { useCart } from "@/components/CartContext";
-import { useProductById } from "@/utils/api-calls-swr";
+import { useProductById, useProfile } from "@/utils/api-calls-swr";
 
 export default function Product({ id }: { readonly id: string }) {
   const { addToCart } = useCart();
 
   const { data: product } = useProductById(id);
+
+  const { data: seller } = useProfile(product ? product.seller : null);
 
   const [openImage, setOpenImage] = useState(false);
 
@@ -106,7 +108,8 @@ export default function Product({ id }: { readonly id: string }) {
 
       <div className="w-full">
         <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1 text-2xl">
-          {product?.seller ? "Seller: " + product.seller : ""}
+          {seller &&
+            `Seller: ${seller.firstName} ${seller.lastName} (${seller.username})`}
         </p>
       </div>
 
