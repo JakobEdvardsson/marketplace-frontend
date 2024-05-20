@@ -3,6 +3,8 @@ import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
 import { getInboxMessageById } from "@/utils/api-calls";
 import { mutateAllInboxMessages } from "@/utils/api-calls-swr";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function ProductCardIsRead(props: {
   readonly productInfo: ProductGetResponseDTO;
@@ -61,13 +63,14 @@ export default function ProductCardIsRead(props: {
           {props.isRead ? null : (
             <p className="animate-pulse bg-blue-500">New!</p>
           )}
-          <button
+          <Button
+            className="bg-red-400 px-4 py-2 hover:bg-red-600"
             type="button"
-            className="rounded bg-red-400 px-4 py-2"
-            onClick={handleClickButton}
           >
-            See more
-          </button>
+            <Link href={`/product/${props.productInfo.productId}`}>
+              See more!
+            </Link>
+          </Button>
         </div>
       </div>
     </div>
