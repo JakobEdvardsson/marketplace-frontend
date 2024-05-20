@@ -13,7 +13,7 @@ export interface OrderItemRegisteredResponseDTO {
   productName: string;
   price: number;
   error: boolean;
-  productStatus: number;
+  purchaseStatus: number;
 }
 
 export interface OrderRegisteredResponseDTO {
