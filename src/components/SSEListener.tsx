@@ -17,19 +17,21 @@ export function SSEListener() {
     let newEventSource: EventSource | null = null;
 
     const handleIncomingMessage = (event: MessageEvent) => {
-      const message: ProductDTO = JSON.parse(event.data);
-      toast({
-        title: `New product: ${message.name}`,
-        action: (
-          <ToastAction
-            altText="Check out product"
-            onClick={() => router.push(`/product/${message.productId}`)}
-          >
-            Check out product
-          </ToastAction>
-        ),
-        duration: 60000,
-      });
+      if (event.data !== "heartbeat") {
+        const message: ProductDTO = JSON.parse(event.data);
+        toast({
+          title: `New product: ${message.name}`,
+          action: (
+            <ToastAction
+              altText="Check out product"
+              onClick={() => router.push(`/product/${message.productId}`)}
+            >
+              Check out product
+            </ToastAction>
+          ),
+          duration: 60000,
+        });
+      }
     };
 
     const handleError = (_: Event) => {
