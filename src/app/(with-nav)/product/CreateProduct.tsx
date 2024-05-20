@@ -183,7 +183,7 @@ export default function CreateProduct() {
       <div className="m-5 flex">
         <label className="text-3xl font-black">Create Product</label>
         <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
-          You will be charged for this!
+          Free!
         </p>
       </div>
 

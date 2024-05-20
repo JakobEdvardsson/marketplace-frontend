@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { useSearchParams } from "next/navigation";
 
 type Category = {
   name: string;
@@ -20,6 +21,13 @@ export default function CategorySelector(props: {
     { name: "kebab", image: "/images/kebabIcon.png" },
     // Add other categories similarly
   ];
+
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+
+  if (category) {
+    props.setProductCategoryName(category);
+  }
 
   const reset = () => {
     props.setProductCategoryName(null);
