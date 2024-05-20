@@ -1,24 +1,19 @@
 "use client";
+
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
-import { getProductById } from "@/utils/api-calls";
-import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import { useCart } from "@/components/CartContext";
+import { useProductById, useProfile } from "@/utils/api-calls-swr";
 
 export default function Product({ id }: { readonly id: string }) {
   const { addToCart } = useCart();
 
-  const [product, setProduct] = useState<ProductGetResponseDTO | undefined>();
-  const [openImage, setOpenImage] = useState(false);
+  const { data: product } = useProductById(id);
 
-  useEffect(() => {
-    getProductById(id).then((response) => {
-      response.json().then((data: ProductGetResponseDTO) => {
-        setProduct(data);
-      });
-    });
-  }, [id]);
+  const { data: seller } = useProfile(product ? product.seller : null);
+
+  const [openImage, setOpenImage] = useState(false);
 
   const handleImageClick = () => {
     setOpenImage(!openImage);
@@ -27,8 +22,6 @@ export default function Product({ id }: { readonly id: string }) {
   const handleAddToCart = () => {
     if (product) addToCart(product);
   };
-
-  console.log(product?.imageUrls);
 
   const renderFiles = () => {
     if (product?.imageUrls && product.imageUrls.length > 0) {
@@ -40,9 +33,9 @@ export default function Product({ id }: { readonly id: string }) {
           <Image
             src={url}
             alt={product.name}
-            className="size-full rounded object-cover"
-            width={100}
-            height={100}
+            className="size-full rounded object-fill"
+            width={1000}
+            height={1000}
             onClick={handleImageClick}
           />
         </div>
@@ -115,7 +108,8 @@ export default function Product({ id }: { readonly id: string }) {
 
       <div className="w-full">
         <p className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
-          {product?.seller ? "Seller: " + product.seller : ""}
+          {seller &&
+            `Seller: ${seller.firstName} ${seller.lastName} (${seller.username})`}
         </p>
       </div>
 
