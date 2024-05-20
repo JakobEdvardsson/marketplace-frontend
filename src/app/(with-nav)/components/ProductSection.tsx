@@ -20,7 +20,6 @@ import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/components/AuthContext";
-import { useSearchParams } from "next/navigation";
 
 export default function ProductSection() {
   const [productCategoryName, setProductCategoryName] = useState<string | null>(
