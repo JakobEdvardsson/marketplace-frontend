@@ -27,7 +27,7 @@ export default function ProductSection() {
   const category = searchParams.get("category");
 
   const [productCategoryName, setProductCategoryName] = useState<string | null>(
-    category,
+    category ? category : null,
   );
 
   const [minimumPrice, setMinimumPrice] = useState<number | null>(null);
