@@ -1,4 +1,3 @@
-
 import MyAds from "@/app/(with-nav)/profile/myads/MyAds";
 
 export default function Page() {
