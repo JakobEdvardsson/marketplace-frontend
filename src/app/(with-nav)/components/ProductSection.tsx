@@ -20,11 +20,16 @@ import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/components/AuthContext";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductSection() {
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+
   const [productCategoryName, setProductCategoryName] = useState<string | null>(
-    null,
+    category,
   );
+
   const [minimumPrice, setMinimumPrice] = useState<number | null>(null);
   const [maximumPrice, setMaximumPrice] = useState<number | null>(null);
   const [condition, setCondition] = useState<ProductCondition | null>(null);

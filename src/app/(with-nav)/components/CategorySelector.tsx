@@ -22,13 +22,6 @@ export default function CategorySelector(props: {
     // Add other categories similarly
   ];
 
-  const searchParams = useSearchParams();
-  const category = searchParams.get("category");
-
-  if (category) {
-    props.setProductCategoryName(category);
-  }
-
   const reset = () => {
     props.setProductCategoryName(null);
   };
