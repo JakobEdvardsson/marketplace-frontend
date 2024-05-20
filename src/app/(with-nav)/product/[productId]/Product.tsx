@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
 import { useCart } from "@/components/CartContext";
 import { useProductById, useProfile } from "@/utils/api-calls-swr";
 import { useToast } from "@/components/ui/use-toast";
+import { getMyProfile } from "@/utils/api-calls";
+import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
 
 export default function Product({ id }: { readonly id: string }) {
   const { addToCart } = useCart();
@@ -13,6 +15,8 @@ export default function Product({ id }: { readonly id: string }) {
   const { data: product } = useProductById(id);
 
   const { data: seller } = useProfile(product ? product.seller : null);
+
+  const [whoAmI, setWhoAmI] = useState<MyProfileResponseDTO | undefined>();
 
   const [openImage, setOpenImage] = useState(false);
 
@@ -23,11 +27,28 @@ export default function Product({ id }: { readonly id: string }) {
   };
 
   const handleAddToCart = () => {
-    if (product) addToCart(product);
-    toast({
-      title: `Added ${product?.name} to cart!`,
-    });
+    if (product) {
+      addToCart(product);
+      toast({
+        title: `Added ${product?.name} to cart!`,
+      });
+    }
   };
+
+  useEffect(() => {
+    getMyProfile()
+      .then((response) => {
+        if (response.status === 401) {
+          setWhoAmI(undefined);
+          return;
+        }
+
+        response.json().then((res) => {
+          setWhoAmI(res);
+        });
+      })
+      .catch((e) => console.error(e));
+  }, []);
 
   const renderFiles = () => {
     if (product?.imageUrls && product.imageUrls.length > 0) {
@@ -119,15 +140,19 @@ export default function Product({ id }: { readonly id: string }) {
         </p>
       </div>
 
-      <div className="m-5 mx-auto w-5/12">
-        <button
-          type="button"
-          className="mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
-          onClick={handleAddToCart}
-        >
-          Add to cart
-        </button>
-      </div>
+      {whoAmI && seller && whoAmI.username !== seller.username ? (
+        <div className="m-5 mx-auto w-5/12">
+          <button
+            type="button"
+            className="mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
+            onClick={handleAddToCart}
+          >
+            Add to cart
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
