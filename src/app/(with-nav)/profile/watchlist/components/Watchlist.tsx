@@ -152,7 +152,10 @@ export default function MyWatchlist() {
             </AlertDialog>
             <div className="flex flex-row p-4 text-sm">
               <p className="mr-1 font-bold">Searching on: </p>
-              <Link className="text-sky-400 hover:text-sky-300" href="/bajs">
+              <Link
+                className="text-sky-400 hover:text-sky-300"
+                href={`/?category=${selected}`}
+              >
                 &quot;{selected}&quot;
               </Link>
             </div>

@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/components/AuthContext";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductSection() {
   const [productCategoryName, setProductCategoryName] = useState<string | null>(
@@ -96,16 +98,19 @@ export default function ProductSection() {
     setQuery("");
   };
 
+  const auth = useAuth();
   useEffect(() => {
-    getAllWatchlistEntries()
-      .then((response) => {
-        response.json().then((categories) => {
-          setSubscribedCategories(categories);
-          console.log(categories);
-        });
-      })
-      .catch((_) => console.log(_));
-  }, []);
+    if (auth.loggedIn) {
+      getAllWatchlistEntries()
+        .then((response) => {
+          response.json().then((categories) => {
+            setSubscribedCategories(categories);
+            console.log(categories);
+          });
+        })
+        .catch((_) => console.log(_));
+    }
+  }, [auth.loggedIn]);
 
   const handleClickSubscribe = () => {
     if (productCategoryName !== null) {
@@ -185,12 +190,14 @@ export default function ProductSection() {
           {/*// search*/}
           <SearchBar handleSearch={handleQuerySearch} query={query} />
           <div className="flex justify-between p-2">
-            <Button className="mx-2" onClick={updateProduct}>
-              Search
-            </Button>
-            <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
-              Reset
-            </Button>
+            <div>
+              <Button className="mx-2" onClick={updateProduct}>
+                Search
+              </Button>
+              <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
+                Reset
+              </Button>
+            </div>
             {subscribedCategories && productCategoryName ? (
               subscribedCategories.find(
                 (category) =>
