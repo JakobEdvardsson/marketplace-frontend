@@ -32,7 +32,7 @@ export default function MyProfile() {
     <div className="w-full">
       <div className="flex items-center">
         <Image
-          src="/images/default_profile.jpg"
+          src="/images/default-profile-picture.svg"
           alt="Default Profile"
           width={100}
           height={100}

@@ -3,15 +3,22 @@
 import CategorySelector from "@/app/(with-nav)/components/CategorySelector";
 import SearchBar from "@/app/(with-nav)/components/SearchBar";
 import ProductCard from "@/app/(with-nav)/components/ProductCard";
-import { addEntryToWatchlist, getProducts } from "@/utils/api-calls";
-import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  addEntryToWatchlist,
+  deleteWatchlistEntryById,
+  getAllWatchlistEntries,
+  getProducts,
+} from "@/utils/api-calls";
+import {
+  ProductGetAllResponseDTO,
+  WatchListResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { ProductCondition } from "@/utils/api-call-types";
 import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
 
 export default function ProductSection() {
   const [productCategoryName, setProductCategoryName] = useState<string | null>(
@@ -25,6 +32,12 @@ export default function ProductSection() {
   const [products, setProducts] = useState<
     ProductGetAllResponseDTO | undefined
   >();
+
+  const [subscribedCategories, setSubscribedCategories] = useState<
+    WatchListResponseDTO[] | undefined
+  >();
+
+  const [subscribed, setSubscribed] = useState(true);
 
   useEffect(() => {
     updateProduct();
@@ -83,12 +96,46 @@ export default function ProductSection() {
     setQuery("");
   };
 
+  useEffect(() => {
+    getAllWatchlistEntries()
+      .then((response) => {
+        response.json().then((categories) => {
+          setSubscribedCategories(categories);
+          console.log(categories);
+        });
+      })
+      .catch((_) => console.log(_));
+  }, []);
+
   const handleClickSubscribe = () => {
     if (productCategoryName !== null) {
-      console.log(productCategoryName);
       addEntryToWatchlist(productCategoryName).catch((e) => {
         console.log(e);
       });
+      setSubscribed(true);
+    }
+  };
+
+  const handleClickUnsubscribe = () => {
+    if (productCategoryName !== null) {
+      if (subscribedCategories) {
+        const categoryId: WatchListResponseDTO | undefined =
+          subscribedCategories.find((category) => {
+            if (category.productCategory.name === productCategoryName) {
+              return category.productCategory.id;
+            }
+
+            return "";
+          });
+        if (categoryId) {
+          deleteWatchlistEntryById(categoryId?.productCategory.id).catch(
+            (e) => {
+              console.log(e);
+            },
+          );
+          setSubscribed(false);
+        }
+      }
     }
   };
 
@@ -144,21 +191,88 @@ export default function ProductSection() {
             <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
               Reset
             </Button>
-            <Button
-              variant="outline"
-              className="mx-2 border-black"
-              type="button"
-              onClick={handleClickSubscribe}
-            >
-              <Image
-                className="mr-2 size-4"
-                width="8"
-                height="8"
-                src="/images/bell.svg"
-                alt="bell"
-              />
-              Create watchlist
-            </Button>
+            {subscribedCategories && productCategoryName ? (
+              subscribedCategories.find(
+                (category) =>
+                  category.productCategory.name === productCategoryName,
+              ) ? (
+                subscribed ? (
+                  <Button
+                    variant="outline"
+                    className="mx-2 border-black"
+                    type="button"
+                    onClick={handleClickUnsubscribe}
+                  >
+                    <div className="mr-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="size-5 fill-black"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                        />
+                      </svg>
+                    </div>
+                    Watching
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    className="mx-2 border-black"
+                    type="button"
+                    onClick={handleClickSubscribe}
+                  >
+                    <div className="mr-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="size-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                        />
+                      </svg>
+                    </div>
+                    Create watchlist
+                  </Button>
+                )
+              ) : (
+                <Button
+                  variant="outline"
+                  className="mx-2 border-black"
+                  type="button"
+                  onClick={handleClickSubscribe}
+                >
+                  <div className="mr-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="size-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                      />
+                    </svg>
+                  </div>
+                  Create watchlist
+                </Button>
+              )
+            ) : null}
           </div>
         </div>
       </div>
