@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
 import { useCart } from "@/components/CartContext";
 import { useProductById, useProfile } from "@/utils/api-calls-swr";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Product({ id }: { readonly id: string }) {
   const { addToCart } = useCart();
@@ -15,12 +16,17 @@ export default function Product({ id }: { readonly id: string }) {
 
   const [openImage, setOpenImage] = useState(false);
 
+  const { toast } = useToast();
+
   const handleImageClick = () => {
     setOpenImage(!openImage);
   };
 
   const handleAddToCart = () => {
     if (product) addToCart(product);
+    toast({
+      title: `Added ${product?.name} to cart!`,
+    });
   };
 
   const renderFiles = () => {
