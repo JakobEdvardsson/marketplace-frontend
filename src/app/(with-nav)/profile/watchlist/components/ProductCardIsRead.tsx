@@ -1,8 +1,6 @@
 import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
-import { getInboxMessageById } from "@/utils/api-calls";
-import { mutateAllInboxMessages } from "@/utils/api-calls-swr";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -11,16 +9,6 @@ export default function ProductCardIsRead(props: {
   readonly isRead: boolean;
 }) {
   const createdAt: Date = new Date(props.productInfo.createdAt);
-
-  const handleClickButton = () => {
-    getInboxMessageById(props.productInfo.productId)
-      .then((_) => {
-        mutateAllInboxMessages();
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
 
   return (
     <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
