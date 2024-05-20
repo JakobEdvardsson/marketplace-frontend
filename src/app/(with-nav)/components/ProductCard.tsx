@@ -29,9 +29,9 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
               .toLowerCase()
               .replace(/\b\w/g, (char) => char.toUpperCase())}
           </p>
-          {productInfo.productionYear && (
+          {productInfo.productionYear ? (
             <p>Year: {productInfo.productionYear}</p>
-          )}
+          ) : null}
           <b>{productInfo.price} kr</b>
         </div>
 
