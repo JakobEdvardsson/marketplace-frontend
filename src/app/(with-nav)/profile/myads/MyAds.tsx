@@ -7,7 +7,7 @@ import {
 } from "@/utils/api-calls-swr";
 import { useToast } from "@/components/ui/use-toast";
 
-export default function MyProducts() {
+export default function MyAds() {
   const { toast } = useToast();
 
   const { data: products } = useMyActiveListings();
