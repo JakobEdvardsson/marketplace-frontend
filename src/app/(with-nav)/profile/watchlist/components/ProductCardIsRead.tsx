@@ -1,14 +1,33 @@
+"use client";
+
 import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { mutateAllInboxMessages } from "@/utils/api-calls-swr";
+import { getInboxMessageById } from "@/utils/api-calls";
+import { useRouter } from "next/navigation";
 
 export default function ProductCardIsRead(props: {
   readonly productInfo: ProductGetResponseDTO;
   readonly isRead: boolean;
 }) {
+  const router = useRouter();
+
   const createdAt: Date = new Date(props.productInfo.createdAt);
+
+  const handleClickButton = () => {
+    setTimeout(() => {
+      getInboxMessageById(props.productInfo.productId)
+        .then((_) => {
+          mutateAllInboxMessages();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }, 0);
+    router.push(`/product/${props.productInfo.productId}`);
+  };
 
   return (
     <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
@@ -54,10 +73,9 @@ export default function ProductCardIsRead(props: {
           <Button
             className="bg-red-400 px-4 py-2 hover:bg-red-600"
             type="button"
+            onClick={handleClickButton}
           >
-            <Link href={`/product/${props.productInfo.productId}`}>
-              See more!
-            </Link>
+            See more!
           </Button>
         </div>
       </div>
