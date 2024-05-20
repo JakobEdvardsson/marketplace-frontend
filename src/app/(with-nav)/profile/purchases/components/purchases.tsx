@@ -1,137 +1,176 @@
 "use client";
+
+import { Card, CardDescription } from "@/components/ui/card";
+import { BACKEND_URL } from "@/utils/api-calls-swr";
+import Link from "next/link";
+import { DateRange } from "react-day-picker";
+import useSWR from "swr";
+import { OrderGetAllResponseDTO } from "@/types/endpoint-types-incoming";
+import { authedFetcher } from "@/lib/fetcher-authed";
 import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getAllMyBuyOrders } from "@/utils/api-calls";
-import {
-  OrderGetAllResponseDTO,
-  OrderRegisteredResponseDTO,
-} from "@/types/endpoint-types-incoming";
-import * as Dialog from "@radix-ui/react-dialog";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import * as React from "react";
+
 export default function MyPurchases() {
-  const [orders, setOrders] = useState<OrderRegisteredResponseDTO[]>([]);
-  const [selectedOrder, setSelectedOrder] =
-    useState<OrderRegisteredResponseDTO | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: undefined,
+    to: undefined,
+  });
 
-  useEffect(() => {
-    async function fetchOrders() {
-      try {
-        const orderResponse = await getAllMyBuyOrders();
-        const text = await orderResponse.text();
+  const { data, isLoading } = useSWR<OrderGetAllResponseDTO>(
+    date && date.from && date.to
+      ? `${BACKEND_URL}/orders?start=${date.from.toISOString()}&end=${date.to.toISOString()}`
+      : `${BACKEND_URL}/orders`,
+    authedFetcher,
+  );
 
-        if (!orderResponse.ok) {
-          console.log("Failed to fetch orders");
-        }
-
-        if (text.trim() === "") {
-          setOrders([]);
-          console.warn("Received an empty response");
-        } else {
-          const ordersData: OrderGetAllResponseDTO = JSON.parse(text);
-          setOrders(ordersData.orders);
-        }
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-        setOrders([]);
-      } finally {
-        setTimeout(() => setLoading(false), 1200);
-      }
-    }
-
-    fetchOrders();
-  }, []);
-
-  const handleOrderClick = (order: OrderRegisteredResponseDTO) => {
-    setSelectedOrder(order);
-  };
-
-  const handleCloseDialog = (open: boolean) => {
-    if (!open) {
-      setSelectedOrder(null);
-    }
-  };
-
-  if (loading) {
-    return <p>Loading purchases...</p>;
+  if (isLoading) {
+    return <SkeletonLoader />;
   }
 
-  if (orders.length === 0) {
-    return <p>No purchases found.</p>;
+  if (data && data.orders.length === 0) {
+    return <p className="-mx-2">No purchases found.</p>;
   }
 
   return (
     <div className="mx-auto w-full">
       <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant="outline"
+            className={cn(
+              "w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a range</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            numberOfMonths={2}
+            onSelect={setDate}
+          />
+        </PopoverContent>
+      </Popover>
+      <div className="-mx-2 mt-5 flex flex-wrap">
+        {data ? (
+          data.orders.map((order) =>
+            order.orderItems.length ? (
+              <div key={order.orderId} className="m-2">
+                <Card className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 p-5 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+                  <Link href={`/order/${order.orderId}`}>
+                    <h1 className="mb-5 font-bold">Order items</h1>
+                    <div className="text-xs">
+                      {order.orderItems.map((item) => (
+                        <p
+                          key={item.productId}
+                        >{`${item.purchaseStatus === 1 ? "Pending:" : ""} ${item.purchaseStatus === 2 ? "Purchased:" : ""} ${item.productName} - ${item.price} kr`}</p>
+                      ))}
+                      <CardDescription className="mt-5 text-xs">
+                        {`Order date: ${new Date(order.timeOfPurchase).toLocaleDateString()}`}
+                      </CardDescription>
+                    </div>
+                  </Link>
+                </Card>
+              </div>
+            ) : null,
+          )
+        ) : (
+          <p className="mx-2 mt-5">No purchases found</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SkeletonLoader() {
+  return (
+    <div className="mx-auto w-full">
+      <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
       <br />
       <div className="-mx-2 flex flex-wrap">
-        {orders.map((order) => (
-          <div
-            key={order.orderId}
-            className="m-2 cursor-pointer"
-            onClick={() => handleOrderClick(order)}
-          >
-            <Card className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-lg transition duration-300 ease-in-out hover:-translate-y-2 hover:shadow-2xl">
-              <CardHeader>
-                <CardTitle className="block text-xs font-bold text-black">
-                  Order ID:
-                  <span className="block text-black">{order.orderId}</span>
-                </CardTitle>
-              </CardHeader>
-              <div className="p-5 text-xs">
-                {order.orderItems.map((item) => (
-                  <p
-                    key={item.productId}
-                  >{`${item.productName} - $${item.price}`}</p>
-                ))}
-                <CardDescription className="truncate text-xs">
-                  {`Purchased on: ${new Date(order.timeOfPurchase).toLocaleDateString()}`}
-                </CardDescription>
-              </div>
-            </Card>
-          </div>
-        ))}
-      </div>
-      {selectedOrder && (
-        <Dialog.Root
-          open={Boolean(selectedOrder)}
-          onOpenChange={handleCloseDialog}
-        >
-          <Dialog.Overlay className="fixed inset-0 bg-black/30" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 w-auto min-w-[300px] max-w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6 shadow-lg">
-            <Dialog.Title className="text-lg font-bold">
-              Order Details
-            </Dialog.Title>
-            <div className="mt-4">
-              <p className="text-sm font-bold">
-                Order ID: {selectedOrder.orderId}
-              </p>
-              {selectedOrder.orderItems.map((item) => (
-                <div key={item.productId} className="mt-2">
-                  <p className="text-xs">{`${item.productName} - $${item.price}`}</p>
-                </div>
-              ))}
-              <p className="mt-4 text-xs">
-                Purchased on:{" "}
-                {new Date(selectedOrder.timeOfPurchase).toLocaleDateString()}
-              </p>
+        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+          <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+            <div className="p-5">
+              <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse bg-gray-200" />
+              <div className="mt-5 h-4 w-1/3 animate-pulse bg-gray-200" />
             </div>
-            <Dialog.Close asChild>
-              <button
-                type="button"
-                className="mt-4 rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
-              >
-                Close
-              </button>
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Root>
-      )}
+          </div>
+        </div>
+        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+          <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+            <div className="p-5">
+              <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse bg-gray-200" />
+              <div className="mt-5 h-4 w-1/3 animate-pulse bg-gray-200" />
+            </div>
+          </div>
+        </div>
+        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+          <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+            <div className="p-5">
+              <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse bg-gray-200" />
+              <div className="mt-5 h-4 w-1/3 animate-pulse bg-gray-200" />
+            </div>
+          </div>
+        </div>
+        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+          <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+            <div className="p-5">
+              <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse bg-gray-200" />
+              <div className="mt-5 h-4 w-1/3 animate-pulse bg-gray-200" />
+            </div>
+          </div>
+        </div>
+        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+          <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+            <div className="p-5">
+              <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse bg-gray-200" />
+              <div className="mt-5 h-4 w-1/3 animate-pulse bg-gray-200" />
+            </div>
+          </div>
+        </div>
+        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+          <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+            <div className="p-5">
+              <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
+              <div className="mb-2 h-4 w-1/2 animate-pulse bg-gray-200" />
+              <div className="mt-5 h-4 w-1/3 animate-pulse bg-gray-200" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
