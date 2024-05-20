@@ -6,8 +6,13 @@ import Image from "next/image";
 import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
 import ExampleProduct from "@/app/(with-nav)/product/ExampleProduct";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function CreateProduct() {
+  const { toast } = useToast();
+
+  const currentYear = new Date().getFullYear();
+
   const router = useRouter();
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>();
@@ -97,6 +102,14 @@ export default function CreateProduct() {
       formData.get("productionYear")?.toString() || "0",
       10,
     );
+
+    formData.delete("data");
+    if (selectedFiles) {
+      selectedFiles.forEach((file) => {
+        formData.append("data", file);
+      });
+    }
+
     const data = formData.getAll("data");
     console.log("Name:", name);
     console.log("Product Category:", productCategory);
@@ -129,9 +142,26 @@ export default function CreateProduct() {
         //TODO: change to toaster
         if (res.ok) {
           console.log(res);
+          toast({
+            title: "Product created",
+            description: "Your product is available for purchase",
+            variant: "default",
+          });
           res.json().then((data) => {
             console.log(data);
             router.push(`/product/${data.id}`);
+          });
+        } else if (res.status === 403) {
+          toast({
+            title: "Please try again",
+            description: "Your product is missing Category or Condition",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Please try again",
+            description: "Your product could not be created",
+            variant: "destructive",
           });
         }
 
@@ -281,8 +311,8 @@ export default function CreateProduct() {
           placeholder="Hope its younger then your grandma"
           type="number"
           id="productionYear"
-          min={2000}
-          max={2099}
+          min={0}
+          max={currentYear}
           name="productionYear"
           className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
           value={year}
