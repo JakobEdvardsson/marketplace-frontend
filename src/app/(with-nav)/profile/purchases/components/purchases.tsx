@@ -1,15 +1,36 @@
 "use client";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useAllMyBuyOrders } from "@/utils/api-calls-swr";
+
+import { Card, CardDescription } from "@/components/ui/card";
+import { BACKEND_URL } from "@/utils/api-calls-swr";
 import Link from "next/link";
+import { DateRange } from "react-day-picker";
+import useSWR from "swr";
+import { OrderGetAllResponseDTO } from "@/types/endpoint-types-incoming";
+import { authedFetcher } from "@/lib/fetcher-authed";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import * as React from "react";
 
 export default function MyPurchases() {
-  const { data, isLoading } = useAllMyBuyOrders();
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: undefined,
+    to: undefined,
+  });
+
+  const { data, isLoading } = useSWR<OrderGetAllResponseDTO>(
+    date && date.from && date.to
+      ? `${BACKEND_URL}/orders?start=${date.from.toISOString()}&end=${date.to.toISOString()}`
+      : `${BACKEND_URL}/orders`,
+    authedFetcher,
+  );
 
   if (isLoading) {
     return <SkeletonLoader />;
@@ -22,8 +43,43 @@ export default function MyPurchases() {
   return (
     <div className="mx-auto w-full">
       <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
-      <br />
-      <div className="-mx-2 flex flex-wrap">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            id="date"
+            variant="outline"
+            className={cn(
+              "w-[300px] justify-start text-left font-normal",
+              !date && "text-muted-foreground",
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {format(date.from, "LLL dd, y")} -{" "}
+                  {format(date.to, "LLL dd, y")}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            numberOfMonths={2}
+            onSelect={setDate}
+          />
+        </PopoverContent>
+      </Popover>
+      <div className="-mx-2 mt-5 flex flex-wrap">
         {data ? (
           data.orders.map((order) =>
             order.orderItems.length ? (
@@ -47,7 +103,7 @@ export default function MyPurchases() {
             ) : null,
           )
         ) : (
-          <p className="-mx-2">No purchases found</p>
+          <p className="mx-2 mt-5">No purchases found</p>
         )}
       </div>
     </div>
