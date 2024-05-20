@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { useSearchParams } from "next/navigation";
 
 type Category = {
   name: string;
