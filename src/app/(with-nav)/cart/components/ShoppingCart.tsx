@@ -24,10 +24,11 @@ export function ShoppingCart() {
             <div className="flex items-center">
               <div className="mr-4">
                 <Image
+                  className="object-contain"
                   src={item.imageUrls[0]}
                   alt={item.name}
-                  width={100}
-                  height={100}
+                  width={150}
+                  height={150}
                 />
               </div>
               <div>
