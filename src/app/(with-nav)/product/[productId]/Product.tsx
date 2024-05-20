@@ -1,24 +1,17 @@
 "use client";
+
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
-import { getProductById } from "@/utils/api-calls";
-import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import { useCart } from "@/components/CartContext";
+import { useProductById } from "@/utils/api-calls-swr";
 
 export default function Product({ id }: { readonly id: string }) {
   const { addToCart } = useCart();
 
-  const [product, setProduct] = useState<ProductGetResponseDTO | undefined>();
-  const [openImage, setOpenImage] = useState(false);
+  const { data: product } = useProductById(id);
 
-  useEffect(() => {
-    getProductById(id).then((response) => {
-      response.json().then((data: ProductGetResponseDTO) => {
-        setProduct(data);
-      });
-    });
-  }, [id]);
+  const [openImage, setOpenImage] = useState(false);
 
   const handleImageClick = () => {
     setOpenImage(!openImage);
@@ -27,8 +20,6 @@ export default function Product({ id }: { readonly id: string }) {
   const handleAddToCart = () => {
     if (product) addToCart(product);
   };
-
-  console.log(product?.imageUrls);
 
   const renderFiles = () => {
     if (product?.imageUrls && product.imageUrls.length > 0) {
