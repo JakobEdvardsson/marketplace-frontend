@@ -1,39 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { getMyActiveListings, deleteProductById } from "@/utils/api-calls";
-import { ActiveListingsDTO } from "@/types/endpoint-types-incoming";
+
+import { deleteProductById } from "@/utils/api-calls";
+import {
+  mutateMyActiveListings,
+  useMyActiveListings,
+} from "@/utils/api-calls-swr";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function MyProducts() {
-  const [products, setProducts] = useState<ActiveListingsDTO | undefined>();
+  const { toast } = useToast();
 
-  useEffect(() => {
-    getMyActiveListings().then((res) => {
-      res
-        .json()
-        .then((data) => {
-          setProducts(data as ActiveListingsDTO);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-  }, []);
-
-  console.log(products ? products.activeListings : "");
+  const { data: products } = useMyActiveListings();
 
   const deleteProduct = (id: string) => {
     deleteProductById(id).then((res) => {
       if (res.ok) {
-        setProducts((prev) => {
-          if (prev) {
-            const updatedListings = prev.activeListings.filter(
-              (product) => product.id !== id,
-            );
-            return { activeListings: updatedListings };
-          }
-
-          return prev;
+        toast({
+          title: "Product deleted.",
+          variant: "default",
         });
+        mutateMyActiveListings();
       }
     });
   };
