@@ -83,8 +83,12 @@ export default function Product({ id }: { readonly id: string }) {
 
       <div className="w-full">
         <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
-          {product?.condition
-            ? "Condition: " + ProductCondition[product.condition]
+          {product
+            ? "Condition: " +
+              ProductCondition[product.condition]
+                .replace(/_/g, " ")
+                .toLowerCase()
+                .replace(/\b\w/g, (char) => char.toUpperCase())
             : ""}
         </h1>
       </div>
@@ -97,9 +101,7 @@ export default function Product({ id }: { readonly id: string }) {
 
       <div className="w-full">
         <h1 className="mx-auto mt-3 w-6/12 cursor-default rounded border border-gray-300 p-1">
-          {product?.productionYear
-            ? "Production year: " + product.productionYear
-            : ""}
+          {product ? "Production year: " + product.productionYear : ""}
         </h1>
       </div>
 
