@@ -34,7 +34,7 @@ export default function ProductCardIsRead(props: {
       {/*Image*/}
       <Image
         src={props.productInfo.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="mr-0 h-2/3 w-full rounded-2xl object-cover sm:mr-2 sm:h-full sm:w-2/5"
+        className="mr-0 h-2/3 w-full rounded-2xl object-contain sm:mr-2 sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
