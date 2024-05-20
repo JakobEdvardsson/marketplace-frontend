@@ -71,7 +71,7 @@ export default function MyMarketplace() {
                 height={1000}
               />
               <CardTitle>My purchases</CardTitle>
-              <CardDescription>View and manage your profile</CardDescription>
+              <CardDescription>View your purchases</CardDescription>
             </CardHeader>
           </Card>
         </Link>

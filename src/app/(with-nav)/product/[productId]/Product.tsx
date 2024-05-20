@@ -60,7 +60,7 @@ export default function Product({ id }: { readonly id: string }) {
           <Image
             src={url}
             alt={product.name}
-            className="size-full rounded object-fill"
+            className="size-full rounded object-contain"
             width={1000}
             height={1000}
             onClick={handleImageClick}
