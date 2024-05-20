@@ -34,8 +34,8 @@ export function mutateMyProfile() {
   mutate(url);
 }
 
-export function useProfile(accountId: string) {
-  const url = `${BACKEND_URL}/accounts/${accountId}`;
+export function useProfile(accountId: string | null) {
+  const url = accountId ? `${BACKEND_URL}/accounts/${accountId}` : null;
   return useSWR<ProfileResponseDTO>(url, fetcher);
 }
 
