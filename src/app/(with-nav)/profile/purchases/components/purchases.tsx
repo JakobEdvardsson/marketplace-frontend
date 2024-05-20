@@ -64,7 +64,7 @@ export default function MyPurchases() {
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Pick a range</span>
             )}
           </Button>
         </PopoverTrigger>
