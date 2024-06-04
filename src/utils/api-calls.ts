@@ -432,20 +432,3 @@ export function handleBuyOrderRequest(productId: string, accept: boolean) {
     }),
   });
 }
-
-// GET /sse/listen
-export function connectToSSE(
-  messageHandler: (_: MessageEvent<any>) => any,
-  errorHandler: (_: Event) => any,
-) {
-  const url = `${BACKEND_URL}/sse/listen`;
-
-  const eventSource = new EventSource(url, {
-    withCredentials: true,
-  });
-
-  eventSource.onmessage = messageHandler;
-  eventSource.onerror = errorHandler;
-
-  return eventSource;
-}
