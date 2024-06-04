@@ -7,6 +7,18 @@ module.exports = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "marketplace-api.johros.dev",
+        port: "80",
+        pathname: "/**",
+      },
     ],
   },
 };
