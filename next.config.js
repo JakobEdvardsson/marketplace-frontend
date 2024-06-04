@@ -16,7 +16,7 @@ module.exports = {
       {
         protocol: "https",
         hostname: "marketplace-api.johros.dev",
-        port: "80",
+        port: "",
         pathname: "/**",
       },
     ],
