@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { SSEListener } from "@/components/SSEListener";
 import { AuthProvider } from "@/components/AuthContext";
 import { CartProvider } from "@/components/CartContext";
 
@@ -24,7 +23,6 @@ export default function RootLayout({
           <CartProvider>
             {children}
             <Toaster />
-            <SSEListener />
           </CartProvider>
         </AuthProvider>
       </body>
