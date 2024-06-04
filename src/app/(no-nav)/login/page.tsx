@@ -6,7 +6,7 @@ export default function Page() {
     <div className="flex h-screen w-screen items-center bg-gray-100 align-middle">
       <div className="relative m-auto flex w-3/4 animate-fadeIn">
         <div className="w-3/5 animate-slideIn bg-[url('/images/cat.jpg')] bg-cover text-white">
-          <h1 className="m-10 text-4xl font-black text-red-600">Marketplace</h1>
+          <h1 className="m-10 text-4xl font-black text-red-600">Plocket</h1>
           <h1 className="ml-10 w-2/3 text-5xl font-bold">
             Login for the best experience
           </h1>
@@ -26,12 +26,6 @@ export default function Page() {
         </div>
         <div className="w-2/5">
           <LoginForm />
-          <p className="ml-10 text-sm text-gray-600">
-            No account?
-            <Link href="/register" className="ml-1 hover:underline">
-              Register here!
-            </Link>
-          </p>
         </div>
       </div>
     </div>

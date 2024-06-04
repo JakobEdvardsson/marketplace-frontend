@@ -4,6 +4,7 @@ import { login } from "@/utils/api-calls";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthContext";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [userFound, setUserFound] = useState(true);
@@ -36,7 +37,7 @@ export default function LoginForm() {
       className="relative -top-10 flex h-[120%] w-full flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
     >
       <div className="m-7 flex w-5/6 items-center justify-between">
-        <h2 className="font-black text-red-600">Marketplace</h2>
+        <h2 className="font-black text-red-600">Plocket</h2>
         <h2 className="text-2xl font-semibold text-slate-700">University</h2>
       </div>
       <h1 className={`${userFound ? "" : "text-red-500"} text-2xl font-bold `}>
@@ -73,12 +74,20 @@ export default function LoginForm() {
         account to continue. You can use the same account details on all
         websites, so it will be easier for us
       </p>
+      <br />
       <button
         type="submit"
-        className="absolute bottom-10 h-10 w-5/6 rounded bg-blue-500 font-semibold text-white duration-200 hover:bg-blue-600 hover:drop-shadow-xl hover:ease-in-out"
+        className="bottom-10 h-10 w-5/6 rounded bg-blue-500 font-semibold text-white duration-200 hover:bg-blue-600 hover:drop-shadow-xl hover:ease-in-out"
       >
         Login
       </button>
+      <br />
+      <p className="ml-10 text-sm text-gray-600">
+        No account?
+        <Link href="/register" className="ml-1 hover:underline">
+          Register here!
+        </Link>
+      </p>
     </form>
   );
 }
