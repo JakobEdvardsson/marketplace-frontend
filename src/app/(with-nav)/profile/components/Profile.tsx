@@ -22,7 +22,7 @@ export default function MyProfile() {
           height={100}
         />
         {profile ? (
-          <h1 className="truncate text-2xl font-bold">
+          <h1 className="text-2xl font-bold">
             {`${profile.firstName} ${profile.lastName}`}
           </h1>
         ) : (
