@@ -17,13 +17,10 @@ export default function LoginForm() {
     await login(username, password)
       .then((res) => {
         if (res.ok) {
-          console.log("Login successful");
           auth.login();
           router.push("/");
         } else {
           setUserFound(false);
-          console.log("Login failed");
-          console.log(res);
         }
       })
       .catch((err) => {
