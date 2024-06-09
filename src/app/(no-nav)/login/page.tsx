@@ -1,5 +1,5 @@
-import LoginForm from "@/app/(no-nav)/login/LoginForm";
-import HeroImage from "@/app/(no-nav)/login/HeroImage";
+import LoginForm from "@/app/(no-nav)/login/components/LoginForm";
+import HeroImage from "@/app/(no-nav)/login/components/HeroImage";
 
 export default function Page() {
   return (
