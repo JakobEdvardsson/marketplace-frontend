@@ -34,7 +34,7 @@ export default function LoginForm() {
   return (
     <form
       action={handleSubmit}
-      className="relative flex shrink-0 flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
+      className="relative flex flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
     >
       <div className="m-7 flex w-5/6 items-center justify-between">
         <h2 className="font-black text-red-600">Plocket</h2>
