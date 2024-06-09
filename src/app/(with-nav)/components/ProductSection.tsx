@@ -14,7 +14,7 @@ import {
   WatchListResponseDTO,
 } from "@/types/endpoint-types-incoming";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { ProductCondition } from "@/utils/api-call-types";
+import { ProductCondition, ProductSortMode } from "@/utils/api-call-types";
 import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
@@ -57,7 +57,7 @@ export default function ProductSection() {
         minimumPrice,
         maximumPrice,
         condition,
-        null,
+        ProductSortMode.ASCENDING,
         query,
       );
       if (!fetchedProducts.ok) return;
@@ -84,13 +84,6 @@ export default function ProductSection() {
   };
 
   const handleQuerySearch = (query: string) => {
-    //Remove to the next comment if functionality is added for combining search terms with other filters
-    setCondition(null);
-    setMinimumPrice(null);
-    setMaximumPrice(null);
-    setProductCategoryName(null);
-    // To here
-
     setQuery(query);
   };
 

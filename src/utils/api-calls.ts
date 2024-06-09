@@ -156,12 +156,7 @@ export function getProducts(
   let url = `${BACKEND_URL}/products?`;
 
   if (query) {
-    url += `query=${query}`;
-    return fetch(url, {
-      method: "GET",
-      credentials: "omit",
-      cache: "no-store",
-    });
+    url += `query=${query}&`;
   }
 
   if (productCategoryName !== null) {
