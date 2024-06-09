@@ -39,7 +39,7 @@ const config: Config = {
       },
     },
     screens: {
-      desktop: { max: "816px" },
+      mobile: { max: "816px" },
       // => @media (max-width: 816px) { ... }
     },
   },
