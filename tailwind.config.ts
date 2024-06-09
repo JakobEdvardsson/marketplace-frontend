@@ -38,6 +38,10 @@ const config: Config = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      desktop: { max: "816px" },
+      // => @media (max-width: 816px) { ... }
+    },
   },
   plugins: [require("tailwindcss-animate")],
 };
