@@ -112,7 +112,7 @@ export default function RegisterForm() {
             required
             type="date"
             name="date of birth"
-            className="peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-5 pr-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
+            className="peer m-auto size-full rounded-t-lg border-b border-b-gray-400 bg-gray-200 px-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
           />
           <p className="pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
             Date of birth*
