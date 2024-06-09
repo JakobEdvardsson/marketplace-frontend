@@ -3,6 +3,7 @@
 import { register } from "@/utils/api-calls";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterForm() {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -192,6 +193,12 @@ export default function RegisterForm() {
           Register account
         </button>
       </div>
+      <p className="my-5 text-center text-gray-600">
+        Already have an account?
+        <Link href="/login" className="ml-1 hover:underline">
+          login here!
+        </Link>
+      </p>
     </form>
   );
 }
