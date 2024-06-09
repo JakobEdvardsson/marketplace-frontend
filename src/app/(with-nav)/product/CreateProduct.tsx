@@ -2,7 +2,6 @@
 
 import { getAllProductCategories, postProduct } from "@/utils/api-calls";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
 import ExampleProduct from "@/app/(with-nav)/product/ExampleProduct";
 import { useRouter } from "next/navigation";
@@ -64,27 +63,73 @@ export default function CreateProduct() {
         prevFiles ? [...prevFiles, ...filesArray] : filesArray,
       );
     }
+  };
 
-    console.log("added");
+  const handleRemoveImage = (index: number) => {
+    setSelectedFiles((prevFiles) => {
+      if (prevFiles) {
+        return prevFiles.filter((_, i) => i !== index);
+      }
+    });
   };
 
   const renderSelectedFiles = () => {
     if (selectedFiles && selectedFiles.length > 0) {
-      return selectedFiles.map((file: File) => {
+      return selectedFiles.map((file: File, index) => {
         const objectUrl = URL.createObjectURL(file);
         return (
-          <div key={file.name}>
-            <Image
+          <div key={file.name} className="">
+            <button type="submit" onClick={() => handleRemoveImage(index)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="m15 9-6 6" />
+                <path d="m9 9 6 6" />
+              </svg>
+            </button>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={objectUrl}
               alt={file.name}
               className="h-32 w-fit rounded"
               width={100}
               height={100}
-              onLoad={() => URL.revokeObjectURL(objectUrl)}
             />
           </div>
         );
       });
+    }
+  };
+
+  const handleDragOver = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const handleDragLeave = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const { files } = event.dataTransfer;
+    if (files) {
+      const filesArray = Array.from(files);
+      setSelectedFiles((prevFiles) =>
+        prevFiles ? [...prevFiles, ...filesArray] : filesArray,
+      );
     }
   };
 
@@ -111,14 +156,6 @@ export default function CreateProduct() {
     }
 
     const data = formData.getAll("data");
-    console.log("Name:", name);
-    console.log("Product Category:", productCategory);
-    console.log("Price:", price);
-    console.log("Condition:", condition);
-    console.log("Description:", description);
-    console.log("Color:", color);
-    console.log("Production Year:", productionYear);
-    console.log("Files:", data);
 
     if (
       name === undefined ||
@@ -141,14 +178,12 @@ export default function CreateProduct() {
       .then((res) => {
         //TODO: change to toaster
         if (res.ok) {
-          console.log(res);
           toast({
             title: "Product created",
             description: "Your product is available for purchase",
             variant: "default",
           });
           res.json().then((data) => {
-            console.log(data);
             router.push(`/product/${data.id}`);
           });
         } else if (res.status === 403) {
@@ -165,7 +200,6 @@ export default function CreateProduct() {
           });
         }
 
-        console.log(res);
         return (
           <h1 className="absolute left-1/2 top-1/2 bg-gray-600 text-2xl font-extrabold text-gray-50">
             Please try again
@@ -177,7 +211,7 @@ export default function CreateProduct() {
 
   return (
     <form
-      className="lg:ml-60 lg:w-2/5 relative ml-32 flex w-3/5 flex-col rounded-md bg-white pb-5"
+      className="lg:ml-40 lg:w-2/5 relative ml-32 flex w-3/5 flex-col rounded-md bg-white pb-5"
       action={handleSubmit}
     >
       <div className="m-5 flex">
@@ -210,11 +244,17 @@ export default function CreateProduct() {
           className="hidden"
           onChange={handleFileChange}
         />
+        <div className="my-3 grid grid-cols-5 gap-2">
+          {renderSelectedFiles()}
+        </div>
         <label htmlFor="files" className="w-full">
-          <div className="my-3 grid grid-cols-3 gap-3">
-            {renderSelectedFiles()}
-          </div>
-          <div className="flex h-56 w-full cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white">
+          <div
+            className="flex h-56 w-full cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white"
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            {" "}
             <span className="text-gray-500">Upload photos</span>
           </div>
         </label>
