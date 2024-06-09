@@ -13,8 +13,8 @@ export default function MyMarketplace() {
       <h1 className="text-3xl font-bold">My Marketplace</h1>
       <br />
       <div className="flex flex-wrap">
-        <Link href="/profile/myads">
-          <Card>
+        <Card>
+          <Link href="/profile/myads">
             <CardHeader>
               <Image
                 src="/images/pen.png"
@@ -26,10 +26,10 @@ export default function MyMarketplace() {
               <CardTitle>My ads</CardTitle>
               <CardDescription>View and manage your own ads</CardDescription>
             </CardHeader>
-          </Card>
-        </Link>
-        <Link href="/profile/watchlist">
-          <Card>
+          </Link>
+        </Card>
+        <Card>
+          <Link href="/profile/watchlist">
             <CardHeader>
               <Image
                 src="/images/bell.png"
@@ -41,11 +41,11 @@ export default function MyMarketplace() {
               <CardTitle>Watchlist</CardTitle>
               <CardDescription>New ads from your watchlist</CardDescription>
             </CardHeader>
-          </Card>
-        </Link>
+          </Link>
+        </Card>
 
-        <Link href="/settings">
-          <Card>
+        <Card>
+          <Link href="/settings">
             <CardHeader>
               <Image
                 src="/images/settings.webp"
@@ -57,11 +57,11 @@ export default function MyMarketplace() {
               <CardTitle>Settings</CardTitle>
               <CardDescription>View and manage your profile</CardDescription>
             </CardHeader>
-          </Card>
-        </Link>
+          </Link>
+        </Card>
 
-        <Link href="/profile/purchases">
-          <Card>
+        <Card>
+          <Link href="/profile/purchases">
             <CardHeader>
               <Image
                 src="/images/purchased.png"
@@ -73,8 +73,8 @@ export default function MyMarketplace() {
               <CardTitle>My purchases</CardTitle>
               <CardDescription>View your purchases</CardDescription>
             </CardHeader>
-          </Card>
-        </Link>
+          </Link>
+        </Card>
       </div>
       <br />
     </div>

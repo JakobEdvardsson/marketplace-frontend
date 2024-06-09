@@ -1,30 +1,16 @@
 "use client";
 
-import { getMyProfile } from "@/utils/api-calls";
-import { useEffect, useState } from "react";
-import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useMyProfile } from "@/utils/api-calls-swr";
+import { useRouter } from "next/navigation";
 
 export default function MyProfile() {
   const router = useRouter();
+  const { data: profile, error } = useMyProfile();
 
-  const [profile, setProfile] = useState<MyProfileResponseDTO | undefined>();
-
-  useEffect(() => {
-    getMyProfile()
-      .then((response) => {
-        if (response.status === 401) {
-          router.push("/login");
-          return;
-        }
-
-        response.json().then((res) => {
-          setProfile(res);
-        });
-      })
-      .catch((e) => console.error(e));
-  }, [router]);
+  if (error) {
+    router.push("/login");
+  }
 
   return (
     <div className="w-full">
@@ -36,10 +22,8 @@ export default function MyProfile() {
           height={100}
         />
         {profile ? (
-          <h1 className="truncate text-2xl font-bold">
-            {profile.username
-              .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          <h1 className="text-2xl font-bold">
+            {`${profile.firstName} ${profile.lastName}`}
           </h1>
         ) : (
           <div className="mb-2.5 h-3 w-48 rounded-full bg-gray-200 dark:bg-gray-700" />
