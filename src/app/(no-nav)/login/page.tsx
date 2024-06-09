@@ -7,7 +7,7 @@ export default function Page() {
       <div className="my-10 basis-1/2 mobile:hidden">
         <HeroImage />
       </div>
-      <div className="shrink-0 grow-0 basis-[450px]">
+      <div className="grow-0 basis-[450px]">
         <LoginForm />
       </div>
     </div>
