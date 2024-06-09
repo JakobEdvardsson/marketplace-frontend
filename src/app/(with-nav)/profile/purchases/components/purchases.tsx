@@ -116,7 +116,7 @@ function SkeletonLoader() {
       <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
       <br />
       <div className="-mx-2 flex flex-wrap">
-        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+        <div className="sm:w-1/2 lg:w-1/4 m-2 w-full">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
             <div className="p-5">
               <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
@@ -125,7 +125,7 @@ function SkeletonLoader() {
             </div>
           </div>
         </div>
-        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+        <div className="sm:w-1/2 lg:w-1/4 m-2 w-full">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
             <div className="p-5">
               <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
@@ -134,7 +134,7 @@ function SkeletonLoader() {
             </div>
           </div>
         </div>
-        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+        <div className="sm:w-1/2 lg:w-1/4 m-2 w-full">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
             <div className="p-5">
               <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
@@ -143,7 +143,7 @@ function SkeletonLoader() {
             </div>
           </div>
         </div>
-        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+        <div className="sm:w-1/2 lg:w-1/4 m-2 w-full">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
             <div className="p-5">
               <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
@@ -152,7 +152,7 @@ function SkeletonLoader() {
             </div>
           </div>
         </div>
-        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+        <div className="sm:w-1/2 lg:w-1/4 m-2 w-full">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
             <div className="p-5">
               <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />
@@ -161,7 +161,7 @@ function SkeletonLoader() {
             </div>
           </div>
         </div>
-        <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
+        <div className="sm:w-1/2 lg:w-1/4 m-2 w-full">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
             <div className="p-5">
               <div className="mb-2 h-4 w-3/4 animate-pulse bg-gray-200" />

@@ -11,7 +11,7 @@ export default function Page() {
           <MyUserProfile />
         </div>
       </div>
-      <div className="mx-auto mt-10 px-2 sm:w-4/5 md:w-2/3 lg:w-1/3">
+      <div className="sm:w-4/5 md:w-2/3 lg:w-1/3 mx-auto mt-10 px-2">
         <PasswordChangeForm />
       </div>
     </div>

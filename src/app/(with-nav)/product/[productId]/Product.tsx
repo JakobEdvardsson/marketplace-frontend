@@ -79,7 +79,7 @@ export default function Product({ id }: { readonly id: string }) {
   return (
     <div className="size-full p-10">
       <div
-        className={`${openImage ? "mx-auto flex w-11/12 overflow-x-auto lg:w-2/4" : "mx-auto flex w-11/12 overflow-x-auto lg:w-2/4"}`}
+        className={`${openImage ? "lg:w-2/4 mx-auto flex w-11/12 overflow-x-auto" : "lg:w-2/4 mx-auto flex w-11/12 overflow-x-auto"}`}
       >
         {renderFiles()}
       </div>
