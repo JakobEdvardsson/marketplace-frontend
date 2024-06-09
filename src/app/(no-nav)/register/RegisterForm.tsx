@@ -76,7 +76,7 @@ export default function RegisterForm() {
       className="relative flex w-full flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
     >
       <div className="m-7 flex w-5/6 items-center justify-between">
-        <h2 className="font-black text-red-600">Marketplace</h2>
+        <h2 className="font-black text-red-600">Plocket</h2>
         <h2 className="text-2xl font-semibold text-slate-700">University</h2>
       </div>
       <h1 className="text-2xl font-bold">Create account</h1>
@@ -196,7 +196,7 @@ export default function RegisterForm() {
       <p className="my-5 text-center text-gray-600">
         Already have an account?
         <Link href="/login" className="ml-1 hover:underline">
-          login here!
+          Login here!
         </Link>
       </p>
     </form>
