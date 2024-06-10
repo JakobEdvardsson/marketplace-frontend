@@ -1,9 +1,6 @@
-import CreateProduct from "@/app/(with-nav)/product/CreateProduct";
+import CreateProduct from "@/app/(with-nav)/product/components/CreateProduct";
+import React from "react";
 
 export default function Page() {
-  return (
-    <div className="py-10">
-      <CreateProduct />
-    </div>
-  );
+  return <CreateProduct />;
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
+
 export default function Page({
   files,
   name,
@@ -47,8 +48,8 @@ export default function Page({
   };
 
   return (
-    <div className="lg:left-full lg:top-1/3 lg:ml-5 lg:w-3/4 absolute top-full mt-5 w-full rounded-xl bg-white p-2">
-      <div className=" mx-auto flex w-11/12 overflow-x-auto">
+    <div className="lg:w-3/4 top-0 ml-5 w-full rounded-xl bg-white p-2">
+      <div className="mx-auto flex w-11/12 overflow-x-auto">
         {renderFiles()}
       </div>
 
