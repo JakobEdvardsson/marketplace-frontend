@@ -39,8 +39,11 @@ const config: Config = {
       },
     },
     screens: {
-      mobile: { max: "816px" },
+      "login-br": { max: "816px" },
       // => @media (max-width: 816px) { ... }
+      "product-form-parent-br": { max: "1160px" },
+      // => @media (max-width: 990px) { ... }
+      "product-form-child-br": { max: "600px" },
     },
   },
   plugins: [require("tailwindcss-animate")],

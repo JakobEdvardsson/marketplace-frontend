@@ -48,7 +48,7 @@ export default function Page({
   };
 
   return (
-    <div className="lg:w-3/4 top-0 ml-5 w-full rounded-xl bg-white p-2">
+    <div className="lg:w-3/4 product-form-br:ml-0 top-0 ml-5 w-full rounded-xl bg-white p-2">
       <div className="mx-auto flex w-11/12 overflow-x-auto">
         {renderFiles()}
       </div>
