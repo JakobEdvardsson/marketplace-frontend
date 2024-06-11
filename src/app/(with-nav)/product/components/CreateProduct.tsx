@@ -219,7 +219,9 @@ export default function CreateProduct() {
       >
         <div className="basis-[550px] rounded-md bg-white py-4 ">
           <div className="m-5 flex">
-            <label className="text-3xl font-black">Create Product</label>
+            <label className="text-3xl font-black mobile-br:text-2xl">
+              Create Product
+            </label>
             <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
               Free!
             </p>
