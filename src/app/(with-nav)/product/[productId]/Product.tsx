@@ -156,47 +156,45 @@ export default function Product({ id }: { readonly id: string }) {
     </div>
   ) : (
     <div className="w-full">
-      <div className="px-4 md:w-9/12 lg:w-8/12">
-        <div className="mb-2 flex space-x-2">
-          <div className="h-4 w-20 animate-pulse rounded bg-gray-300" />
-          <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
-          <div className="h-4 w-32 animate-pulse rounded bg-gray-300" />
+      <div className="mb-2 flex space-x-2">
+        <div className="h-4 w-20 animate-pulse rounded bg-gray-300" />
+        <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
+        <div className="h-4 w-32 animate-pulse rounded bg-gray-300" />
+      </div>
+
+      <div className="flex w-full bg-gray-200">
+        <div className="h-64 w-full animate-pulse rounded bg-gray-300" />
+      </div>
+
+      <div className="mt-3 h-8 w-3/4 animate-pulse rounded bg-gray-300" />
+
+      <div className="w-full">
+        <div className="mt-3 h-8 w-1/4 animate-pulse rounded bg-gray-300" />
+      </div>
+
+      <div className="flex flex-wrap justify-start">
+        <div className="w-fit">
+          <div className="mt-3 h-6 w-32 animate-pulse rounded bg-gray-300" />
         </div>
-
-        <div className="flex w-full bg-gray-200">
-          <div className="h-64 w-full animate-pulse rounded bg-gray-300" />
+        <div className="w-fit">
+          <div className="mt-3 h-6 w-40 animate-pulse rounded bg-gray-300" />
         </div>
-
-        <div className="mt-3 h-8 w-3/4 animate-pulse rounded bg-gray-300" />
-
-        <div className="w-full">
-          <div className="mt-3 h-8 w-1/4 animate-pulse rounded bg-gray-300" />
+        <div className="w-fit">
+          <div className="mt-3 h-6 w-24 animate-pulse rounded bg-gray-300" />
         </div>
+      </div>
 
-        <div className="flex flex-wrap justify-start">
-          <div className="w-fit">
-            <div className="mt-3 h-6 w-32 animate-pulse rounded bg-gray-300" />
-          </div>
-          <div className="w-fit">
-            <div className="mt-3 h-6 w-40 animate-pulse rounded bg-gray-300" />
-          </div>
-          <div className="w-fit">
-            <div className="mt-3 h-6 w-24 animate-pulse rounded bg-gray-300" />
-          </div>
-        </div>
+      <div className="mt-5">
+        <div className="h-6 w-1/4 animate-pulse rounded bg-gray-300" />
+        <div className="mt-2 h-20 w-full animate-pulse rounded bg-gray-300" />
+      </div>
 
-        <div className="mt-5">
-          <div className="h-6 w-1/4 animate-pulse rounded bg-gray-300" />
-          <div className="mt-2 h-20 w-full animate-pulse rounded bg-gray-300" />
-        </div>
+      <div className="my-5 h-0.5 w-full bg-gray-300 dark:bg-slate-800" />
 
-        <div className="my-5 h-0.5 w-full bg-gray-300 dark:bg-slate-800" />
-
-        <div className="w-full">
-          <div className="mt-2 flex items-center">
-            <div className="size-12 animate-pulse rounded-full bg-gray-300" />
-            <div className="ml-2 h-6 w-1/2 animate-pulse rounded bg-gray-300" />
-          </div>
+      <div className="w-full">
+        <div className="mt-2 flex items-center">
+          <div className="size-12 animate-pulse rounded-full bg-gray-300" />
+          <div className="ml-2 h-6 w-1/2 animate-pulse rounded bg-gray-300" />
         </div>
       </div>
     </div>
