@@ -58,11 +58,11 @@ const config: Config = {
       mobile: { max: "816px" },
       // => @media (max-width: 816px) { ... }
 
-      "product-form-parent-br": { max: "1160px" },
+      "product-form-br": { max: "1160px" },
       // => @media (max-width: 1160px) { ... }
 
       "mobile-br": { max: "850px" },
-      // => @media (max-width: 890px) { ... }
+      // => @media (max-width: 850px) { ... }
 
       "min-br": { min: "850px" },
       // => @media (min-width: 850px) { ... }

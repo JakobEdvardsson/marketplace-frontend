@@ -214,7 +214,7 @@ export default function CreateProduct() {
     <div className="mx-auto w-8/12 mobile-br:w-11/12">
       <Navigation name="Create product" />
       <form
-        className="mt-3 flex product-form-parent-br:flex-col"
+        className="mt-3 flex product-form-br:flex-col"
         action={handleSubmit}
       >
         <div className="basis-[550px] rounded-md bg-white py-4 ">
@@ -374,7 +374,7 @@ export default function CreateProduct() {
             </button>
           </div>
         </div>
-        <div className="relative flex-1 shrink-0 basis-[350px] product-form-parent-br:my-6">
+        <div className="product-form--br:my-6 relative flex-1 shrink-0 basis-[350px]">
           <div className="sticky top-2">
             <ExampleProduct
               files={selectedFiles}
