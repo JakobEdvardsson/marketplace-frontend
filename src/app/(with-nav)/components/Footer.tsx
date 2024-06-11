@@ -7,36 +7,68 @@ export default function Footer() {
       <footer className="w-full bg-white pt-4 shadow-md drop-shadow-md">
         <div className="mx-auto grid w-8/12 grid-cols-4 justify-between gap-4 font-light mobile-br:w-11/12 footer-br:grid-cols-2">
           <div className="flex flex-col">
-            <Link className="pb-2 font-bold" href="/">
-              Security
-            </Link>
-            <Link href="/">Client security</Link>
-            <Link href="/">False emails</Link>
-            <Link href="/">Report annoying ads</Link>
+            <p className="pb-2">
+              <Link className="font-bold" href="/">
+                Security
+              </Link>
+            </p>
+            <p>
+              <Link href="/">Client security</Link>
+            </p>
+            <p>
+              <Link href="/">False emails</Link>
+            </p>
+            <p>
+              <Link href="/">Report annoying ads</Link>
+            </p>
           </div>
           <div className="flex flex-col">
-            <Link className="pb-2 font-bold" href="/">
-              Terms
-            </Link>
-            <Link href="/">User conditions</Link>
-            <Link href="/">Cookies</Link>
-            <Link href="/">Cookie settings</Link>
+            <p className="pb-2">
+              <Link className="font-bold" href="/">
+                Terms
+              </Link>
+            </p>
+            <p>
+              <Link href="/">User conditions</Link>
+            </p>
+            <p>
+              <Link href="/">Cookies</Link>
+            </p>
+            <p>
+              <Link href="/">Cookie settings</Link>
+            </p>
           </div>
           <div className="flex flex-col">
-            <Link className="pb-2 font-bold" href="/">
-              For companies
-            </Link>
-            <Link href="/">For companies</Link>
-            <Link href="/">Open store</Link>
-            <Link href="/">Show all stores</Link>
+            <p className="pb-2">
+              <Link className="font-bold" href="/">
+                For companies
+              </Link>
+            </p>
+            <p>
+              <Link href="/">For companies</Link>
+            </p>
+            <p>
+              <Link href="/">Open store</Link>
+            </p>
+            <p>
+              <Link href="/">Show all stores</Link>
+            </p>
           </div>
           <div className="flex flex-col">
-            <Link className="pb-2 font-bold" href="/">
-              Plocket
-            </Link>
-            <Link href="/">About Plocket</Link>
-            <Link href="/">Press</Link>
-            <Link href="/">Work at Plocket</Link>
+            <p className="pb-2">
+              <Link className="font-bold" href="/">
+                Plocket
+              </Link>
+            </p>
+            <p>
+              <Link href="/">About Plocket</Link>
+            </p>
+            <p>
+              <Link href="/">Press</Link>
+            </p>
+            <p>
+              <Link href="/">Work at Plocket</Link>
+            </p>
           </div>
         </div>
         <div className="mt-10 bg-gray-200 py-5">
