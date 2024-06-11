@@ -5,7 +5,7 @@ export default function Footer() {
     <div>
       <div className="mt-4 h-3 bg-red-400" />
       <footer className="w-full bg-white pt-4 shadow-md drop-shadow-md">
-        <div className="mx-auto grid w-8/12 grid-cols-4 justify-between gap-4 font-light mobile-br:w-11/12 footer-br:grid-cols-2">
+        <div className="footer-br:grid-cols-2 mx-auto grid w-8/12 grid-cols-4 justify-between gap-4 font-light mobile-br:w-11/12">
           <div className="flex flex-col">
             <p className="pb-2">
               <Link className="font-bold" href="/">
