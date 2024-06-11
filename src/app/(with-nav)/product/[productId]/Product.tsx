@@ -5,15 +5,13 @@ import React, { useEffect, useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
 import { useCart } from "@/components/CartContext";
 import { useProductById, useProfile } from "@/utils/api-calls-swr";
-import { useToast } from "@/components/ui/use-toast";
 import { getMyProfile } from "@/utils/api-calls";
 import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Product({ id }: { readonly id: string }) {
-  const { addToCart } = useCart();
-
-  const { toast } = useToast();
+  const { addToCart, removeFromCart, items } = useCart();
 
   const { data: product } = useProductById(id);
 
@@ -39,9 +37,12 @@ export default function Product({ id }: { readonly id: string }) {
   const handleAddToCart = () => {
     if (product) {
       addToCart(product);
-      toast({
-        title: `Added ${product.name} to cart!`,
-      });
+    }
+  };
+
+  const handleRemoveFromCart = () => {
+    if (product) {
+      removeFromCart(product.productId);
     }
   };
 
@@ -118,15 +119,23 @@ export default function Product({ id }: { readonly id: string }) {
       whoAmI &&
       seller &&
       whoAmI.username !== seller.username ? (
-        <div className="mt-4">
-          <button
-            type="button"
-            className="rounded bg-blue-600 px-10 py-2 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
-            onClick={handleAddToCart}
-          >
-            Add to cart
-          </button>
-        </div>
+        items.find((element) => element === product) === undefined ? (
+          <div className="mt-4">
+            <Button
+              className="bg-blue-500 hover:bg-blue-400"
+              variant="default"
+              onMouseDown={handleAddToCart}
+            >
+              Add to cart
+            </Button>
+          </div>
+        ) : (
+          <div className="mt-4">
+            <Button variant="destructive" onMouseDown={handleRemoveFromCart}>
+              Remove from cart
+            </Button>
+          </div>
+        )
       ) : null}
 
       <div className="mt-5">
