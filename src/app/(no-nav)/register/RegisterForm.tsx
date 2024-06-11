@@ -3,6 +3,7 @@
 import { register } from "@/utils/api-calls";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterForm() {
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -72,15 +73,15 @@ export default function RegisterForm() {
   return (
     <form
       action={handleSubmit}
-      className=" relative -top-10 flex h-[110%] w-full flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
+      className="relative flex w-full flex-col items-center rounded-xl bg-white shadow-2xl shadow-gray-700"
     >
       <div className="m-7 flex w-5/6 items-center justify-between">
-        <h2 className="font-black text-red-600">Marketplace</h2>
+        <h2 className="font-black text-red-600">Plocket</h2>
         <h2 className="text-2xl font-semibold text-slate-700">University</h2>
       </div>
       <h1 className="text-2xl font-bold">Create account</h1>
       <div className="grid grid-cols-2 gap-1">
-        <div className="m-5 h-14 w-5/6">
+        <div className="m-5 h-14">
           <input
             required
             type="text"
@@ -88,12 +89,12 @@ export default function RegisterForm() {
             placeholder=""
             className="peer m-auto size-full items-end rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-3 pt-3 outline-none duration-200  hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
           />
-          <p className="pointer-events-none absolute left-14 top-40 font-semibold text-gray-500 duration-200 peer-focus:top-36 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-36 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
+          <p className="pointer-events-none absolute top-40 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-36 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-36 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
             First name*
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14 w-5/6">
+        <div className="relative m-5 h-14">
           <input
             required
             type="text"
@@ -101,24 +102,24 @@ export default function RegisterForm() {
             placeholder=""
             className="peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
           />
-          <p className="pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
+          <p className="pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
             Last name*
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14 w-5/6">
+        <div className="relative m-5 h-14">
           <input
             required
             type="date"
             name="date of birth"
-            className="peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-5 pr-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
+            className="peer m-auto size-full rounded-t-lg border-b border-b-gray-400 bg-gray-200 px-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
           />
-          <p className="pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
+          <p className="pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
             Date of birth*
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14 w-5/6">
+        <div className="relative m-5 h-14">
           <input
             required
             type="text"
@@ -127,12 +128,12 @@ export default function RegisterForm() {
             maxLength={18}
             className="peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
           />
-          <p className="pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
+          <p className="pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
             Username*
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative col-span-2 col-start-1 m-5 mx-auto h-14 w-11/12">
+        <div className="relative col-span-2 col-start-1 m-5 h-14">
           <input
             required
             type="email"
@@ -140,12 +141,12 @@ export default function RegisterForm() {
             placeholder=""
             className="peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500"
           />
-          <p className="pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
-            email*
+          <p className="pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500">
+            Email*
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14 w-5/6">
+        <div className="relative m-5 h-14">
           <input
             required
             type="password"
@@ -154,7 +155,7 @@ export default function RegisterForm() {
             className={`peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500 ${passwordsMatch ? "" : "border-b-2 border-b-red-500 focus:border-b-red-500"}`}
           />
           <p
-            className={`pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500 ${passwordsMatch ? "" : "peer-[&:not(:placeholder-shown)]:text-red-600"}`}
+            className={`pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500 ${passwordsMatch ? "" : "peer-[&:not(:placeholder-shown)]:text-red-600"}`}
           >
             Password*
           </p>
@@ -164,7 +165,7 @@ export default function RegisterForm() {
             {passwordsMatch ? "*Required field" : "Passwords are not matching"}
           </p>
         </div>
-        <div className="relative m-5 h-14 w-5/6">
+        <div className="relative m-5 h-14">
           <input
             required
             type="password"
@@ -173,7 +174,7 @@ export default function RegisterForm() {
             className={`peer m-auto size-full  rounded-t-lg border-b border-b-gray-400 bg-gray-200 pl-3 pt-3 outline-none duration-200 hover:bg-gray-300 hover:ease-in-out focus:border-b-2 focus:border-b-blue-500 ${passwordsMatch ? "" : "border-b-2 border-b-red-500 focus:border-b-red-500"}`}
           />
           <p
-            className={`pointer-events-none absolute left-5 top-5 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500 ${passwordsMatch ? "" : "peer-[&:not(:placeholder-shown)]:text-red-600"}`}
+            className={`pointer-events-none absolute top-5 ml-3 font-semibold text-gray-500 duration-200 peer-focus:top-2 peer-focus:text-xs peer-focus:text-blue-500 peer-focus:ease-in-out peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs peer-[&:not(:placeholder-shown)]:text-gray-500 peer-[&:not(:placeholder-shown)]:peer-focus:text-blue-500 ${passwordsMatch ? "" : "peer-[&:not(:placeholder-shown)]:text-red-600"}`}
           >
             Confirm password*
           </p>
@@ -184,14 +185,20 @@ export default function RegisterForm() {
           </p>
         </div>
       </div>
-      <div className="m-auto h-10 w-5/6">
+      <div className="mt-5 flex w-5/6 justify-center">
         <button
           type="submit"
-          className="mx-5 h-10 w-5/6 rounded bg-blue-500 font-semibold text-white duration-200 hover:bg-blue-600 hover:drop-shadow-xl hover:ease-in-out"
+          className="h-10 w-5/6 rounded bg-blue-500 font-semibold text-white duration-200 hover:bg-blue-600 hover:drop-shadow-xl hover:ease-in-out"
         >
           Register account
         </button>
       </div>
+      <p className="my-5 text-center text-gray-600">
+        Already have an account?
+        <Link href="/login" className="ml-1 hover:underline">
+          Login here!
+        </Link>
+      </p>
     </form>
   );
 }
