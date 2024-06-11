@@ -211,13 +211,13 @@ export default function CreateProduct() {
   };
 
   return (
-    <div className="mx-auto w-8/12 product-form-child-br:w-11/12">
+    <div className="mx-auto w-8/12 mobile-br:w-11/12">
       <Navigation name="Create product" />
       <form
         className="mt-3 flex product-form-parent-br:flex-col"
         action={handleSubmit}
       >
-        <div className="basis-[600px] rounded-md bg-white py-4 ">
+        <div className="basis-[550px] rounded-md bg-white py-4 ">
           <div className="m-5 flex">
             <label className="text-3xl font-black">Create Product</label>
             <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
@@ -374,7 +374,7 @@ export default function CreateProduct() {
             </button>
           </div>
         </div>
-        <div className="product-form-br:my-6 relative flex-1 shrink-0 basis-[350px]">
+        <div className="relative flex-1 shrink-0 basis-[350px] product-form-parent-br:my-6">
           <div className="sticky top-2">
             <ExampleProduct
               files={selectedFiles}

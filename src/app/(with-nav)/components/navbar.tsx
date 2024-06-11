@@ -52,7 +52,29 @@ export default function Navbar() {
             <span className="hidden mobile-br:block">P</span>
           </Link>
           <Button
-            className="bg-blue-500 pr-8 hover:bg-blue-400 post-ad-br:hidden"
+            className="bg-blue-500 pr-8 hover:bg-blue-400 mobile-br:hidden"
+            size="sm"
+            onClick={handleClickPostAd}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="mr-2 size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+            Post ad
+          </Button>
+          <Button
+            variant="link"
+            className="hidden mobile-br:flex mobile-br:flex-col mobile-br:py-0 mobile-br:text-xs"
             size="sm"
             onClick={handleClickPostAd}
           >

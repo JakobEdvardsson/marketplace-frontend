@@ -48,10 +48,8 @@ export default function ExampleProduct({
   };
 
   return (
-    <div className="product-form-br:ml-0 top-0 ml-5 w-full rounded-xl bg-white p-2 lg:w-3/4">
-      <div className="mx-auto flex w-11/12 overflow-x-auto">
-        {renderFiles()}
-      </div>
+    <div className="top-0 ml-2 w-full rounded-xl bg-white p-2 product-form-parent-br:ml-0">
+      <div className="mx-auto flex overflow-x-auto">{renderFiles()}</div>
 
       <div className="w-full">
         <h1
