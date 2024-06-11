@@ -217,7 +217,7 @@ export default function CreateProduct() {
         className="mt-3 flex product-form-br:flex-col"
         action={handleSubmit}
       >
-        <div className="basis-[550px] rounded-md bg-white py-4 ">
+        <div className="shrink-0 basis-[550px] rounded-md bg-white py-4">
           <div className="m-5 flex">
             <label className="text-3xl font-black mobile-br:text-2xl">
               Post Ad

@@ -48,59 +48,44 @@ export default function ExampleProduct({
   };
 
   return (
-    <div className="top-0 ml-2 w-full rounded-xl bg-white p-2 product-form-br:ml-0">
+    <div className="ml-2 w-full rounded-xl bg-white p-2 product-form-br:ml-0">
       <div className="mx-auto flex overflow-x-auto">{renderFiles()}</div>
+      <h1
+        className={`my-3 cursor-default text-2xl font-bold mobile-br:text-lg ${name ? "" : "text-gray-300"}`}
+      >
+        {name === "" ? "No name" : name}
+      </h1>
 
-      <div className="w-full">
-        <h1
-          className={` mx-auto mt-3 w-10/12 cursor-default text-2xl font-bold ${name ? "" : "text-gray-300"}`}
-        >
-          {name === "" ? "No name" : name}
-        </h1>
-      </div>
+      <h1
+        className={`cursor-default text-sm text-gray-400 ${category ? "" : "text-gray-300"}`}
+      >
+        {category ? "Category: " + category : ""}
+      </h1>
 
-      <div className="w-full">
-        <h1
-          className={`mx-auto w-10/12 cursor-default text-sm text-gray-400 ${category ? "" : "text-gray-300"}`}
-        >
-          {category ? "Category: " + category : ""}
-        </h1>
-      </div>
+      <h1 className="cursor-default text-sm text-gray-400">
+        {condition ? "Condition: " + ProductCondition[condition] : ""}
+      </h1>
 
-      <div className="w-full">
-        <h1 className="mx-auto w-10/12 cursor-default text-sm text-gray-400">
-          {condition ? "Condition: " + ProductCondition[condition] : ""}
-        </h1>
-      </div>
+      <h1 className="cursor-default text-sm text-gray-400">
+        {color ? "Color: " + ProductColor[color] : ""}
+      </h1>
 
-      <div className="w-full">
-        <h1 className="mx-auto w-10/12 cursor-default text-sm text-gray-400">
-          {color ? "Color: " + ProductColor[color] : ""}
-        </h1>
-      </div>
+      <h1 className="cursor-default text-sm text-gray-400">
+        {year ? "Production year: " + year : ""}
+      </h1>
 
-      <div className="w-full">
-        <h1 className="mx-auto w-10/12 cursor-default text-sm text-gray-400">
-          {year ? "Production year: " + year : ""}
-        </h1>
-      </div>
+      <p
+        className={`my-3 cursor-default text-xl ${price ? "" : "text-gray-300"}`}
+      >
+        {price ? price + " kr" : "No price"}
+      </p>
 
-      <div className="w-full">
-        <p
-          className={`mx-auto my-3 w-10/12 cursor-default text-xl ${price ? "" : "text-gray-300"}`}
-        >
-          {price ? price + " kr" : "No price"}
-        </p>
-      </div>
-
-      <div className="w-full">
-        <h1 className="mx-auto w-11/12 cursor-default text-sm">
-          {description ? "Description: " : ""}
-        </h1>
-        <p className="mx-auto w-11/12 truncate text-pretty hover:text-clip">
-          {description ? description : ""}
-        </p>
-      </div>
+      <h1 className="cursor-default text-sm">
+        {description ? "Description: " : ""}
+      </h1>
+      <p className="truncate text-pretty hover:text-clip mobile-br:text-sm">
+        {description ? description : ""}
+      </p>
     </div>
   );
 }
