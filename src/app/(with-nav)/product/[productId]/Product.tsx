@@ -64,97 +64,93 @@ export default function Product({ id }: { readonly id: string }) {
   };
 
   return product ? (
-    <div className="w-full">
-      <div className="w-full px-4 md:w-10/12 lg:w-9/12">
-        <div className="mb-2 flex space-x-2">
-          <Link className="text-sm hover:underline" href="/">
-            All categories
-          </Link>
-          <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
-          <p className="text-sm text-gray-500">
-            {product.productCategory.name}
-          </p>
+    <div className="w-full px-4">
+      <div className="mb-2 flex space-x-2">
+        <Link className="text-sm hover:underline" href="/">
+          All categories
+        </Link>
+        <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
+        <p className="text-sm text-gray-500">{product.productCategory.name}</p>
+      </div>
+
+      <div className="flex w-full overflow-x-auto bg-gray-200">
+        {renderFiles()}
+      </div>
+
+      <h1 className="mt-3 text-3xl">{product.name}</h1>
+
+      <div className="w-full">
+        <p className="mt-3 text-3xl font-bold">{product.price + " kr"}</p>
+      </div>
+
+      <div className="flex flex-wrap justify-start">
+        <div className="w-fit">
+          <h1 className="mr-2 mt-3 rounded border border-gray-300 p-1">
+            Condition:{" "}
+            {ProductCondition[product.condition]
+              .replace(/_/g, " ")
+              .toLowerCase()
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          </h1>
         </div>
-
-        <div className="flex w-full overflow-x-auto bg-gray-200">
-          {renderFiles()}
-        </div>
-
-        <h1 className="mt-3 text-3xl">{product.name}</h1>
-
-        <div className="w-full">
-          <p className="mt-3 text-3xl font-bold">{product.price + " kr"}</p>
-        </div>
-
-        <div className="flex flex-wrap justify-start">
+        {product.productionYear && product.productionYear !== 0 ? (
+          <h1 className="mr-2 mt-3 rounded border border-gray-300 p-1">
+            {"Production year: " + product.productionYear}
+          </h1>
+        ) : null}
+        {product.color !== undefined &&
+        product.color !== null &&
+        product.color !== 0 ? (
           <div className="w-fit">
-            <h1 className="mr-2 mt-3 rounded border border-gray-300 p-1">
-              Condition:{" "}
-              {ProductCondition[product.condition]
-                .replace(/_/g, " ")
-                .toLowerCase()
-                .replace(/\b\w/g, (char) => char.toUpperCase())}
+            <h1 className="mt-3 rounded border border-gray-300 p-1">
+              {"Color: " +
+                ProductColor[product.color]
+                  .replace(/_/g, " ")
+                  .toLowerCase()
+                  .replace(/\b\w/g, (char) => char.toUpperCase())}
             </h1>
-          </div>
-          {product.productionYear && product.productionYear !== 0 ? (
-            <h1 className="mr-2 mt-3 rounded border border-gray-300 p-1">
-              {"Production year: " + product.productionYear}
-            </h1>
-          ) : null}
-          {product.color !== undefined &&
-          product.color !== null &&
-          product.color !== 0 ? (
-            <div className="w-fit">
-              <h1 className="mt-3 rounded border border-gray-300 p-1">
-                {"Color: " +
-                  ProductColor[product.color]
-                    .replace(/_/g, " ")
-                    .toLowerCase()
-                    .replace(/\b\w/g, (char) => char.toUpperCase())}
-              </h1>
-            </div>
-          ) : null}
-        </div>
-
-        {product &&
-        product.status === 0 &&
-        whoAmI &&
-        seller &&
-        whoAmI.username !== seller.username ? (
-          <div className="mt-4">
-            <button
-              type="button"
-              className="rounded bg-blue-600 px-10 py-2 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
-              onClick={handleAddToCart}
-            >
-              Add to cart
-            </button>
           </div>
         ) : null}
+      </div>
 
-        <div className="mt-5">
-          <h1 className="text-xl font-semibold">Description</h1>
-          <div className="mt-2 w-full whitespace-pre-wrap font-light">
-            {product.description}
-          </div>
+      {product &&
+      product.status === 0 &&
+      whoAmI &&
+      seller &&
+      whoAmI.username !== seller.username ? (
+        <div className="mt-4">
+          <button
+            type="button"
+            className="rounded bg-blue-600 px-10 py-2 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
+            onClick={handleAddToCart}
+          >
+            Add to cart
+          </button>
         </div>
+      ) : null}
 
-        <div className="my-5 h-0.5 w-full shrink-0 bg-gray-300 dark:bg-slate-800" />
+      <div className="mt-5">
+        <h1 className="text-xl font-semibold">Description</h1>
+        <div className="mt-2 w-full whitespace-pre-wrap font-light">
+          {product.description}
+        </div>
+      </div>
 
-        <div className="w-full">
-          <h1 className="text-lg font-semibold">Sold by:</h1>
-          <div className="mt-2 flex items-center">
-            <Image
-              src="/images/default-profile-picture.svg"
-              alt="Default Profile"
-              width={50}
-              height={50}
-            />
-            <p className="ml-2">
-              {seller &&
-                `${seller.firstName} ${seller.lastName} (${seller.username})`}
-            </p>
-          </div>
+      <div className="my-5 h-0.5 w-full shrink-0 bg-gray-300 dark:bg-slate-800" />
+
+      <div className="w-full">
+        <h1 className="text-lg font-semibold">Sold by:</h1>
+        <div className="mt-2 flex items-center">
+          <Image
+            src="/images/default-profile-picture.svg"
+            alt="Default Profile"
+            width={50}
+            height={50}
+          />
+          <p className="ml-2">
+            {seller &&
+              `${seller.firstName} ${seller.lastName} (${seller.username})`}
+          </p>
         </div>
       </div>
     </div>
