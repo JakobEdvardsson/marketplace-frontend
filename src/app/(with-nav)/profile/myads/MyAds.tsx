@@ -98,7 +98,7 @@ export default function MyAds() {
   );
 
   return (
-    <div className="mt-3 w-8/12 px-2">
+    <div className="mt-3 w-8/12">
       <div className="flex space-x-2 ">
         <Link className="text-sm hover:underline" href="/profile">
           My Marketplace

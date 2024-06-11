@@ -39,6 +39,7 @@ const config: Config = {
       },
     },
     screens: {
+      "login-br": { max: "816px" },
       sm: "640px",
       // => @media (min-width: 640px) { ... }
 
@@ -53,8 +54,18 @@ const config: Config = {
 
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
+
       mobile: { max: "816px" },
       // => @media (max-width: 816px) { ... }
+
+      "product-form-br": { max: "1160px" },
+      // => @media (max-width: 1160px) { ... }
+
+      "mobile-br": { max: "850px" },
+      // => @media (max-width: 850px) { ... }
+
+      "min-br": { min: "850px" },
+      // => @media (min-width: 850px) { ... }
     },
   },
   plugins: [require("tailwindcss-animate")],

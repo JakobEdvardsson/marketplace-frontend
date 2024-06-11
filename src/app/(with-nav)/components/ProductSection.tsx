@@ -143,7 +143,7 @@ export default function ProductSection() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="mt-3 flex w-4/5 justify-center rounded-3xl bg-gray-100">
+      <div className="mt-3 flex w-4/5 justify-center">
         <div className="w-4/5 py-4 text-center">
           <CategorySelector
             setProductCategoryName={setProductCategoryName}

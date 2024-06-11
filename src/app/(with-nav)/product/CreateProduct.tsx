@@ -4,7 +4,8 @@ import { getAllProductCategories, postProduct } from "@/utils/api-calls";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
-import ExampleProduct from "@/app/(with-nav)/product/ExampleProduct";
+import ExampleProduct from "@/app/(with-nav)/product/components/ExampleProduct";
+
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
