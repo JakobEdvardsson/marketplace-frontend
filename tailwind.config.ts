@@ -54,17 +54,27 @@ const config: Config = {
 
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
+
       mobile: { max: "816px" },
       // => @media (max-width: 816px) { ... }
+
       "product-form-parent-br": { max: "1160px" },
       // => @media (max-width: 990px) { ... }
+
       "product-form-child-br": { max: "660px" },
       // => @media (max-width: 660px) { ... }
+
       "post-ad-br": { max: "890px" },
       // => @media (max-width: 890px) { ... }
+
       "mobile-br": { max: "660px" },
       // => @media (max-width: 660px) { ... }
+
       "min-br": { min: "660px" },
+      // => @media (min-width: 660px) { ... }
+
+      "footer-br": { max: "800px" },
+      // => @media (max-width: 900px) { ... }
     },
   },
   plugins: [require("tailwindcss-animate")],
