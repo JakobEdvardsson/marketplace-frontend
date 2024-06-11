@@ -83,7 +83,7 @@ export default function ExampleProduct({
       <h1 className="cursor-default text-sm">
         {description ? "Description: " : ""}
       </h1>
-      <p className="truncate text-pretty hover:text-clip mobile-br:text-sm">
+      <p className="truncate text-wrap hover:text-clip mobile-br:text-sm">
         {description ? description : ""}
       </p>
     </div>
