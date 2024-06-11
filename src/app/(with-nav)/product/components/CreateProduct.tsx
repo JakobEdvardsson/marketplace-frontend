@@ -333,20 +333,20 @@ export default function CreateProduct() {
               onChange={(e) => setColor(parseInt(e.target.value, 10))}
             >
               <option value={0}>Choose from the list</option>
-              <option value={0}>UNDEFINED</option>
-              <option value={1}>BLACK</option>
-              <option value={2}>WHITE</option>
-              <option value={3}>RED</option>
-              <option value={4}>BLUE</option>
-              <option value={5}>GREEN</option>
-              <option value={6}>YELLOW</option>
-              <option value={7}>ORANGE</option>
-              <option value={8}>PURPLE</option>
-              <option value={9}>PINK</option>
-              <option value={10}>GRAY</option>
-              <option value={11}>BROWN</option>
-              <option value={12}>SILVER</option>
-              <option value={13}>GOLD</option>
+              <option value={0}>Undefined</option>
+              <option value={1}>Black</option>
+              <option value={2}>White</option>
+              <option value={3}>Red</option>
+              <option value={4}>Blue</option>
+              <option value={5}>Green</option>
+              <option value={6}>Yellow</option>
+              <option value={7}>Orange</option>
+              <option value={8}>Purple</option>
+              <option value={9}>Pink</option>
+              <option value={10}>Gray</option>
+              <option value={11}>Brown</option>
+              <option value={12}>Silver</option>
+              <option value={13}>Gold</option>
             </select>
           </div>
 
