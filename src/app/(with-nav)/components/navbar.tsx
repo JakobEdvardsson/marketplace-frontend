@@ -44,7 +44,7 @@ export default function Navbar() {
     loggedIn ? (
       <div className="flex h-14 w-full bg-white shadow-md drop-shadow-md">
         <div className="mx-auto flex w-8/12 flex-row items-center justify-between">
-          <Link className="lg:text-3xl ml-6 font-black text-red-600" href="/">
+          <Link className="ml-6 font-black text-red-600 lg:text-3xl" href="/">
             Plocket
           </Link>
           <div className="flex items-center justify-end">
@@ -138,7 +138,7 @@ export default function Navbar() {
     ) : (
       <div className="flex h-14 w-full bg-white shadow-md drop-shadow-md">
         <div className="mx-auto flex w-8/12 flex-row items-center justify-between">
-          <Link className="lg:text-3xl ml-6 font-black text-red-600" href="/">
+          <Link className="ml-6 font-black text-red-600 lg:text-3xl" href="/">
             Plocket
           </Link>
           <div className="flex items-center justify-end">

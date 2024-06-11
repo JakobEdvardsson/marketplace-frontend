@@ -34,10 +34,10 @@ import { authedFetcher } from "@/lib/fetcher-authed";
 
 function ProductSkeleton() {
   return (
-    <div className="sm:h-48 sm:w-2/3 sm:flex-row m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2  shadow-md">
-      <div className="sm:mr-2 sm:h-full sm:w-2/5 mr-0 h-2/3 w-full animate-pulse rounded-2xl bg-gray-300" />
+    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
+      <div className="mr-0 h-2/3 w-full animate-pulse rounded-2xl bg-gray-300 sm:mr-2 sm:h-full sm:w-2/5" />
 
-      <div className="sm:mt-0 sm:w-3/5 mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3">
+      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
         <div>
           <div className="mb-2 h-6 w-3/4 animate-pulse rounded bg-gray-300" />
           <div className="mb-2 h-6 w-1/2 animate-pulse rounded bg-gray-300" />

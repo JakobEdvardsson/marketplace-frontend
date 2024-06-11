@@ -177,7 +177,7 @@ export default function CreateProduct() {
 
   return (
     <form
-      className="lg:ml-60 lg:w-2/5 relative ml-32 flex w-3/5 flex-col rounded-md bg-white pb-5"
+      className="relative ml-32 flex w-3/5 flex-col rounded-md bg-white pb-5 lg:ml-60 lg:w-2/5"
       action={handleSubmit}
     >
       <div className="m-5 flex">
