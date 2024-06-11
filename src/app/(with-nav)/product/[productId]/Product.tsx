@@ -119,7 +119,8 @@ export default function Product({ id }: { readonly id: string }) {
       whoAmI &&
       seller &&
       whoAmI.username !== seller.username ? (
-        items.find((element) => element === product) === undefined ? (
+        items.find((element) => element.productId === product.productId) ===
+        undefined ? (
           <div className="mt-4">
             <Button
               className="bg-blue-500 hover:bg-blue-400"
