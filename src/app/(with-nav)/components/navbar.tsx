@@ -140,10 +140,10 @@ export default function Navbar() {
               {items.length ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="red"
+                  fill="#dc2626"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="red"
+                  stroke="#dc2626"
                   className="absolute -top-2 left-3 size-3"
                 >
                   <path
