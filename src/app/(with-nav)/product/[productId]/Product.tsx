@@ -64,7 +64,7 @@ export default function Product({ id }: { readonly id: string }) {
   };
 
   return product ? (
-    <div className="w-full px-4">
+    <div className="w-full">
       <div className="mb-2 flex space-x-2">
         <Link className="text-sm hover:underline" href="/">
           All categories

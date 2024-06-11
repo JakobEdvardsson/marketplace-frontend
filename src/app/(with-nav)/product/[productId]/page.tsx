@@ -6,7 +6,7 @@ export default function Page({
   readonly params: { productId: string };
 }) {
   return (
-    <div className="mx-auto my-3 flex w-full justify-center sm:w-11/12 md:w-9/12 lg:w-7/12">
+    <div className="my-3 flex w-full justify-center px-4 sm:mx-auto sm:w-11/12 md:w-9/12 lg:w-8/12">
       <Product id={params.productId} />
     </div>
   );
