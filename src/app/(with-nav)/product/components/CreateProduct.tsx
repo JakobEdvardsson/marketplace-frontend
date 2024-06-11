@@ -20,12 +20,12 @@ export default function CreateProduct() {
 
   //This is the states for the example product
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number>();
   const [category, setCategory] = useState<string>("");
-  const [condition, setCondition] = useState<number>(0);
+  const [condition, setCondition] = useState<number>();
   const [description, setDescription] = useState<string>("");
-  const [color, setColor] = useState<number>(0);
-  const [year, setYear] = useState<number>(0);
+  const [color, setColor] = useState<number>();
+  const [year, setYear] = useState<number>();
   //End of states for the example product
 
   useEffect(() => {
@@ -211,15 +211,17 @@ export default function CreateProduct() {
   };
 
   return (
-    <div className="mx-auto w-8/12 product-form-child-br:w-11/12">
-      <Navigation name="Create product" />
+    <div className="mx-auto w-8/12 mobile-br:w-11/12">
+      <Navigation name="Post Ad" />
       <form
-        className="mt-3 flex product-form-parent-br:flex-col"
+        className="mt-3 flex product-form-br:flex-col"
         action={handleSubmit}
       >
-        <div className="basis-[600px] rounded-md bg-white py-4 ">
+        <div className="shrink-0 basis-[550px] rounded-md bg-white py-4">
           <div className="m-5 flex">
-            <label className="text-3xl font-black">Create Product</label>
+            <label className="text-3xl font-black mobile-br:text-2xl">
+              Post Ad
+            </label>
             <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
               Free!
             </p>
@@ -331,20 +333,20 @@ export default function CreateProduct() {
               onChange={(e) => setColor(parseInt(e.target.value, 10))}
             >
               <option value={0}>Choose from the list</option>
-              <option value={0}>UNDEFINED</option>
-              <option value={1}>BLACK</option>
-              <option value={2}>WHITE</option>
-              <option value={3}>RED</option>
-              <option value={4}>BLUE</option>
-              <option value={5}>GREEN</option>
-              <option value={6}>YELLOW</option>
-              <option value={7}>ORANGE</option>
-              <option value={8}>PURPLE</option>
-              <option value={9}>PINK</option>
-              <option value={10}>GRAY</option>
-              <option value={11}>BROWN</option>
-              <option value={12}>SILVER</option>
-              <option value={13}>GOLD</option>
+              <option value={0}>Undefined</option>
+              <option value={1}>Black</option>
+              <option value={2}>White</option>
+              <option value={3}>Red</option>
+              <option value={4}>Blue</option>
+              <option value={5}>Green</option>
+              <option value={6}>Yellow</option>
+              <option value={7}>Orange</option>
+              <option value={8}>Purple</option>
+              <option value={9}>Pink</option>
+              <option value={10}>Gray</option>
+              <option value={11}>Brown</option>
+              <option value={12}>Silver</option>
+              <option value={13}>Gold</option>
             </select>
           </div>
 
@@ -352,7 +354,7 @@ export default function CreateProduct() {
             <p className="font-semibold text-gray-700">Production Year</p>
             <input
               required
-              placeholder="Hope its younger then your grandma"
+              placeholder="When was the product made?"
               type="number"
               id="productionYear"
               min={0}
@@ -365,7 +367,6 @@ export default function CreateProduct() {
           </div>
 
           <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <label className="text-3xl font-black">Submit creation</label>
             <button
               type="submit"
               className="mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
@@ -374,7 +375,7 @@ export default function CreateProduct() {
             </button>
           </div>
         </div>
-        <div className="product-form-br:my-6 relative flex-1 shrink-0 basis-[350px]">
+        <div className="product-form--br:my-6 relative flex-1 basis-[350px]">
           <div className="sticky top-2">
             <ExampleProduct
               files={selectedFiles}
