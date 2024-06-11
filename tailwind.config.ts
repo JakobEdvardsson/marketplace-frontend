@@ -43,7 +43,13 @@ const config: Config = {
       // => @media (max-width: 816px) { ... }
       "product-form-parent-br": { max: "1160px" },
       // => @media (max-width: 990px) { ... }
-      "product-form-child-br": { max: "600px" },
+      "product-form-child-br": { max: "660px" },
+      // => @media (max-width: 660px) { ... }
+      "post-ad-br": { max: "890px" },
+      // => @media (max-width: 890px) { ... }
+      "mobile-br": { max: "660px" },
+      // => @media (max-width: 660px) { ... }
+      "min-br": { min: "660px" },
     },
   },
   plugins: [require("tailwindcss-animate")],
