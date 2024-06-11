@@ -144,7 +144,7 @@ export default function Navbar() {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="#dc2626"
-                  className="absolute -top-2 left-3 size-3"
+                  className="absolute -top-2 left-3 size-3 mobile-br:top-0"
                 >
                   <path
                     strokeLinecap="round"
