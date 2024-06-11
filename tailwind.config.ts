@@ -40,6 +40,21 @@ const config: Config = {
     },
     screens: {
       "login-br": { max: "816px" },
+      sm: "640px",
+      // => @media (min-width: 640px) { ... }
+
+      md: "768px",
+      // => @media (min-width: 768px) { ... }
+
+      lg: "1024px",
+      // => @media (min-width: 1024px) { ... }
+
+      xl: "1280px",
+      // => @media (min-width: 1280px) { ... }
+
+      "2xl": "1536px",
+      // => @media (min-width: 1536px) { ... }
+      mobile: { max: "816px" },
       // => @media (max-width: 816px) { ... }
       "product-form-parent-br": { max: "1160px" },
       // => @media (max-width: 990px) { ... }
