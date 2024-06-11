@@ -367,7 +367,6 @@ export default function CreateProduct() {
           </div>
 
           <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <label className="text-3xl font-black">Submit creation</label>
             <button
               type="submit"
               className="mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
