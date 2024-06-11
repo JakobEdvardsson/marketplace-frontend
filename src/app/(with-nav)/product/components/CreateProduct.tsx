@@ -212,7 +212,7 @@ export default function CreateProduct() {
 
   return (
     <div className="mx-auto w-8/12 mobile-br:w-11/12">
-      <Navigation name="Create product" />
+      <Navigation name="Post Ad" />
       <form
         className="mt-3 flex product-form-br:flex-col"
         action={handleSubmit}
@@ -220,7 +220,7 @@ export default function CreateProduct() {
         <div className="basis-[550px] rounded-md bg-white py-4 ">
           <div className="m-5 flex">
             <label className="text-3xl font-black mobile-br:text-2xl">
-              Create Product
+              Post Ad
             </label>
             <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
               Free!
@@ -354,7 +354,7 @@ export default function CreateProduct() {
             <p className="font-semibold text-gray-700">Production Year</p>
             <input
               required
-              placeholder="Hope its younger then your grandma"
+              placeholder="When was the product made?"
               type="number"
               id="productionYear"
               min={0}
