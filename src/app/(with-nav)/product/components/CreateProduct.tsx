@@ -299,7 +299,7 @@ export default function CreateProduct() {
             <p className="font-semibold text-gray-700">Description</p>
             <textarea
               required
-              placeholder="We are not inressted in your description. Get a job"
+              placeholder="Description of the product. Avoid writing personal details for example your address."
               id="description"
               name="description"
               className="h-36 appearance-none rounded-md border border-gray-300 p-3 outline-none"
