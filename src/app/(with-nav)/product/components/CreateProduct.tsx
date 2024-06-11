@@ -20,12 +20,12 @@ export default function CreateProduct() {
 
   //This is the states for the example product
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number>();
   const [category, setCategory] = useState<string>("");
-  const [condition, setCondition] = useState<number>(0);
+  const [condition, setCondition] = useState<number>();
   const [description, setDescription] = useState<string>("");
-  const [color, setColor] = useState<number>(0);
-  const [year, setYear] = useState<number>(0);
+  const [color, setColor] = useState<number>();
+  const [year, setYear] = useState<number>();
   //End of states for the example product
 
   useEffect(() => {
@@ -375,7 +375,7 @@ export default function CreateProduct() {
             </button>
           </div>
         </div>
-        <div className="product-form--br:my-6 relative flex-1 shrink-0 basis-[350px]">
+        <div className="product-form--br:my-6 relative flex-1 basis-[350px]">
           <div className="sticky top-2">
             <ExampleProduct
               files={selectedFiles}

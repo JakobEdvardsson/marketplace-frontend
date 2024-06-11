@@ -14,12 +14,12 @@ export default function ExampleProduct({
 }: {
   readonly files: File[] | undefined;
   readonly name: string;
-  readonly price: number;
+  readonly price: number | undefined;
   readonly category: string;
-  readonly condition: number;
+  readonly condition: number | undefined;
   readonly description: string;
-  readonly color: number;
-  readonly year: number;
+  readonly color: number | undefined;
+  readonly year: number | undefined;
 }) {
   const renderFiles = () => {
     if (files && files.length > 0) {
