@@ -22,7 +22,7 @@ export default function ConditionSelector(props: {
   return (
     <form className="w-full">
       <select
-        className="rounded-md p-2.5"
+        className="w-full rounded-md p-2.5"
         value={props.condition ? props.condition.valueOf() : undefined}
         onChange={handleChange}
       >

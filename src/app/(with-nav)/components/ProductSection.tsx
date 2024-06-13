@@ -208,7 +208,7 @@ export default function ProductSection() {
             onChange={handleMaximumPriceChange}
           />
         </div>
-        <div className="w-fit">
+        <div className="min-w-fit sm:w-2/3">
           <ConditionSelector
             condition={search.condition}
             setCondition={(condition) =>
