@@ -76,17 +76,6 @@ export default function ProductSection() {
     }));
   };
 
-  const reset = () => {
-    setSearch((prevState) => ({
-      ...prevState,
-      condition: null,
-      minimumPrice: null,
-      maximumPrice: null,
-      productCategoryName: null,
-      query: undefined,
-    }));
-  };
-
   const handleClickSubscribe = () => {
     const { productCategoryName } = search;
     if (!productCategoryName) {
@@ -160,12 +149,19 @@ export default function ProductSection() {
       <div className="mt-3 flex justify-center">
         <div className="py-4 text-center">
           <CategorySelector
-            setProductCategoryName={(_) =>
-              setSearch((prevState) => ({
-                ...prevState,
-                productCategoryName: _,
-              }))
-            }
+            setProductCategoryName={(categoryName) => {
+              if (search.productCategoryName === categoryName) {
+                setSearch((prevState) => ({
+                  ...prevState,
+                  productCategoryName: null,
+                }));
+              } else {
+                setSearch((prevState) => ({
+                  ...prevState,
+                  productCategoryName: categoryName,
+                }));
+              }
+            }}
             selectedCategory={search.productCategoryName}
           />
 
@@ -174,8 +170,8 @@ export default function ProductSection() {
 
           <ConditionSelector
             condition={search.condition}
-            setCondition={(_) =>
-              setSearch((prevState) => ({ ...prevState, condition: _ }))
+            setCondition={(condition) =>
+              setSearch((prevState) => ({ ...prevState, condition }))
             }
           />
 

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import React from "react";
 
 type Category = {
@@ -20,10 +19,6 @@ export default function CategorySelector(props: {
     { name: "kebab", image: "/images/kebabIcon.png" },
     // Add other categories similarly
   ];
-
-  const reset = () => {
-    props.setProductCategoryName(null);
-  };
 
   return (
     <div className="mt-1 flex flex-wrap items-center justify-center">
@@ -54,9 +49,6 @@ export default function CategorySelector(props: {
           </button>
         </div>
       ))}
-      <Button type="button" className="mx-2 bg-red-500" onClick={reset}>
-        Reset
-      </Button>
     </div>
   );
 }
