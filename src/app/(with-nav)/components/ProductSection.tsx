@@ -157,8 +157,8 @@ export default function ProductSection() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="mt-3 flex w-4/5 justify-center">
-        <div className="w-4/5 py-4 text-center">
+      <div className="mt-3 flex justify-center">
+        <div className="py-4 text-center">
           <CategorySelector
             setProductCategoryName={(_) =>
               setSearch((prevState) => ({
@@ -206,16 +206,8 @@ export default function ProductSection() {
           </div>
 
           {/*// search*/}
-          <SearchBar handleSearch={handleQuerySearch} query={search.query} />
+          <SearchBar handleSearch={handleQuerySearch} />
           <div className="flex justify-between p-2">
-            <div>
-              <Button className="mx-2" onClick={reset}>
-                Search
-              </Button>
-              <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
-                Reset
-              </Button>
-            </div>
             {subscribedCategories && search.productCategoryName ? (
               subscribedCategories.find(
                 (category) =>
@@ -275,10 +267,38 @@ export default function ProductSection() {
         </div>
       </div>
 
-      {products &&
+      {products ? (
         products.products.map((product) => (
           <ProductCard key={product.productId} product={product} />
-        ))}
+        ))
+      ) : (
+        <>
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+        </>
+      )}
+    </div>
+  );
+}
+
+function ProductCardSkeleton() {
+  return (
+    <div className="flex h-96 w-11/12 flex-col items-center border-b py-4 last:border-b-0 sm:h-48 sm:flex-row 2md:w-8/12">
+      <div className="h-2/3 w-full animate-pulse rounded bg-gray-200 sm:h-full sm:w-2/5" />
+
+      <div className="mt-2 flex h-auto w-full flex-col justify-around p-3 sm:mt-0 sm:w-3/5">
+        <div>
+          <div className="mb-2 h-6 w-3/4 animate-pulse rounded bg-gray-200" />
+          <div className="mb-2 h-4 w-1/2 animate-pulse rounded bg-gray-200" />
+          <div className="mb-2 h-4 w-1/3 animate-pulse rounded bg-gray-200" />
+          <div className="h-4 w-1/4 animate-pulse rounded bg-gray-200" />
+        </div>
+
+        <div className="mt-4 flex h-full flex-row flex-wrap items-end justify-between align-top">
+          <div className="h-4 w-1/4 animate-pulse rounded bg-gray-200" />
+        </div>
+      </div>
     </div>
   );
 }
