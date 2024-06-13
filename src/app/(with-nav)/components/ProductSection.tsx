@@ -39,7 +39,7 @@ export default function ProductSection() {
     minimumPrice: null,
     maximumPrice: null,
     condition: null,
-    sortMode: null,
+    sortMode: ProductSortMode.ASCENDING,
     query: queryParam ? queryParam : undefined,
   });
 
@@ -51,7 +51,7 @@ export default function ProductSection() {
     search.minimumPrice,
     search.maximumPrice,
     search.condition,
-    ProductSortMode.DESCENDING,
+    search.sortMode,
     search.query,
   );
 
