@@ -30,6 +30,7 @@ interface SearchParams {
 export default function ProductSection() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
+  const queryParam = searchParams.get("q");
 
   const { toast } = useToast();
 
@@ -39,7 +40,7 @@ export default function ProductSection() {
     maximumPrice: null,
     condition: null,
     sortMode: null,
-    query: undefined,
+    query: queryParam ? queryParam : undefined,
   });
 
   const { data: subscribedCategories, mutate: mutateSubscribedCategories } =
