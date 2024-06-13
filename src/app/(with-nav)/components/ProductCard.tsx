@@ -1,7 +1,6 @@
 import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function ProductCard(props: {
@@ -11,21 +10,23 @@ export default function ProductCard(props: {
   const createdAt: Date = new Date(product.createdAt);
 
   return (
-    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
+    <Link
+      className="group flex h-96 w-11/12 flex-col items-center border-b py-4 last:border-b-0 sm:h-48 sm:flex-row 2md:w-8/12"
+      href={`/product/${product.productId}`}
+    >
       {/*Image*/}
       <Image
         src={product.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="mr-0 h-2/3 w-full rounded-2xl object-contain sm:mr-2 sm:h-full sm:w-2/5"
+        className="h-2/3 w-full rounded bg-gray-200 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
       />
 
       {/*Description*/}
-
-      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
+      <div className="mt-2 flex h-auto w-full flex-col justify-around p-3 sm:mt-0 sm:w-3/5">
         <div>
-          <p className="truncate">{product.name}</p>
+          <h1 className="truncate group-hover:underline">{product.name}</h1>
           <p>
             {ProductCondition[product.condition]
               .replace(/_/g, " ")
@@ -38,7 +39,7 @@ export default function ProductCard(props: {
           <b>{product.price} kr</b>
         </div>
 
-        <div className="flex h-full flex-row  flex-wrap items-end justify-between align-top">
+        <div className="flex h-full flex-row flex-wrap items-end justify-between align-top">
           <p>
             {createdAt.getDate() +
               "/" +
@@ -48,12 +49,8 @@ export default function ProductCard(props: {
               ":" +
               createdAt.getMinutes()}
           </p>
-
-          <Link href={`/product/${product.productId}`}>
-            <Button type="button">See more!</Button>
-          </Link>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
