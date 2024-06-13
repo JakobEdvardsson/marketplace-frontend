@@ -24,11 +24,11 @@ export function ShoppingCart() {
             <div className="flex items-center">
               <div className="mr-4">
                 <Image
-                  className="object-contain"
+                  className=""
                   src={item.imageUrls[0]}
                   alt={item.name}
-                  width={150}
-                  height={150}
+                  width={180}
+                  height={180}
                 />
               </div>
               <div>
@@ -37,9 +37,6 @@ export function ShoppingCart() {
                   Category: {item.productCategory.name}
                 </div>
                 <div className="text-gray-600">Price: {item.price} kr</div>
-                <div className="text-gray-600">
-                  Description: {item.description}
-                </div>
                 <div className="text-gray-600">Condition: {item.condition}</div>
                 <div className="text-gray-600">Status: {item.status}</div>
                 <div className="text-gray-600">Seller: {item.seller}</div>

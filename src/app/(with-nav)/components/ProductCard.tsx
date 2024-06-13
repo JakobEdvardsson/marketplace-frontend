@@ -1,14 +1,16 @@
 import { ProductCondition } from "@/utils/api-call-types";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function ProductCard(productInfo: ProductGetResponseDTO) {
   const createdAt: Date = new Date(productInfo.createdAt);
 
   return (
-    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
+    <Link
+      className="group m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row"
+      href={`/product/${productInfo.productId}`}
+    >
       {/*Image*/}
       <Image
         src={productInfo.imageUrls[0] || "/images/emptyImage.jpg"}
@@ -22,7 +24,7 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
 
       <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
         <div>
-          <p className="truncate">{productInfo.name}</p>
+          <p className="truncate group-hover:underline">{productInfo.name}</p>
           <p>
             {ProductCondition[productInfo.condition]
               .replace(/_/g, " ")
@@ -45,12 +47,8 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
               ":" +
               createdAt.getMinutes()}
           </p>
-
-          <Link href={`/product/${productInfo.productId}`}>
-            <Button type="button">See more!</Button>
-          </Link>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
