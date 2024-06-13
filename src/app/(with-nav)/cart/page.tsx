@@ -3,9 +3,9 @@ import Checkout from "@/app/(with-nav)/cart/components/Checkout";
 
 export default function Page() {
   return (
-    <div className="mx-auto w-8/12">
-      <ShoppingCart />
+    <div className="mx-2 flex flex-col items-center">
       <Checkout />
+      <ShoppingCart />
     </div>
   );
 }
