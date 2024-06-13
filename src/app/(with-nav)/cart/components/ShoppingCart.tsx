@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "@/components/CartContext";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
 
 export function ShoppingCart() {
   const { items, removeFromCart } = useCart();
@@ -21,7 +23,10 @@ export function ShoppingCart() {
             key={item.productId}
             className="flex items-center justify-between border-b border-gray-200 py-4"
           >
-            <div className="flex items-center">
+            <Link
+              className="flex items-center"
+              href={`/product/${item.productId}`}
+            >
               <div className="mr-4">
                 <Image
                   className=""
@@ -51,7 +56,7 @@ export function ShoppingCart() {
                   Created At: {new Date(item.createdAt).toLocaleString()}
                 </div>
               </div>
-            </div>
+            </Link>
             <div>
               <Button onClick={() => removeFromCart(item.productId)}>
                 Remove
