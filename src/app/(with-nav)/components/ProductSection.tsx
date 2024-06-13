@@ -171,7 +171,7 @@ export default function ProductSection() {
                 }));
               }
             }}
-            selectedCategory={search.productCategoryName}
+            selectedCategoryName={search.productCategoryName}
           />
 
           <Separator />

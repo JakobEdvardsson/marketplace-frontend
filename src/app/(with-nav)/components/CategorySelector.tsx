@@ -9,7 +9,7 @@ type Categories = Category[];
 
 export default function CategorySelector(props: {
   readonly setProductCategoryName: (_: string | null) => void;
-  readonly selectedCategory: string | null;
+  readonly selectedCategoryName: string | null;
 }) {
   const categories: Categories = [
     { name: "electronics", image: "/images/electronicsIcon.png" },
@@ -27,7 +27,7 @@ export default function CategorySelector(props: {
           key={category.name}
           className={
             "mx-2 rounded p-1 text-center hover:bg-gray-200 " +
-            (props.selectedCategory === category.name && "bg-gray-200")
+            (props.selectedCategoryName === category.name && "bg-gray-200")
           }
         >
           <button

@@ -53,7 +53,7 @@ export default function SearchBar(props: {
           className=""
           name="query"
           type="search"
-          placeholder="Search for products..."
+          placeholder="What are you looking for?"
         />
         <Button type="submit" variant="blue" className="rounded-l-none">
           Search
