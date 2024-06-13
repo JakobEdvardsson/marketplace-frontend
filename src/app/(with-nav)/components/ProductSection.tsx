@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { WatchListResponseDTO } from "@/types/endpoint-types-incoming";
 import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
 import { useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 interface SearchParams {
   productCategoryName: string | null;
@@ -29,6 +30,8 @@ interface SearchParams {
 export default function ProductSection() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
+
+  const { toast } = useToast();
 
   const [search, setSearch] = useState<SearchParams>({
     productCategoryName: categoryParam ? categoryParam : null,
@@ -85,39 +88,71 @@ export default function ProductSection() {
   };
 
   const handleClickSubscribe = () => {
-    if (search.productCategoryName !== null) {
-      addEntryToWatchlist(search.productCategoryName)
-        .then((_) => {
-          mutateSubscribedCategories();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    const { productCategoryName } = search;
+    if (!productCategoryName) {
+      return;
     }
+
+    const newCategory: WatchListResponseDTO = {
+      id: "",
+      productCategory: {
+        id: "",
+        name: productCategoryName,
+      },
+    };
+
+    // optimistic subscribe
+    mutateSubscribedCategories(
+      (current) => (current ? [...current, newCategory] : [newCategory]),
+      false,
+    );
+
+    addEntryToWatchlist(productCategoryName)
+      .catch((error) => {
+        toast({
+          title: "Could not add to watchlist",
+          variant: "destructive",
+        });
+        console.error(error);
+      })
+      .finally(() => mutateSubscribedCategories());
   };
 
   const handleClickUnsubscribe = () => {
-    if (search.productCategoryName !== null) {
-      if (subscribedCategories) {
-        const categoryId: WatchListResponseDTO | undefined =
-          subscribedCategories.find((category) => {
-            if (category.productCategory.name === search.productCategoryName) {
-              return category.productCategory.id;
-            }
-
-            return "";
-          });
-        if (categoryId) {
-          deleteWatchlistEntryById(categoryId.productCategory.id)
-            .then((_) => {
-              mutateSubscribedCategories();
-            })
-            .catch((e) => {
-              console.log(e);
-            });
-        }
-      }
+    if (!search.productCategoryName || !subscribedCategories) {
+      return;
     }
+
+    const categoryToRemove = subscribedCategories.find(
+      (category) =>
+        category.productCategory.name === search.productCategoryName,
+    );
+    if (!categoryToRemove) {
+      return;
+    }
+
+    // optimistic unsubscribe
+    mutateSubscribedCategories(
+      (current) =>
+        current
+          ? current.filter(
+              (category) =>
+                category.productCategory.name !==
+                categoryToRemove.productCategory.name,
+            )
+          : undefined,
+      false,
+    );
+
+    deleteWatchlistEntryById(categoryToRemove.productCategory.id)
+      .catch((error) => {
+        toast({
+          title: "Could not remove from watchlist",
+          variant: "destructive",
+        });
+        console.error(error);
+      })
+      .finally(() => mutateSubscribedCategories());
   };
 
   return (
