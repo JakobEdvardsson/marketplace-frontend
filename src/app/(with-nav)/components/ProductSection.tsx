@@ -277,22 +277,7 @@ export default function ProductSection() {
 
       {products &&
         products.products.map((product) => (
-          <ProductCard
-            key={product.productId}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-            productionYear={product.productionYear}
-            createdAt={new Date(product.createdAt).toISOString()}
-            condition={product.condition}
-            buyer={product.buyer}
-            color={product.color}
-            imageUrls={product.imageUrls}
-            productCategory={product.productCategory}
-            productId={product.productId}
-            seller={product.seller}
-            status={product.status}
-          />
+          <ProductCard key={product.productId} product={product} />
         ))}
     </div>
   );
