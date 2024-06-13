@@ -58,15 +58,24 @@ export default function ProductSection() {
     const numberValue = Number(value.target.value);
 
     if (search.maximumPrice && search.maximumPrice < numberValue) {
-      setSearch((prevState) => ({ ...prevState, maximumPrice: numberValue }));
+      setSearch((prevState) => ({
+        ...prevState,
+        maximumPrice: numberValue ? numberValue : null,
+      }));
     }
 
-    setSearch((prevState) => ({ ...prevState, minimumPrice: numberValue }));
+    setSearch((prevState) => ({
+      ...prevState,
+      minimumPrice: numberValue ? numberValue : null,
+    }));
   };
 
   const handleMaximumPriceChange = (value: ChangeEvent<HTMLInputElement>) => {
     const numberValue = Number(value.target.value);
-    setSearch((prevState) => ({ ...prevState, maximumPrice: numberValue }));
+    setSearch((prevState) => ({
+      ...prevState,
+      maximumPrice: numberValue ? numberValue : null,
+    }));
   };
 
   const handleQuerySearch = (query: string) => {
@@ -178,26 +187,21 @@ export default function ProductSection() {
           <Separator />
 
           <div className="mt-2 flex items-center">
-            <p>Max:</p>
             <Input
               className="m-1"
               type="number"
-              placeholder="Max price:"
-              min={search.minimumPrice ? search.minimumPrice : 0}
-              value={search.maximumPrice ? search.maximumPrice : ""}
-              onChange={handleMaximumPriceChange}
-            />
-          </div>
-
-          <div className="mb-10 flex items-center">
-            <p>Min:</p>
-            <Input
-              className="m-1"
-              type="number"
-              placeholder="Min price:"
+              placeholder="Min price"
               min={0}
               value={search.minimumPrice ? search.minimumPrice : ""}
               onChange={handleMinimumPriceChange}
+            />
+            <Input
+              className="m-1"
+              type="number"
+              placeholder="Max price"
+              min={search.minimumPrice ? search.minimumPrice : 0}
+              value={search.maximumPrice ? search.maximumPrice : ""}
+              onChange={handleMaximumPriceChange}
             />
           </div>
 
