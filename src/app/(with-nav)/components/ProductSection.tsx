@@ -175,37 +175,32 @@ export default function ProductSection() {
           />
 
           <Separator />
-          <div className="mt-2" />
 
-          <ConditionSelector
-            condition={search.condition}
-            setCondition={(condition) =>
-              setSearch((prevState) => ({ ...prevState, condition }))
-            }
-          />
-
-          <Separator />
-
-          <div className="mt-2 flex items-center">
+          <div className="mt-2 flex items-center justify-center">
             <Input
-              className="m-1"
-              type="number"
+              className=""
+              type="text"
               placeholder="Min price"
               min={0}
               value={search.minimumPrice ? search.minimumPrice : ""}
               onChange={handleMinimumPriceChange}
             />
             <Input
-              className="m-1"
-              type="number"
+              type="text"
               placeholder="Max price"
               min={search.minimumPrice ? search.minimumPrice : 0}
               value={search.maximumPrice ? search.maximumPrice : ""}
               onChange={handleMaximumPriceChange}
             />
+            <ConditionSelector
+              condition={search.condition}
+              setCondition={(condition) =>
+                setSearch((prevState) => ({ ...prevState, condition }))
+              }
+            />
           </div>
 
-          {/*// search*/}
+          {/* search */}
           <SearchBar handleSearch={handleQuerySearch} />
           <div className="flex justify-between p-2">
             {subscribedCategories && search.productCategoryName ? (

@@ -5,6 +5,11 @@ export default function ConditionSelector(props: {
   readonly condition: ProductCondition | null;
 }) {
   const handleChange = (event: any) => {
+    if (event.target.value === "-1") {
+      props.setCondition(null);
+      return;
+    }
+
     const newCondition = parseInt(event.target.value, 10) as ProductCondition;
     if (props.condition?.valueOf() === newCondition.valueOf()) {
       props.setCondition(null);
@@ -15,27 +20,27 @@ export default function ConditionSelector(props: {
   };
 
   return (
-    <form className="mb-2 flex flex-wrap items-center justify-around">
-      {Object.values(ProductCondition)
-        .filter((value) => typeof value === "number")
-        .map((condition) => (
-          <div key={condition} className="m-1 rounded bg-gray-200 p-1">
-            <label>
-              <input
-                className="mr-1"
-                type="radio"
-                value={condition}
-                checked={props.condition === condition}
-                onClick={handleChange}
-              />
+    <form>
+      <select
+        className="rounded p-2"
+        value={props.condition ? props.condition.valueOf() : undefined}
+        onChange={handleChange}
+      >
+        <option key="default" value={-1}>
+          Select condition
+        </option>
+        {Object.values(ProductCondition)
+          .filter((value) => typeof value === "number")
+          .map((condition) => (
+            <option key={condition} value={condition}>
               {ProductCondition[condition as keyof typeof ProductCondition]
                 .toString()
                 .replace(/_/g, " ")
                 .toLowerCase()
                 .replace(/\b\w/g, (char) => char.toUpperCase())}
-            </label>
-          </div>
-        ))}
+            </option>
+          ))}
+      </select>
     </form>
   );
 }

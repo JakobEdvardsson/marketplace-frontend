@@ -28,7 +28,7 @@ export default function SearchBar(props: {
 
   return (
     <form
-      className="m-1 mb-2"
+      className="mt-2"
       onSubmit={(event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
