@@ -25,14 +25,11 @@ export default function CategorySelector(props: {
       {categories.map((category) => (
         <div
           key={category.name}
-          className={
-            "mx-2 rounded p-1 text-center hover:bg-gray-200 " +
-            (props.selectedCategoryName === category.name && "bg-gray-200")
-          }
+          className={`mx-2 rounded p-1 text-center ${props.selectedCategoryName === category.name && "bg-gray-200"}`}
         >
           <button
             type="button"
-            className="flex flex-col items-center"
+            className="flex flex-col items-center hover:scale-105"
             onClick={() => props.setProductCategoryName(category.name)}
           >
             <Image
