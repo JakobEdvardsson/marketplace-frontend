@@ -31,14 +31,29 @@ export default function ProductSection() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
+  const minimumPriceParam = Number(searchParams.get("minPrice"));
+  const maximumPriceParam = Number(searchParams.get("maxPrice"));
+  const conditionParam =
+    searchParams.get("condition") === null
+      ? -1
+      : Number(searchParams.get("condition"));
 
   const { toast } = useToast();
 
   const [search, setSearch] = useState<SearchParams>({
     productCategoryName: categoryParam ? categoryParam : null,
-    minimumPrice: null,
-    maximumPrice: null,
-    condition: null,
+    minimumPrice:
+      Number.isNaN(minimumPriceParam) || !minimumPriceParam
+        ? null
+        : minimumPriceParam,
+    maximumPrice:
+      Number.isNaN(maximumPriceParam) || !maximumPriceParam
+        ? null
+        : maximumPriceParam,
+    condition:
+      Number.isNaN(conditionParam) || !ProductCondition[conditionParam]
+        ? null
+        : conditionParam,
     sortMode: ProductSortMode.ASCENDING,
     query: queryParam ? queryParam : undefined,
   });
@@ -155,112 +170,108 @@ export default function ProductSection() {
   };
 
   return (
-    <div className="flex w-full flex-col items-center">
-      <div className="mt-3 flex justify-center">
-        <div className="py-4 text-center">
-          <CategorySelector
-            setProductCategoryName={(categoryName) => {
-              if (search.productCategoryName === categoryName) {
-                setSearch((prevState) => ({
-                  ...prevState,
-                  productCategoryName: null,
-                }));
-              } else {
-                setSearch((prevState) => ({
-                  ...prevState,
-                  productCategoryName: categoryName,
-                }));
-              }
-            }}
-            selectedCategoryName={search.productCategoryName}
-          />
+    <div className="w-full flex-col items-center">
+      <CategorySelector
+        setProductCategoryName={(categoryName) => {
+          if (search.productCategoryName === categoryName) {
+            setSearch((prevState) => ({
+              ...prevState,
+              productCategoryName: null,
+            }));
+          } else {
+            setSearch((prevState) => ({
+              ...prevState,
+              productCategoryName: categoryName,
+            }));
+          }
+        }}
+        selectedCategoryName={search.productCategoryName}
+      />
 
-          <Separator />
+      <Separator />
 
-          <div className="mt-2 flex items-center justify-center">
-            <Input
-              className=""
-              type="text"
-              placeholder="Min price"
-              min={0}
-              value={search.minimumPrice ? search.minimumPrice : ""}
-              onChange={handleMinimumPriceChange}
-            />
-            <Input
-              type="text"
-              placeholder="Max price"
-              min={search.minimumPrice ? search.minimumPrice : 0}
-              value={search.maximumPrice ? search.maximumPrice : ""}
-              onChange={handleMaximumPriceChange}
-            />
-            <ConditionSelector
-              condition={search.condition}
-              setCondition={(condition) =>
-                setSearch((prevState) => ({ ...prevState, condition }))
-              }
-            />
-          </div>
+      <div className="mt-2 flex items-center justify-center">
+        <Input
+          className=""
+          type="text"
+          placeholder="Min price"
+          min={0}
+          value={search.minimumPrice ? search.minimumPrice : ""}
+          onChange={handleMinimumPriceChange}
+        />
+        <Input
+          type="text"
+          placeholder="Max price"
+          min={search.minimumPrice ? search.minimumPrice : 0}
+          value={search.maximumPrice ? search.maximumPrice : ""}
+          onChange={handleMaximumPriceChange}
+        />
+        <ConditionSelector
+          condition={search.condition}
+          setCondition={(condition) =>
+            setSearch((prevState) => ({ ...prevState, condition }))
+          }
+        />
+      </div>
 
-          {/* search */}
-          <SearchBar handleSearch={handleQuerySearch} />
-          <div className="flex justify-between p-2">
-            {subscribedCategories && search.productCategoryName ? (
-              subscribedCategories.find(
-                (category) =>
-                  category.productCategory.name === search.productCategoryName,
-              ) ? (
-                <Button
-                  variant="outline"
-                  className="mx-2 border-black"
-                  type="button"
-                  onClick={handleClickUnsubscribe}
+      {/* search */}
+      <SearchBar handleSearch={handleQuerySearch} />
+      <div className="flex justify-between p-2">
+        {subscribedCategories && search.productCategoryName ? (
+          subscribedCategories.find(
+            (category) =>
+              category.productCategory.name === search.productCategoryName,
+          ) ? (
+            <Button
+              variant="outline"
+              className="mx-2 border-black"
+              type="button"
+              onClick={handleClickUnsubscribe}
+            >
+              <div className="mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="size-5 fill-black"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
                 >
-                  <div className="mr-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="size-5 fill-black"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                      />
-                    </svg>
-                  </div>
-                  Watching
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  className="mx-2 border-black"
-                  type="button"
-                  onClick={handleClickSubscribe}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                  />
+                </svg>
+              </div>
+              Watching
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              className="mx-2 border-black"
+              type="button"
+              onClick={handleClickSubscribe}
+            >
+              <div className="mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
                 >
-                  <div className="mr-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="size-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                      />
-                    </svg>
-                  </div>
-                  Create watchlist
-                </Button>
-              )
-            ) : null}
-          </div>
-        </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                  />
+                </svg>
+              </div>
+              Create watchlist
+            </Button>
+          )
+        ) : null}
       </div>
 
       {products ? (
