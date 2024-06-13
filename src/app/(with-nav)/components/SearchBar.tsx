@@ -49,8 +49,8 @@ export default function SearchBar(props: {
     >
       <div className="flex">
         <Input
+          className="rounded-r-none border-r-0"
           defaultValue={searchParam ? searchParam : undefined}
-          className=""
           name="query"
           type="search"
           placeholder="What are you looking for?"
