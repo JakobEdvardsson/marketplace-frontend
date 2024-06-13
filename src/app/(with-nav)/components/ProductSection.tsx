@@ -190,28 +190,32 @@ export default function ProductSection() {
 
       <Separator />
 
-      <div className="mt-2 flex items-center justify-center">
-        <Input
-          className=""
-          type="text"
-          placeholder="Min price"
-          min={0}
-          value={search.minimumPrice ? search.minimumPrice : ""}
-          onChange={handleMinimumPriceChange}
-        />
-        <Input
-          type="text"
-          placeholder="Max price"
-          min={search.minimumPrice ? search.minimumPrice : 0}
-          value={search.maximumPrice ? search.maximumPrice : ""}
-          onChange={handleMaximumPriceChange}
-        />
-        <ConditionSelector
-          condition={search.condition}
-          setCondition={(condition) =>
-            setSearch((prevState) => ({ ...prevState, condition }))
-          }
-        />
+      <div className="mt-2 flex flex-wrap-reverse items-center justify-center sm:flex-nowrap">
+        <div className="mt-1 flex w-full sm:mr-1 sm:mt-0">
+          <Input
+            className="mr-1"
+            type="number"
+            placeholder="Min price"
+            min={0}
+            value={search.minimumPrice ? search.minimumPrice : ""}
+            onChange={handleMinimumPriceChange}
+          />
+          <Input
+            type="number"
+            placeholder="Max price"
+            min={search.minimumPrice ? search.minimumPrice : 0}
+            value={search.maximumPrice ? search.maximumPrice : ""}
+            onChange={handleMaximumPriceChange}
+          />
+        </div>
+        <div className="w-fit">
+          <ConditionSelector
+            condition={search.condition}
+            setCondition={(condition) =>
+              setSearch((prevState) => ({ ...prevState, condition }))
+            }
+          />
+        </div>
       </div>
 
       {/* search */}

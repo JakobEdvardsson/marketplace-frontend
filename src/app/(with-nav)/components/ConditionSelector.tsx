@@ -20,9 +20,9 @@ export default function ConditionSelector(props: {
   };
 
   return (
-    <form>
+    <form className="w-full">
       <select
-        className="rounded p-2"
+        className="rounded-md p-2.5"
         value={props.condition ? props.condition.valueOf() : undefined}
         onChange={handleChange}
       >
