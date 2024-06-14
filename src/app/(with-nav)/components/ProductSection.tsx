@@ -346,7 +346,31 @@ export default function ProductSection() {
             key={product.productId}
             className="border-b py-4 last:border-b-0"
           >
-            <ProductCard key={product.productId} product={product} />
+            <ProductCard
+              key={product.productId}
+              product={product}
+              setCategory={(category) => {
+                const params = new URLSearchParams(searchParams);
+
+                if (search.productCategoryName === category.name) {
+                  setSearch((prevState) => ({
+                    ...prevState,
+                    productCategoryName: null,
+                  }));
+                  params.delete("category");
+                } else {
+                  setSearch((prevState) => ({
+                    ...prevState,
+                    productCategoryName: category.name,
+                  }));
+                  if (category.name !== null) {
+                    params.set("category", category.name);
+                  }
+                }
+
+                replace(`${pathname}?${params.toString()}`);
+              }}
+            />
           </div>
         ))
       ) : (
