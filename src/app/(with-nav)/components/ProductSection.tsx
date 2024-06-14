@@ -77,6 +77,7 @@ export default function ProductSection() {
   );
 
   const handleMinimumPriceChange = (value: ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams);
     const numberValue = Number(value.target.value);
 
     if (search.maximumPrice && search.maximumPrice < numberValue) {
@@ -84,20 +85,38 @@ export default function ProductSection() {
         ...prevState,
         maximumPrice: numberValue ? numberValue : null,
       }));
+      params.set("maxPrice", value.target.value);
     }
 
     setSearch((prevState) => ({
       ...prevState,
       minimumPrice: numberValue ? numberValue : null,
     }));
+    if (numberValue) {
+      params.set("minPrice", value.target.value);
+    } else {
+      params.delete("minPrice");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const handleMaximumPriceChange = (value: ChangeEvent<HTMLInputElement>) => {
     const numberValue = Number(value.target.value);
+
     setSearch((prevState) => ({
       ...prevState,
       maximumPrice: numberValue ? numberValue : null,
     }));
+
+    const params = new URLSearchParams(searchParams);
+    if (numberValue) {
+      params.set("maxPrice", value.target.value);
+    } else {
+      params.delete("maxPrice");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const handleQuerySearch = (query: string) => {
@@ -179,17 +198,25 @@ export default function ProductSection() {
     <div className="w-full flex-col items-center">
       <CategorySelector
         setProductCategoryName={(categoryName) => {
+          const params = new URLSearchParams(searchParams);
+
           if (search.productCategoryName === categoryName) {
             setSearch((prevState) => ({
               ...prevState,
               productCategoryName: null,
             }));
+            params.delete("category");
           } else {
             setSearch((prevState) => ({
               ...prevState,
               productCategoryName: categoryName,
             }));
+            if (categoryName !== null) {
+              params.set("category", categoryName);
+            }
           }
+
+          replace(`${pathname}?${params.toString()}`);
         }}
         selectedCategoryName={search.productCategoryName}
       />
@@ -217,9 +244,18 @@ export default function ProductSection() {
         <div className="flex w-full min-w-fit">
           <ConditionSelector
             condition={search.condition}
-            setCondition={(condition) =>
-              setSearch((prevState) => ({ ...prevState, condition }))
-            }
+            setCondition={(condition) => {
+              setSearch((prevState) => ({ ...prevState, condition }));
+
+              const params = new URLSearchParams(searchParams);
+              if (condition === null) {
+                params.delete("condition");
+              } else {
+                params.set("condition", condition.toString());
+              }
+
+              replace(`${pathname}?${params.toString()}`);
+            }}
           />
           <select
             className="ml-1 w-full rounded-md p-2.5"
@@ -228,9 +264,7 @@ export default function ProductSection() {
               const sortModeString = event.target.value;
               const sortMode = Number(event.target.value);
               const params = new URLSearchParams(searchParams);
-
               params.set("sort", sortModeString);
-
               replace(`${pathname}?${params.toString()}`);
 
               setSearch((prevState) => ({ ...prevState, sortMode }));
