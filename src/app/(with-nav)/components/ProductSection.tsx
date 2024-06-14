@@ -282,7 +282,9 @@ export default function ProductSection() {
 
       {/* search */}
       <SearchBar handleSearch={handleQuerySearch} />
-      <div className="flex justify-between p-2">
+      <div className="border-b border-gray-300 py-4" />
+
+      <div className="flex justify-end py-3">
         {subscribedCategories && search.productCategoryName ? (
           subscribedCategories.find(
             (category) =>
@@ -290,7 +292,7 @@ export default function ProductSection() {
           ) ? (
             <Button
               variant="outline"
-              className="mx-2 border-black"
+              className="border-black"
               type="button"
               onClick={handleClickUnsubscribe}
             >
@@ -344,7 +346,7 @@ export default function ProductSection() {
         products.products.map((product) => (
           <div
             key={product.productId}
-            className="border-b py-4 last:border-b-0"
+            className="border-b border-gray-300 py-4 last:border-b-0"
           >
             <ProductCard
               key={product.productId}

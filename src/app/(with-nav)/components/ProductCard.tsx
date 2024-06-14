@@ -16,7 +16,7 @@ export default function ProductCard(props: {
     <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
       <Image
         src={product.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="h-2/3 w-full rounded bg-gray-200 object-contain sm:h-full sm:w-2/5"
+        className="h-2/3 rounded bg-gray-50 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
@@ -25,7 +25,7 @@ export default function ProductCard(props: {
         <div className="flex justify-between">
           <Link
             href="#"
-            className="z-10 hover:underline"
+            className="z-10 text-gray-600 hover:underline"
             onMouseDown={() => {
               if (props.setCategory) {
                 props.setCategory(props.product.productCategory);
@@ -34,7 +34,7 @@ export default function ProductCard(props: {
           >
             {product.productCategory.name}
           </Link>
-          <p>
+          <p className="text-gray-500">
             {createdAt.getDate() +
               "/" +
               (createdAt.getMonth() + 1) +
@@ -55,7 +55,7 @@ export default function ProductCard(props: {
         <div className="flex grow flex-row" />
 
         <div className="flex justify-between">
-          <p className="text-lg font-medium">{product.price} kr</p>
+          <p className="text-lg font-bold">{product.price} kr</p>
         </div>
       </div>
     </div>
