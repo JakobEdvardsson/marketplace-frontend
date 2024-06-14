@@ -20,27 +20,25 @@ export default function ConditionSelector(props: {
   };
 
   return (
-    <form className="w-full">
-      <select
-        className="w-full rounded-md p-2.5"
-        value={props.condition ? props.condition.valueOf() : undefined}
-        onChange={handleChange}
-      >
-        <option key="default" value={-1}>
-          Select condition
-        </option>
-        {Object.values(ProductCondition)
-          .filter((value) => typeof value === "number")
-          .map((condition) => (
-            <option key={condition} value={condition}>
-              {ProductCondition[condition as keyof typeof ProductCondition]
-                .toString()
-                .replace(/_/g, " ")
-                .toLowerCase()
-                .replace(/\b\w/g, (char) => char.toUpperCase())}
-            </option>
-          ))}
-      </select>
-    </form>
+    <select
+      className="w-full rounded-md p-2.5"
+      value={props.condition ? props.condition.valueOf() : undefined}
+      onChange={handleChange}
+    >
+      <option key="default" value={-1}>
+        Select condition
+      </option>
+      {Object.values(ProductCondition)
+        .filter((value) => typeof value === "number")
+        .map((condition) => (
+          <option key={condition} value={condition}>
+            {ProductCondition[condition as keyof typeof ProductCondition]
+              .toString()
+              .replace(/_/g, " ")
+              .toLowerCase()
+              .replace(/\b\w/g, (char) => char.toUpperCase())}
+          </option>
+        ))}
+    </select>
   );
 }
