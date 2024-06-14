@@ -53,7 +53,7 @@ export default function Checkout() {
   };
 
   return (
-    <div className="rounded">
+    <div className="self-center rounded">
       {placedOrder ? (
         <div className="mb-5 mt-10 flex flex-col items-center bg-white">
           <Button className="w-36">
@@ -71,8 +71,19 @@ export default function Checkout() {
         </div>
       ) : (
         items.length > 0 && (
-          <div className="mt-5 w-1/3 content-center bg-white">
-            <Button className="" onClick={handleOrderClick}>
+          <div className="my-5 flex flex-col rounded bg-white p-4">
+            <p className="mb-4">
+              Subtotal ({items.length}
+              {items.length > 1 ? (
+                <span> items</span>
+              ) : (
+                <span> item</span>
+              )}): {items.reduce((sum, item) => sum + item.price, 0)} SEK
+            </p>
+            <Button
+              className="self-center bg-amber-300 text-black"
+              onClick={handleOrderClick}
+            >
               Submit order
             </Button>
           </div>

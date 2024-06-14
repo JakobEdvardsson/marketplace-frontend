@@ -15,7 +15,7 @@ export function ShoppingCart() {
         <h1 className="py-2 text-3xl">Cart</h1>
         <p className="mt-10">Price</p>
       </div>
-      <div className="border-b border-gray-300 " />
+      <div className="border-b border-gray-300" />
       {items.length === 0 && (
         <p className="mb-5 mt-10 text-center text-2xl text-gray-600">
           Your cart is empty.
@@ -25,7 +25,7 @@ export function ShoppingCart() {
         {items.map((item) => (
           <li
             key={item.productId}
-            className="flex items-center justify-between border-b border-gray-200 py-4 last:border-0"
+            className="mb-4 flex items-center justify-between border-b border-gray-200 py-4 last:border-0"
           >
             <Link
               className="group flex items-center"
