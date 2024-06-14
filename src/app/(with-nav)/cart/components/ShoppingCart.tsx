@@ -1,17 +1,21 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useCart } from "@/components/CartContext";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
 
 export function ShoppingCart() {
   const { items, removeFromCart } = useCart();
 
   return (
-    <div className="flex justify-center">
+    <div className="mt-4 basis-3/4 rounded bg-white p-4">
+      <div className="flex flex-row justify-between">
+        <h1 className="py-2 text-3xl">Cart</h1>
+        <p className="mt-10">Price</p>
+      </div>
+      <div className="border-b border-gray-300 " />
       {items.length === 0 && (
         <p className="mb-5 mt-10 text-center text-2xl text-gray-600">
           Your cart is empty.
@@ -21,7 +25,7 @@ export function ShoppingCart() {
         {items.map((item) => (
           <li
             key={item.productId}
-            className="flex items-center justify-between border-b border-gray-200 py-4"
+            className="flex items-center justify-between border-b border-gray-200 py-4 last:border-0"
           >
             <Link
               className="group flex items-center"
@@ -43,26 +47,16 @@ export function ShoppingCart() {
                 <div className="text-gray-600">
                   Category: {item.productCategory.name}
                 </div>
-                <div className="text-gray-600">Price: {item.price} kr</div>
-                <div className="text-gray-600">Condition: {item.condition}</div>
-                <div className="text-gray-600">Status: {item.status}</div>
-                <div className="text-gray-600">Seller: {item.seller}</div>
-                <div className="text-gray-600">Buyer: {item.buyer}</div>
-                <div className="text-gray-600">
-                  Color: {item.color || "N/A"}
-                </div>
-                <div className="text-gray-600">
-                  Production Year: {item.productionYear || "N/A"}
-                </div>
-                <div className="text-gray-600">
-                  Created At: {new Date(item.createdAt).toLocaleString()}
-                </div>
+                <Button
+                  className="mt-2"
+                  onClick={() => removeFromCart(item.productId)}
+                >
+                  Remove
+                </Button>
               </div>
             </Link>
             <div>
-              <Button onClick={() => removeFromCart(item.productId)}>
-                Remove
-              </Button>
+              <div className="font-bold">{item.price} kr</div>
             </div>
           </li>
         ))}

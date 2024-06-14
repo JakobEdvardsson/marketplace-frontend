@@ -53,9 +53,9 @@ export default function Checkout() {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="rounded">
       {placedOrder ? (
-        <div className="mb-5 mt-10 flex flex-col items-center">
+        <div className="mb-5 mt-10 flex flex-col items-center bg-white">
           <Button className="w-36">
             <Link href={`/order/${placedOrder.orderId}`}>Receipt</Link>
           </Button>
@@ -71,9 +71,11 @@ export default function Checkout() {
         </div>
       ) : (
         items.length > 0 && (
-          <Button className="mt-5" onClick={handleOrderClick}>
-            Submit order
-          </Button>
+          <div className="mt-5 w-1/3 content-center bg-white">
+            <Button className="" onClick={handleOrderClick}>
+              Submit order
+            </Button>
+          </div>
         )
       )}
     </div>
