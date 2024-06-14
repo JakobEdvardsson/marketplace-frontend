@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { WatchListResponseDTO } from "@/types/endpoint-types-incoming";
 import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
 interface SearchParams {
@@ -28,6 +28,9 @@ interface SearchParams {
 }
 
 export default function ProductSection() {
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
@@ -37,6 +40,7 @@ export default function ProductSection() {
     searchParams.get("condition") === null
       ? -1
       : Number(searchParams.get("condition"));
+  const sortModeParam = Number(searchParams.get("sort"));
 
   const { toast } = useToast();
 
@@ -54,7 +58,9 @@ export default function ProductSection() {
       Number.isNaN(conditionParam) || !ProductCondition[conditionParam]
         ? null
         : conditionParam,
-    sortMode: ProductSortMode.ASCENDING,
+    sortMode: Number.isNaN(sortModeParam)
+      ? ProductSortMode.ASCENDING
+      : sortModeParam,
     query: queryParam ? queryParam : undefined,
   });
 
@@ -208,13 +214,35 @@ export default function ProductSection() {
             onChange={handleMaximumPriceChange}
           />
         </div>
-        <div className="min-w-fit sm:w-2/3">
+        <div className="flex w-full min-w-fit">
           <ConditionSelector
             condition={search.condition}
             setCondition={(condition) =>
               setSearch((prevState) => ({ ...prevState, condition }))
             }
           />
+          <select
+            className="ml-1 w-full rounded-md p-2.5"
+            value={search.sortMode ? search.sortMode : undefined}
+            onChange={(event) => {
+              const sortModeString = event.target.value;
+              const sortMode = Number(event.target.value);
+              const params = new URLSearchParams(searchParams);
+
+              params.set("sort", sortModeString);
+
+              replace(`${pathname}?${params.toString()}`);
+
+              setSearch((prevState) => ({ ...prevState, sortMode }));
+            }}
+          >
+            <option key="ASCENDING" value={0}>
+              Newest first
+            </option>
+            <option key="DESCENDING" value={1}>
+              Oldest first
+            </option>
+          </select>
         </div>
       </div>
 
@@ -280,7 +308,12 @@ export default function ProductSection() {
 
       {products ? (
         products.products.map((product) => (
-          <ProductCard key={product.productId} product={product} />
+          <div
+            key={product.productId}
+            className="border-b py-4 last:border-b-0"
+          >
+            <ProductCard key={product.productId} product={product} />
+          </div>
         ))
       ) : (
         <>
