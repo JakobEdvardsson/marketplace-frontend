@@ -74,7 +74,7 @@ export function useProducts(
   let url = `${BACKEND_URL}/products?`;
 
   if (query) {
-    url += `query=${query}`;
+    url += `query=${query}&`;
   }
 
   if (productCategoryName !== null) {

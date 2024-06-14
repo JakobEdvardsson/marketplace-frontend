@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import React from "react";
 
 type Category = {
@@ -10,7 +9,7 @@ type Categories = Category[];
 
 export default function CategorySelector(props: {
   readonly setProductCategoryName: (_: string | null) => void;
-  readonly selectedCategory: string | null;
+  readonly selectedCategoryName: string | null;
 }) {
   const categories: Categories = [
     { name: "electronics", image: "/images/electronicsIcon.png" },
@@ -21,23 +20,16 @@ export default function CategorySelector(props: {
     // Add other categories similarly
   ];
 
-  const reset = () => {
-    props.setProductCategoryName(null);
-  };
-
   return (
     <div className="mt-1 flex flex-wrap items-center justify-center">
       {categories.map((category) => (
         <div
           key={category.name}
-          className={
-            "mx-2 rounded p-1 text-center hover:bg-gray-200 " +
-            (props.selectedCategory === category.name && "bg-gray-200")
-          }
+          className={`mx-2 rounded p-1 text-center ${props.selectedCategoryName === category.name && "bg-gray-200"}`}
         >
           <button
             type="button"
-            className="flex flex-col items-center"
+            className="flex flex-col items-center hover:scale-105"
             onClick={() => props.setProductCategoryName(category.name)}
           >
             <Image
@@ -54,9 +46,6 @@ export default function CategorySelector(props: {
           </button>
         </div>
       ))}
-      <Button type="button" className="mx-2 bg-red-500" onClick={reset}>
-        Reset
-      </Button>
     </div>
   );
 }
