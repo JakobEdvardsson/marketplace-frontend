@@ -1,18 +1,19 @@
-import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  ProductCategoryDTO,
+  ProductGetResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function ProductCard(props: {
   readonly product: ProductGetResponseDTO;
+  readonly setCategory?: (_: ProductCategoryDTO) => void;
 }) {
   const { product } = props;
   const createdAt: Date = new Date(product.createdAt);
 
   return (
-    <Link
-      className="group flex h-96 w-full flex-col sm:h-48 sm:flex-row"
-      href={`/product/${product.productId}`}
-    >
+    <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
       <Image
         src={product.imageUrls[0] || "/images/emptyImage.jpg"}
         className="h-2/3 w-full rounded bg-gray-200 object-contain sm:h-full sm:w-2/5"
@@ -22,9 +23,17 @@ export default function ProductCard(props: {
       />
       <div className="mt-2 flex h-auto w-full flex-col sm:mt-0 sm:w-3/5 sm:pl-3">
         <div className="flex justify-between">
-          <a href="#">
-            <h1>{product.productCategory.name}</h1>
-          </a>
+          <Link
+            href="#"
+            className="z-10 hover:underline"
+            onMouseDown={() => {
+              if (props.setCategory) {
+                props.setCategory(props.product.productCategory);
+              }
+            }}
+          >
+            {product.productCategory.name}
+          </Link>
           <p>
             {createdAt.getDate() +
               "/" +
@@ -36,9 +45,12 @@ export default function ProductCard(props: {
           </p>
         </div>
 
-        <div className="group-hover:underline">
-          <h1>{product.name}</h1>
-        </div>
+        <Link
+          className="after:absolute after:inset-0 hover:underline"
+          href={`/product/${product.productId}`}
+        >
+          {product.name}
+        </Link>
 
         <div className="flex grow flex-row" />
 
@@ -46,6 +58,6 @@ export default function ProductCard(props: {
           <p className="text-lg font-medium">{product.price} kr</p>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
