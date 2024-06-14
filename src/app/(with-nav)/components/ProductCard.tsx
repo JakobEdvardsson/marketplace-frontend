@@ -1,44 +1,40 @@
-import { ProductCondition } from "@/utils/api-call-types";
-import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  ProductCategoryDTO,
+  ProductGetResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProductCard(productInfo: ProductGetResponseDTO) {
-  const createdAt: Date = new Date(productInfo.createdAt);
+export default function ProductCard(props: {
+  readonly product: ProductGetResponseDTO;
+  readonly setCategory?: (_: ProductCategoryDTO) => void;
+}) {
+  const { product } = props;
+  const createdAt: Date = new Date(product.createdAt);
 
   return (
-    <Link
-      className="group m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row"
-      href={`/product/${productInfo.productId}`}
-    >
-      {/*Image*/}
+    <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
       <Image
-        src={productInfo.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="mr-0 h-2/3 w-full rounded-2xl object-contain sm:mr-2 sm:h-full sm:w-2/5"
+        src={product.imageUrls[0] || "/images/emptyImage.jpg"}
+        className="h-2/3 rounded bg-gray-50 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
       />
-
-      {/*Description*/}
-
-      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
-        <div>
-          <p className="truncate group-hover:underline">{productInfo.name}</p>
-          <p>
-            {ProductCondition[productInfo.condition]
-              .replace(/_/g, " ")
-              .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase())}
-          </p>
-          {productInfo.productionYear ? (
-            <p>Year: {productInfo.productionYear}</p>
-          ) : null}
-          <b>{productInfo.price} kr</b>
-        </div>
-
-        <div className="flex h-full flex-row  flex-wrap items-end justify-between align-top">
-          <p>
+      <div className="mt-2 flex h-auto w-full flex-col sm:mt-0 sm:w-3/5 sm:pl-3">
+        <div className="flex justify-between">
+          <Link
+            href="#"
+            className="z-10 text-gray-600 hover:underline"
+            onMouseDown={() => {
+              if (props.setCategory) {
+                props.setCategory(props.product.productCategory);
+              }
+            }}
+          >
+            {product.productCategory.name}
+          </Link>
+          <p className="text-gray-500">
             {createdAt.getDate() +
               "/" +
               (createdAt.getMonth() + 1) +
@@ -48,7 +44,20 @@ export default function ProductCard(productInfo: ProductGetResponseDTO) {
               createdAt.getMinutes()}
           </p>
         </div>
+
+        <Link
+          className="after:absolute after:inset-0 hover:underline"
+          href={`/product/${product.productId}`}
+        >
+          {product.name}
+        </Link>
+
+        <div className="flex grow flex-row" />
+
+        <div className="flex justify-between">
+          <p className="text-lg font-bold">{product.price} kr</p>
+        </div>
       </div>
-    </Link>
+    </div>
   );
 }

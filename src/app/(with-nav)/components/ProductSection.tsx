@@ -6,300 +6,403 @@ import ProductCard from "@/app/(with-nav)/components/ProductCard";
 import {
   addEntryToWatchlist,
   deleteWatchlistEntryById,
-  getAllWatchlistEntries,
-  getProducts,
 } from "@/utils/api-calls";
-import {
-  ProductGetAllResponseDTO,
-  WatchListResponseDTO,
-} from "@/types/endpoint-types-incoming";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { ProductCondition, ProductSortMode } from "@/utils/api-call-types";
 import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useAuth } from "@/components/AuthContext";
-import { useSearchParams } from "next/navigation";
+import { WatchListResponseDTO } from "@/types/endpoint-types-incoming";
+import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+
+interface SearchParams {
+  productCategoryName: string | null;
+  minimumPrice: number | null;
+  maximumPrice: number | null;
+  condition: ProductCondition | null;
+  sortMode: ProductSortMode | null;
+  query: string | undefined;
+}
 
 export default function ProductSection() {
-  const searchParams = useSearchParams();
-  const category = searchParams.get("category");
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
-  const [productCategoryName, setProductCategoryName] = useState<string | null>(
-    category ? category : null,
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+  const queryParam = searchParams.get("q");
+  const minimumPriceParam = Number(searchParams.get("minPrice"));
+  const maximumPriceParam = Number(searchParams.get("maxPrice"));
+  const conditionParam =
+    searchParams.get("condition") === null
+      ? -1
+      : Number(searchParams.get("condition"));
+  const sortModeParam = Number(searchParams.get("sort"));
+
+  const { toast } = useToast();
+
+  const [search, setSearch] = useState<SearchParams>({
+    productCategoryName: categoryParam ? categoryParam : null,
+    minimumPrice:
+      Number.isNaN(minimumPriceParam) || !minimumPriceParam
+        ? null
+        : minimumPriceParam,
+    maximumPrice:
+      Number.isNaN(maximumPriceParam) || !maximumPriceParam
+        ? null
+        : maximumPriceParam,
+    condition:
+      Number.isNaN(conditionParam) || !ProductCondition[conditionParam]
+        ? null
+        : conditionParam,
+    sortMode: Number.isNaN(sortModeParam)
+      ? ProductSortMode.ASCENDING
+      : sortModeParam,
+    query: queryParam ? queryParam : undefined,
+  });
+
+  const { data: subscribedCategories, mutate: mutateSubscribedCategories } =
+    useAllWatchlistEntries();
+
+  const { data: products } = useProducts(
+    search.productCategoryName,
+    search.minimumPrice,
+    search.maximumPrice,
+    search.condition,
+    search.sortMode,
+    search.query,
   );
 
-  const [minimumPrice, setMinimumPrice] = useState<number | null>(null);
-  const [maximumPrice, setMaximumPrice] = useState<number | null>(null);
-  const [condition, setCondition] = useState<ProductCondition | null>(null);
-  const [query, setQuery] = useState<string | undefined>(undefined);
-
-  const [products, setProducts] = useState<
-    ProductGetAllResponseDTO | undefined
-  >();
-
-  const [subscribedCategories, setSubscribedCategories] = useState<
-    WatchListResponseDTO[] | undefined
-  >();
-
-  const [subscribed, setSubscribed] = useState(true);
-
-  useEffect(() => {
-    updateProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateProduct = async () => {
-    try {
-      const fetchedProducts = await getProducts(
-        productCategoryName,
-        minimumPrice,
-        maximumPrice,
-        condition,
-        ProductSortMode.ASCENDING,
-        query,
-      );
-      if (!fetchedProducts.ok) return;
-      const productData = await fetchedProducts.json();
-      setProducts(productData);
-    } catch (error) {
-      console.error("Failed to fetch products:", error);
-    }
-  };
-
   const handleMinimumPriceChange = (value: ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams);
     const numberValue = Number(value.target.value);
 
-    if (maximumPrice && maximumPrice < numberValue) {
-      setMaximumPrice(numberValue);
+    if (search.maximumPrice && search.maximumPrice < numberValue) {
+      setSearch((prevState) => ({
+        ...prevState,
+        maximumPrice: numberValue ? numberValue : null,
+      }));
+      params.set("maxPrice", value.target.value);
     }
 
-    setMinimumPrice(numberValue);
+    setSearch((prevState) => ({
+      ...prevState,
+      minimumPrice: numberValue ? numberValue : null,
+    }));
+    if (numberValue) {
+      params.set("minPrice", value.target.value);
+    } else {
+      params.delete("minPrice");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const handleMaximumPriceChange = (value: ChangeEvent<HTMLInputElement>) => {
     const numberValue = Number(value.target.value);
-    setMaximumPrice(numberValue);
+
+    setSearch((prevState) => ({
+      ...prevState,
+      maximumPrice: numberValue ? numberValue : null,
+    }));
+
+    const params = new URLSearchParams(searchParams);
+    if (numberValue) {
+      params.set("maxPrice", value.target.value);
+    } else {
+      params.delete("maxPrice");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const handleQuerySearch = (query: string) => {
-    setQuery(query);
+    setSearch((prevState) => ({
+      ...prevState,
+      query,
+    }));
   };
-
-  const reset = () => {
-    setCondition(null);
-    setMinimumPrice(null);
-    setMaximumPrice(null);
-    setProductCategoryName(null);
-    setQuery("");
-  };
-
-  const auth = useAuth();
-  useEffect(() => {
-    if (auth.loggedIn) {
-      getAllWatchlistEntries()
-        .then((response) => {
-          response.json().then((categories) => {
-            setSubscribedCategories(categories);
-            console.log(categories);
-          });
-        })
-        .catch((_) => console.log(_));
-    }
-  }, [auth.loggedIn]);
 
   const handleClickSubscribe = () => {
-    if (productCategoryName !== null) {
-      addEntryToWatchlist(productCategoryName).catch((e) => {
-        console.log(e);
-      });
-      setSubscribed(true);
+    const { productCategoryName } = search;
+    if (!productCategoryName) {
+      return;
     }
+
+    const newCategory: WatchListResponseDTO = {
+      id: "",
+      productCategory: {
+        id: "",
+        name: productCategoryName,
+      },
+    };
+
+    // optimistic subscribe
+    mutateSubscribedCategories(
+      (current) => (current ? [...current, newCategory] : [newCategory]),
+      false,
+    );
+
+    addEntryToWatchlist(productCategoryName)
+      .catch((error) => {
+        toast({
+          title: "Could not add to watchlist",
+          variant: "destructive",
+        });
+        console.error(error);
+      })
+      .finally(() => mutateSubscribedCategories());
   };
 
   const handleClickUnsubscribe = () => {
-    if (productCategoryName !== null) {
-      if (subscribedCategories) {
-        const categoryId: WatchListResponseDTO | undefined =
-          subscribedCategories.find((category) => {
-            if (category.productCategory.name === productCategoryName) {
-              return category.productCategory.id;
-            }
-
-            return "";
-          });
-        if (categoryId) {
-          deleteWatchlistEntryById(categoryId?.productCategory.id).catch(
-            (e) => {
-              console.log(e);
-            },
-          );
-          setSubscribed(false);
-        }
-      }
+    if (!search.productCategoryName || !subscribedCategories) {
+      return;
     }
+
+    const categoryToRemove = subscribedCategories.find(
+      (category) =>
+        category.productCategory.name === search.productCategoryName,
+    );
+    if (!categoryToRemove) {
+      return;
+    }
+
+    // optimistic unsubscribe
+    mutateSubscribedCategories(
+      (current) =>
+        current
+          ? current.filter(
+              (category) =>
+                category.productCategory.name !==
+                categoryToRemove.productCategory.name,
+            )
+          : undefined,
+      false,
+    );
+
+    deleteWatchlistEntryById(categoryToRemove.productCategory.id)
+      .catch((error) => {
+        toast({
+          title: "Could not remove from watchlist",
+          variant: "destructive",
+        });
+        console.error(error);
+      })
+      .finally(() => mutateSubscribedCategories());
   };
 
   return (
-    <div className="flex w-full flex-col items-center">
-      <div className="mt-3 flex w-4/5 justify-center">
-        <div className="w-4/5 py-4 text-center">
-          <CategorySelector
-            setProductCategoryName={setProductCategoryName}
-            selectedCategory={productCategoryName}
+    <div className="w-full flex-col items-center">
+      <CategorySelector
+        setProductCategoryName={(categoryName) => {
+          const params = new URLSearchParams(searchParams);
+
+          if (search.productCategoryName === categoryName) {
+            setSearch((prevState) => ({
+              ...prevState,
+              productCategoryName: null,
+            }));
+            params.delete("category");
+          } else {
+            setSearch((prevState) => ({
+              ...prevState,
+              productCategoryName: categoryName,
+            }));
+            if (categoryName !== null) {
+              params.set("category", categoryName);
+            }
+          }
+
+          replace(`${pathname}?${params.toString()}`);
+        }}
+        selectedCategoryName={search.productCategoryName}
+      />
+
+      <Separator />
+
+      <div className="mt-2 flex flex-wrap-reverse items-center justify-center sm:flex-nowrap">
+        <div className="mt-1 flex w-full sm:mr-1 sm:mt-0">
+          <Input
+            className="mr-1"
+            type="number"
+            placeholder="Min price"
+            min={0}
+            value={search.minimumPrice ? search.minimumPrice : ""}
+            onChange={handleMinimumPriceChange}
           />
-
-          <Separator />
-          <div className="mt-2" />
-
+          <Input
+            type="number"
+            placeholder="Max price"
+            min={search.minimumPrice ? search.minimumPrice : 0}
+            value={search.maximumPrice ? search.maximumPrice : ""}
+            onChange={handleMaximumPriceChange}
+          />
+        </div>
+        <div className="flex w-full min-w-fit">
           <ConditionSelector
-            condition={condition}
-            setCondition={setCondition}
+            condition={search.condition}
+            setCondition={(condition) => {
+              setSearch((prevState) => ({ ...prevState, condition }));
+
+              const params = new URLSearchParams(searchParams);
+              if (condition === null) {
+                params.delete("condition");
+              } else {
+                params.set("condition", condition.toString());
+              }
+
+              replace(`${pathname}?${params.toString()}`);
+            }}
           />
+          <select
+            className="ml-1 w-full rounded-md p-2.5"
+            value={search.sortMode ? search.sortMode : undefined}
+            onChange={(event) => {
+              const sortModeString = event.target.value;
+              const sortMode = Number(event.target.value);
+              const params = new URLSearchParams(searchParams);
+              params.set("sort", sortModeString);
+              replace(`${pathname}?${params.toString()}`);
 
-          <Separator />
-
-          <div className="mt-2 flex items-center">
-            <p>Max:</p>
-            <Input
-              className="m-1"
-              type="number"
-              placeholder="Max price:"
-              min={minimumPrice ? minimumPrice : 0}
-              value={maximumPrice ? maximumPrice : ""}
-              onChange={handleMaximumPriceChange}
-            />
-          </div>
-
-          <div className="mb-10 flex items-center">
-            <p>Min:</p>
-            <Input
-              className="m-1"
-              type="number"
-              placeholder="Min price:"
-              min={0}
-              value={minimumPrice ? minimumPrice : ""}
-              onChange={handleMinimumPriceChange}
-            />
-          </div>
-
-          {/*// search*/}
-          <SearchBar handleSearch={handleQuerySearch} query={query} />
-          <div className="flex justify-between p-2">
-            <div>
-              <Button className="mx-2" onClick={updateProduct}>
-                Search
-              </Button>
-              <Button className="mx-2 bg-red-500" type="button" onClick={reset}>
-                Reset
-              </Button>
-            </div>
-            {subscribedCategories && productCategoryName ? (
-              subscribedCategories.find(
-                (category) =>
-                  category.productCategory.name === productCategoryName,
-              ) ? (
-                subscribed ? (
-                  <Button
-                    variant="outline"
-                    className="mx-2 border-black"
-                    type="button"
-                    onClick={handleClickUnsubscribe}
-                  >
-                    <div className="mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="size-5 fill-black"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                        />
-                      </svg>
-                    </div>
-                    Watching
-                  </Button>
-                ) : (
-                  <Button
-                    variant="outline"
-                    className="mx-2 border-black"
-                    type="button"
-                    onClick={handleClickSubscribe}
-                  >
-                    <div className="mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="size-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                        />
-                      </svg>
-                    </div>
-                    Create watchlist
-                  </Button>
-                )
-              ) : (
-                <Button
-                  variant="outline"
-                  className="mx-2 border-black"
-                  type="button"
-                  onClick={handleClickSubscribe}
-                >
-                  <div className="mr-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="size-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                      />
-                    </svg>
-                  </div>
-                  Create watchlist
-                </Button>
-              )
-            ) : null}
-          </div>
+              setSearch((prevState) => ({ ...prevState, sortMode }));
+            }}
+          >
+            <option key="ASCENDING" value={0}>
+              Newest first
+            </option>
+            <option key="DESCENDING" value={1}>
+              Oldest first
+            </option>
+          </select>
         </div>
       </div>
 
-      {products &&
+      {/* search */}
+      <SearchBar handleSearch={handleQuerySearch} />
+      <div className="border-b border-gray-300 py-4" />
+
+      <div className="flex justify-end py-3">
+        {subscribedCategories && search.productCategoryName ? (
+          subscribedCategories.find(
+            (category) =>
+              category.productCategory.name === search.productCategoryName,
+          ) ? (
+            <Button
+              variant="outline"
+              className="border-black"
+              type="button"
+              onClick={handleClickUnsubscribe}
+            >
+              <div className="mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="size-5 fill-black"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                  />
+                </svg>
+              </div>
+              Watching
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              className="mx-2 border-black"
+              type="button"
+              onClick={handleClickSubscribe}
+            >
+              <div className="mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                  />
+                </svg>
+              </div>
+              Create watchlist
+            </Button>
+          )
+        ) : null}
+      </div>
+
+      {products ? (
         products.products.map((product) => (
-          <ProductCard
+          <div
             key={product.productId}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-            productionYear={product.productionYear}
-            createdAt={new Date(product.createdAt).toISOString()}
-            condition={product.condition}
-            buyer={product.buyer}
-            color={product.color}
-            imageUrls={product.imageUrls}
-            productCategory={product.productCategory}
-            productId={product.productId}
-            seller={product.seller}
-            status={product.status}
-          />
-        ))}
+            className="border-b border-gray-300 py-4 last:border-b-0"
+          >
+            <ProductCard
+              key={product.productId}
+              product={product}
+              setCategory={(category) => {
+                const params = new URLSearchParams(searchParams);
+
+                if (search.productCategoryName === category.name) {
+                  setSearch((prevState) => ({
+                    ...prevState,
+                    productCategoryName: null,
+                  }));
+                  params.delete("category");
+                } else {
+                  setSearch((prevState) => ({
+                    ...prevState,
+                    productCategoryName: category.name,
+                  }));
+                  if (category.name !== null) {
+                    params.set("category", category.name);
+                  }
+                }
+
+                replace(`${pathname}?${params.toString()}`);
+              }}
+            />
+          </div>
+        ))
+      ) : (
+        <>
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+          <ProductCardSkeleton />
+        </>
+      )}
+    </div>
+  );
+}
+
+function ProductCardSkeleton() {
+  return (
+    <div className="mt-4 flex h-96 w-full animate-pulse flex-col sm:h-48 sm:flex-row">
+      <div className="h-2/3 w-full rounded bg-gray-200 sm:h-full sm:w-2/5" />
+      <div className="mt-2 flex h-auto w-full flex-col sm:mt-0 sm:w-3/5 sm:pl-3">
+        <div className="flex justify-between">
+          <div className="h-4 w-1/4 rounded bg-gray-200" />
+          <div className="h-4 w-1/4 rounded bg-gray-200" />
+        </div>
+        <div className="mt-2 h-6 w-3/4 rounded bg-gray-200" />
+        <div className="mt-4 flex grow flex-row">
+          <div className="h-4 w-full rounded" />
+        </div>
+        <div className="mt-4 flex justify-between">
+          <div className="h-6 w-1/4 rounded bg-gray-200" />
+        </div>
+      </div>
     </div>
   );
 }
