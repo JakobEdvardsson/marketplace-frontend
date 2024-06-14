@@ -24,7 +24,7 @@ export function ShoppingCart() {
             className="flex items-center justify-between border-b border-gray-200 py-4"
           >
             <Link
-              className="flex items-center"
+              className="group flex items-center"
               href={`/product/${item.productId}`}
             >
               <div className="mr-4">
@@ -37,7 +37,9 @@ export function ShoppingCart() {
                 />
               </div>
               <div>
-                <div className="font-bold">{item.name}</div>
+                <div className="font-bold group-hover:underline">
+                  {item.name}
+                </div>
                 <div className="text-gray-600">
                   Category: {item.productCategory.name}
                 </div>
