@@ -11,6 +11,11 @@ export default function ProductCard(props: {
 }) {
   const { product } = props;
   const createdAt: Date = new Date(product.createdAt);
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
 
   return (
     <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
@@ -55,7 +60,9 @@ export default function ProductCard(props: {
         <div className="flex grow flex-row" />
 
         <div className="flex justify-between">
-          <p className="text-lg font-bold">{product.price} kr</p>
+          <p className="text-lg font-bold">
+            {currencyFormat.format(product.price)}
+          </p>
         </div>
       </div>
     </div>
