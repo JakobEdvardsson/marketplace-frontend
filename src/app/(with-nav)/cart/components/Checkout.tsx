@@ -79,7 +79,7 @@ export default function Checkout() {
               ) : (
                 <span> item</span>
               )}):{" "}
-              <span className={"font-bold"}>
+              <span className="font-bold">
                 {items.reduce((sum, item) => sum + item.price, 0)} SEK
               </span>
             </p>
