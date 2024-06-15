@@ -364,7 +364,8 @@ export default function ProductSection() {
             search.query ||
             search.condition !== null ||
             search.minimumPrice ||
-            search.maximumPrice
+            search.maximumPrice ||
+            search.sortMode === ProductSortMode.DESCENDING
               ? ""
               : "hidden"
           }
