@@ -1,24 +1,27 @@
 "use client";
 
-import { ProductCondition } from "@/utils/api-call-types";
-import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  ProductCategoryDTO,
+  ProductGetResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { mutateAllInboxMessages } from "@/utils/api-calls-swr";
 import { getInboxMessageById } from "@/utils/api-calls";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ProductCardIsRead(props: {
-  readonly productInfo: ProductGetResponseDTO;
+  readonly product: ProductGetResponseDTO;
+  readonly setCategory?: (_: ProductCategoryDTO) => void;
   readonly isRead: boolean;
 }) {
-  const router = useRouter();
+  const { product } = props;
 
-  const createdAt: Date = new Date(props.productInfo.createdAt);
+  const router = useRouter();
 
   const handleClickButton = () => {
     setTimeout(() => {
-      getInboxMessageById(props.productInfo.productId)
+      getInboxMessageById(product.productId)
         .then((_) => {
           mutateAllInboxMessages();
         })
@@ -26,39 +29,39 @@ export default function ProductCardIsRead(props: {
           console.log(e);
         });
     }, 0);
-    router.push(`/product/${props.productInfo.productId}`);
+    router.push(`/product/${product.productId}`);
   };
 
+  const createdAt: Date = new Date(product.createdAt);
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
+
   return (
-    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
-      {/*Image*/}
+    <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
       <Image
-        src={props.productInfo.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="mr-0 h-2/3 w-full rounded-2xl object-contain sm:mr-2 sm:h-full sm:w-2/5"
+        src={product.imageUrls[0] || "/images/emptyImage.jpg"}
+        className="h-2/3 rounded bg-gray-50 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
       />
-
-      {/*Description*/}
-
-      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
-        <div>
-          <p className="truncate">{props.productInfo.name}</p>
-          <p>
-            {ProductCondition[props.productInfo.condition]
-              .replace(/_/g, " ")
-              .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase())}
-          </p>
-          {props.productInfo.productionYear && (
-            <p>Year: {props.productInfo.productionYear}</p>
-          )}
-          <b>{props.productInfo.price} kr</b>
-        </div>
-
-        <div className="flex h-full flex-row  flex-wrap items-end justify-between align-top">
-          <p>
+      <div className="mt-2 flex h-auto w-full flex-col sm:mt-0 sm:w-3/5 sm:pl-3">
+        <div className="flex justify-between">
+          <Link
+            href="#"
+            className="z-10 text-gray-600 hover:underline"
+            onMouseDown={() => {
+              if (props.setCategory) {
+                props.setCategory(props.product.productCategory);
+              }
+            }}
+          >
+            {product.productCategory.name}
+          </Link>
+          <p className="text-gray-500">
             {createdAt.getDate() +
               "/" +
               (createdAt.getMonth() + 1) +
@@ -67,16 +70,26 @@ export default function ProductCardIsRead(props: {
               ":" +
               createdAt.getMinutes()}
           </p>
-          {props.isRead ? null : (
-            <p className="animate-pulse bg-blue-500">New!</p>
-          )}
-          <Button
-            className="bg-red-400 px-4 py-2 hover:bg-red-600"
-            type="button"
-            onClick={handleClickButton}
-          >
-            See more!
-          </Button>
+        </div>
+
+        <Link
+          className="after:absolute after:inset-0 hover:underline"
+          href={`/product/${product.productId}`}
+          onMouseDown={() => handleClickButton()}
+        >
+          {product.name}
+        </Link>
+
+        {props.isRead ? null : (
+          <div className="w-fit rounded bg-blue-200 p-1 text-blue-600">New</div>
+        )}
+
+        <div className="flex grow flex-row" />
+
+        <div className="flex justify-between">
+          <p className="text-lg font-bold">
+            {currencyFormat.format(product.price)}
+          </p>
         </div>
       </div>
     </div>

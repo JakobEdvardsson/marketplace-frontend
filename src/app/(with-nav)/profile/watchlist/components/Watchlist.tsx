@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { deleteWatchlistEntryById } from "@/utils/api-calls";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ProductCategoryDTO,
   ProductGetAllResponseDTO,
@@ -34,20 +34,19 @@ import { authedFetcher } from "@/lib/fetcher-authed";
 
 function ProductSkeleton() {
   return (
-    <div className="m-2 flex h-96 w-9/12 flex-col items-center rounded-2xl bg-gray-100 p-2 shadow-md sm:h-48 sm:w-2/3  sm:flex-row">
-      <div className="mr-0 h-2/3 w-full animate-pulse rounded-2xl bg-gray-300 sm:mr-2 sm:h-full sm:w-2/5" />
-
-      <div className="mt-2 flex h-auto w-full flex-col justify-around rounded-2xl bg-gray-50 p-3 sm:mt-0 sm:w-3/5">
-        <div>
-          <div className="mb-2 h-6 w-3/4 animate-pulse rounded bg-gray-300" />
-          <div className="mb-2 h-6 w-1/2 animate-pulse rounded bg-gray-300" />
-          <div className="mb-2 h-6 w-1/4 animate-pulse rounded bg-gray-300" />
-          <div className="mb-2 h-6 w-1/3 animate-pulse rounded bg-gray-300" />
+    <div className="mt-4 flex h-96 w-full animate-pulse flex-col sm:h-48 sm:flex-row">
+      <div className="h-2/3 w-full rounded bg-gray-200 sm:h-full sm:w-2/5" />
+      <div className="mt-2 flex h-auto w-full flex-col sm:mt-0 sm:w-3/5 sm:pl-3">
+        <div className="flex justify-between">
+          <div className="h-4 w-1/4 rounded bg-gray-200" />
+          <div className="h-4 w-1/4 rounded bg-gray-200" />
         </div>
-
-        <div className="flex h-full flex-row flex-wrap items-end justify-between align-top">
-          <div className="h-6 w-1/4 animate-pulse rounded bg-gray-300" />
-          <div className="h-10 w-1/4 animate-pulse rounded bg-gray-300" />
+        <div className="mt-2 h-6 w-3/4 rounded bg-gray-200" />
+        <div className="mt-4 flex grow flex-row">
+          <div className="h-4 w-full rounded" />
+        </div>
+        <div className="mt-4 flex justify-between">
+          <div className="h-6 w-1/4 rounded bg-gray-200" />
         </div>
       </div>
     </div>
@@ -86,8 +85,8 @@ export default function MyWatchlist() {
   };
 
   return (
-    <div className="mt-10 flex w-full">
-      <div className="mr-4 w-1/3 ">
+    <div className="mt-10 flex w-full flex-col 2md:flex-row">
+      <div className="mr-4 2md:w-1/3">
         <h1 className="text-2xl font-bold">Watchlist</h1>
         <Link
           className={
@@ -116,12 +115,11 @@ export default function MyWatchlist() {
           <div className="mb-2.5 h-3 w-48 rounded-full bg-gray-200 dark:bg-gray-700" />
         )}
       </div>
-      <div className="w-2/3">
+      <div className="mt-4 2md:mt-0 2md:w-2/3">
         {selected === "-1" ? (
           <h1 className="mb-4 text-2xl font-bold">New ads in watchlist</h1>
         ) : (
           <div>
-            <h1 className="mb-4 text-2xl font-bold">Category: {selected}</h1>
             <AlertDialog>
               <AlertDialogTrigger>
                 <Button variant="outline">
@@ -164,19 +162,25 @@ export default function MyWatchlist() {
         )}
         {products &&
           products.products.map((product) => (
-            <ProductCardIsRead
+            <div
               key={product.productId}
-              productInfo={product}
-              isRead={
-                messages
-                  ? messages.find((msg) => msg.productId === product.productId)
+              className="border-b border-gray-300 py-4 last:border-b-0"
+            >
+              <ProductCardIsRead
+                product={product}
+                isRead={
+                  messages
                     ? messages.find(
                         (msg) => msg.productId === product.productId,
-                      )?.isRead === true
-                    : true
-                  : false
-              } // TODO: Optimize this cursed code (map or something similar?)
-            />
+                      )
+                      ? messages.find(
+                          (msg) => msg.productId === product.productId,
+                        )?.isRead === true
+                      : true
+                    : false
+                } // TODO: Optimize this cursed code (map or something similar?)
+              />
+            </div>
           ))}
         {isLoading && (
           <>
