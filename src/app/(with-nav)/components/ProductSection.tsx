@@ -300,7 +300,29 @@ export default function ProductSection() {
       <SearchBar handleSearch={handleQuerySearch} />
       <div className="border-b border-gray-300 py-4" />
 
-      <div className="flex flex-wrap justify-between py-3">
+      <div className="mt-4 flex flex-wrap justify-between">
+        <div
+          className={
+            search.productCategoryName ||
+            search.query ||
+            search.condition !== null ||
+            search.minimumPrice ||
+            search.maximumPrice ||
+            search.sortMode === ProductSortMode.DESCENDING
+              ? ""
+              : "hidden"
+          }
+        >
+          <Button variant="ghost" className="p-1" onClick={handleReset}>
+            <Image
+              src="/images/trash.svg"
+              alt="Clear filters"
+              width={20}
+              height={20}
+            />
+            <p className="ml-1 text-base">Clear filters</p>
+          </Button>
+        </div>
         <div>
           {subscribedCategories && search.productCategoryName ? (
             subscribedCategories.find(
@@ -357,28 +379,6 @@ export default function ProductSection() {
               </Button>
             )
           ) : null}
-        </div>
-        <div
-          className={
-            search.productCategoryName ||
-            search.query ||
-            search.condition !== null ||
-            search.minimumPrice ||
-            search.maximumPrice ||
-            search.sortMode === ProductSortMode.DESCENDING
-              ? ""
-              : "hidden"
-          }
-        >
-          <Button variant="ghost" className="p-1" onClick={handleReset}>
-            <Image
-              src="/images/trash.svg"
-              alt="Clear filters"
-              width={20}
-              height={20}
-            />
-            <p className="ml-1 text-base">Clear search</p>
-          </Button>
         </div>
       </div>
 
