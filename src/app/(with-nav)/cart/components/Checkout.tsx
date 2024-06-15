@@ -74,11 +74,7 @@ export default function Checkout() {
           <div className="my-5 flex flex-col rounded bg-white p-4">
             <p className="mb-4">
               Subtotal ({items.length}
-              {items.length > 1 ? (
-                <span> items</span>
-              ) : (
-                <span> item</span>
-              )}):{" "}
+              {items.length > 1 ? <span> items</span> : <span> item</span>}):
               <span className="font-bold">
                 {items.reduce((sum, item) => sum + item.price, 0)} SEK
               </span>
