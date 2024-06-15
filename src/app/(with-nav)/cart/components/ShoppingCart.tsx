@@ -31,7 +31,7 @@ export function ShoppingCart() {
               <Link href={`/product/${item.productId}`}>
                 <div className="mr-4">
                   <Image
-                    className="cart-mobile-br:w-full"
+                    className="w-full object-contain sm:h-1/2 md:h-1/2 lg:h-48"
                     src={item.imageUrls[0]}
                     alt={item.name}
                     width={180}
