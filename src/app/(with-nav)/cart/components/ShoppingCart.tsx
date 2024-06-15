@@ -27,23 +27,24 @@ export function ShoppingCart() {
             key={item.productId}
             className="mb-4 flex items-center justify-between border-b border-gray-200 py-4 last:border-0"
           >
-            <Link
-              className="group flex items-center"
-              href={`/product/${item.productId}`}
-            >
-              <div className="mr-4">
-                <Image
-                  className=""
-                  src={item.imageUrls[0]}
-                  alt={item.name}
-                  width={180}
-                  height={180}
-                />
-              </div>
-              <div>
-                <div className="font-bold group-hover:underline">
-                  {item.name}
+            <div className="group flex items-center">
+              <Link href={`/product/${item.productId}`}>
+                <div className="mr-4">
+                  <Image
+                    className=""
+                    src={item.imageUrls[0]}
+                    alt={item.name}
+                    width={180}
+                    height={180}
+                  />
                 </div>
+              </Link>
+              <div>
+                <Link className="group" href={`/product/${item.productId}`}>
+                  <div className="font-bold group-hover:underline">
+                    {item.name}
+                  </div>
+                </Link>
                 <div className="text-gray-600">
                   Category: {item.productCategory.name}
                 </div>
@@ -54,7 +55,7 @@ export function ShoppingCart() {
                   Remove
                 </Button>
               </div>
-            </Link>
+            </div>
             <div>
               <div className="font-bold">{item.price} kr</div>
             </div>

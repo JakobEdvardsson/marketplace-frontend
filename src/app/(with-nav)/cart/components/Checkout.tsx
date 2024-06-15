@@ -81,7 +81,7 @@ export default function Checkout() {
               )}): {items.reduce((sum, item) => sum + item.price, 0)} SEK
             </p>
             <Button
-              className="self-center bg-amber-300 text-black"
+              className="self-center bg-amber-300 text-black hover:bg-amber-400"
               onClick={handleOrderClick}
             >
               Submit order
