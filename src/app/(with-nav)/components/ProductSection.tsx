@@ -273,7 +273,9 @@ export default function ProductSection() {
           />
           <select
             className="ml-1 w-full rounded-md p-2.5"
-            value={search.sortMode ? search.sortMode : undefined}
+            value={
+              search.sortMode ? search.sortMode : ProductSortMode.ASCENDING
+            }
             onChange={(event) => {
               const sortModeString = event.target.value;
               const sortMode = Number(event.target.value);
