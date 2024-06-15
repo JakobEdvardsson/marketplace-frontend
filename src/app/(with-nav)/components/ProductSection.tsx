@@ -284,7 +284,7 @@ export default function ProductSection() {
       <SearchBar handleSearch={handleQuerySearch} />
       <div className="border-b border-gray-300 py-4" />
 
-      <div className="flex justify-end py-3">
+      <div className="flex justify-start py-3">
         {subscribedCategories && search.productCategoryName ? (
           subscribedCategories.find(
             (category) =>
@@ -316,7 +316,7 @@ export default function ProductSection() {
           ) : (
             <Button
               variant="outline"
-              className="mx-2 border-black"
+              className="border-black"
               type="button"
               onClick={handleClickSubscribe}
             >
