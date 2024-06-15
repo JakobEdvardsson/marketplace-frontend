@@ -1,4 +1,10 @@
 import MyAds from "@/app/(with-nav)/profile/myads/MyAds";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My ads | Marketplace",
+  description: "Marketplace - my ads",
+};
 
 export default function Page() {
   return (
