@@ -55,8 +55,9 @@ export function CartProvider({ children }: { readonly children: ReactNode }) {
   useEffect(() => {
     if (items.length > 0) {
       const json = JSON.stringify(items);
-      console.log(json);
       localStorage.setItem("cart", json);
+    } else {
+      localStorage.removeItem("cart");
     }
   }, [items]);
 
