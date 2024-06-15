@@ -28,6 +28,16 @@ export default function CreateProduct() {
   const [year, setYear] = useState<number>();
   //End of states for the example product
 
+  const [submitting, setSubmitting] = useState(false);
+
+  const submittable =
+    category !== "" &&
+    selectedFiles?.length &&
+    name !== "" &&
+    condition !== undefined &&
+    description !== "" &&
+    price !== undefined;
+
   useEffect(() => {
     getAllProductCategories()
       .then((res) => {
@@ -42,6 +52,8 @@ export default function CreateProduct() {
     );
     if (selectedCategory) {
       setCategory(selectedCategory.name);
+    } else {
+      setCategory("");
     }
   };
 
@@ -135,6 +147,7 @@ export default function CreateProduct() {
   };
 
   const handleSubmit = (formData: FormData) => {
+    setSubmitting(true);
     const name = formData.get("name")?.toString();
     const productCategory = formData.get("productCategory")?.toString();
     const price = parseInt(formData.get("price")?.toString() || "0", 10);
@@ -163,6 +176,7 @@ export default function CreateProduct() {
       productCategory === undefined ||
       description === undefined
     ) {
+      setSubmitting(false);
       return;
     }
 
@@ -193,12 +207,14 @@ export default function CreateProduct() {
             description: "Your product is missing Category or Condition",
             variant: "destructive",
           });
+          setSubmitting(false);
         } else {
           toast({
             title: "Please try again",
             description: "Your product could not be created",
             variant: "destructive",
           });
+          setSubmitting(false);
         }
 
         return (
@@ -207,7 +223,10 @@ export default function CreateProduct() {
           </h1>
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setSubmitting(false);
+        console.log(err);
+      });
   };
 
   return (
@@ -286,9 +305,15 @@ export default function CreateProduct() {
               id="condition"
               name="condition"
               className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              onChange={(e) => setCondition(parseInt(e.target.value, 10))}
+              onChange={(e) => {
+                if (e.target.value === "-1") {
+                  setCondition(undefined);
+                } else {
+                  setCondition(parseInt(e.target.value, 10));
+                }
+              }}
             >
-              <option value={0}>Choose from the list</option>
+              <option value={-1}>Select condition</option>
               <option value={0}>Brand new</option>
               <option value={1}>New</option>
               <option value={2}>Used</option>
@@ -314,26 +339,33 @@ export default function CreateProduct() {
             <p className="font-semibold text-gray-700">Price</p>
             <input
               required
+              min={1}
               placeholder="Choose price more than 0"
               type="number"
               id="price"
               name="price"
               className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
               value={price}
-              onChange={(e) => setPrice(parseInt(e.target.value, 10))}
+              onChange={(e) => {
+                if (e.target.value) {
+                  setPrice(parseInt(e.target.value, 10));
+                } else {
+                  setPrice(undefined);
+                }
+              }}
             />
           </div>
 
           <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Color</p>
+            <p className="font-semibold text-gray-700">Color (optional)</p>
             <select
               id="color"
               name="color"
+              value={color}
               className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
               onChange={(e) => setColor(parseInt(e.target.value, 10))}
             >
-              <option value={0}>Choose from the list</option>
-              <option value={0}>Undefined</option>
+              <option value={0}>None selected</option>
               <option value={1}>Black</option>
               <option value={2}>White</option>
               <option value={3}>Red</option>
@@ -351,9 +383,10 @@ export default function CreateProduct() {
           </div>
 
           <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Production Year</p>
+            <p className="font-semibold text-gray-700">
+              Production Year (optional)
+            </p>
             <input
-              required
               placeholder="When was the product made?"
               type="number"
               id="productionYear"
@@ -368,11 +401,34 @@ export default function CreateProduct() {
 
           <div className="mx-auto my-5 flex w-11/12 flex-col">
             <button
+              disabled={submitting}
               type="submit"
-              className="mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out"
+              className={`${submittable ? "" : "hidden"} mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 disabled:bg-gray-300`}
             >
               Submit
             </button>
+            <div
+              className={`${submittable ? "hidden" : "bg-red-50 text-center"}`}
+            >
+              <p className="rounded-md p-1 font-medium text-red-700">
+                Required fields are missing:
+              </p>
+              <ul>
+                {category === "" ? <li>Category</li> : null}
+                {selectedFiles?.length ? null : <li>Image</li>}
+                {name === "" ? <li>Name</li> : null}
+                {condition === undefined ? <li>Condition</li> : null}
+                {description === "" ? <li>Description</li> : null}
+                {price === undefined ? <li>Price</li> : null}
+              </ul>
+              <button
+                disabled
+                type="button"
+                className="mx-auto mt-2 h-10 w-full rounded bg-gray-300 font-semibold text-white"
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
         <div className="product-form--br:my-6 relative flex-1 basis-[350px]">
