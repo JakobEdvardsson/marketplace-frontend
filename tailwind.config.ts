@@ -69,6 +69,9 @@ const config: Config = {
 
       "min-br": { min: "850px" },
       // => @media (min-width: 850px) { ... }
+
+      "cart-mobile-br": { max: "530px" },
+      // => @media (max-width: 530px) { ... }
     },
   },
   plugins: [require("tailwindcss-animate")],

@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Page() {
   return (
-    <div className="mx-auto flex w-8/12 flex-col ">
+    <div className="mx-auto flex w-2/3 flex-col mobile-br:w-full ">
       <ShoppingCart />
       <Checkout />
     </div>
