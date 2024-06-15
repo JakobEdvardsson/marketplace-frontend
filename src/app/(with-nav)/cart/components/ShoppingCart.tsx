@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export function ShoppingCart() {
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
+
   const { items, removeFromCart } = useCart();
 
   return (
@@ -49,7 +55,7 @@ export function ShoppingCart() {
                   Category: {item.productCategory.name}
                 </div>
                 <div className="hidden font-bold cart-mobile-br:inline">
-                  {item.price} kr
+                  {currencyFormat.format(item.price)}
                 </div>
                 <Button
                   className="mt-2"
@@ -61,7 +67,7 @@ export function ShoppingCart() {
             </div>
             <div>
               <div className="font-bold cart-mobile-br:hidden">
-                {item.price} kr
+                {currencyFormat.format(item.price)}
               </div>
             </div>
           </li>

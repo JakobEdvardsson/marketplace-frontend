@@ -33,6 +33,12 @@ function SlimProductCard(props: {
 }
 
 export default function Checkout() {
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
+
   const { items, nukeCart } = useCart();
   const [placedOrder, setPlacedOrder] = useState<OrderRegisteredResponseDTO>();
 
@@ -80,7 +86,9 @@ export default function Checkout() {
                 <span> item</span>
               )}):{" "}
               <span className="font-bold">
-                {items.reduce((sum, item) => sum + item.price, 0)} SEK
+                {currencyFormat.format(
+                  items.reduce((sum, item) => sum + item.price, 0),
+                )}
               </span>
             </p>
             <Button
