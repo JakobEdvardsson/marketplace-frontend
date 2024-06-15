@@ -11,6 +11,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function Product({ id }: { readonly id: string }) {
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
+
   const { addToCart, removeFromCart, items } = useCart();
 
   const { data: product } = useProductById(id);
@@ -81,7 +87,9 @@ export default function Product({ id }: { readonly id: string }) {
       <h1 className="mt-3 text-3xl">{product.name}</h1>
 
       <div className="w-full">
-        <p className="mt-3 text-3xl font-bold">{product.price + " kr"}</p>
+        <p className="mt-3 text-3xl font-bold">
+          {currencyFormat.format(product.price)}
+        </p>
       </div>
 
       <div className="flex flex-wrap justify-start">

@@ -22,7 +22,7 @@ export default function ConditionSelector(props: {
   return (
     <select
       className="w-full rounded-md p-2.5"
-      value={props.condition === null ? undefined : props.condition.valueOf()}
+      value={props.condition === null ? -1 : props.condition.valueOf()}
       onChange={handleChange}
     >
       <option key="default" value={-1}>
