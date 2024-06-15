@@ -78,7 +78,10 @@ export default function Checkout() {
                 <span> items</span>
               ) : (
                 <span> item</span>
-              )}): {items.reduce((sum, item) => sum + item.price, 0)} SEK
+              )}):{" "}
+              <span className={"font-bold"}>
+                {items.reduce((sum, item) => sum + item.price, 0)} SEK
+              </span>
             </p>
             <Button
               className="self-center bg-amber-300 text-black hover:bg-amber-400"
