@@ -17,6 +17,7 @@ import { WatchListResponseDTO } from "@/types/endpoint-types-incoming";
 import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import Image from "next/image";
 
 interface SearchParams {
   productCategoryName: string | null;
@@ -27,6 +28,7 @@ interface SearchParams {
   query: string | undefined;
 }
 
+// eslint-disable-next-line complexity
 export default function ProductSection() {
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -75,6 +77,18 @@ export default function ProductSection() {
     search.sortMode,
     search.query,
   );
+
+  const handleReset = () => {
+    setSearch({
+      productCategoryName: null,
+      minimumPrice: null,
+      maximumPrice: null,
+      condition: null,
+      sortMode: ProductSortMode.ASCENDING,
+      query: undefined,
+    });
+    replace(`${pathname}?`);
+  };
 
   const handleMinimumPriceChange = (value: ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams);
@@ -284,62 +298,85 @@ export default function ProductSection() {
       <SearchBar handleSearch={handleQuerySearch} />
       <div className="border-b border-gray-300 py-4" />
 
-      <div className="flex justify-start py-3">
-        {subscribedCategories && search.productCategoryName ? (
-          subscribedCategories.find(
-            (category) =>
-              category.productCategory.name === search.productCategoryName,
-          ) ? (
-            <Button
-              variant="outline"
-              className="border-black"
-              type="button"
-              onClick={handleClickUnsubscribe}
-            >
-              <div className="mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-5 fill-black"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                  />
-                </svg>
-              </div>
-              Watching
-            </Button>
-          ) : (
-            <Button
-              variant="outline"
-              className="border-black"
-              type="button"
-              onClick={handleClickSubscribe}
-            >
-              <div className="mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                  />
-                </svg>
-              </div>
-              Create watchlist
-            </Button>
-          )
-        ) : null}
+      <div className="flex flex-wrap justify-between py-3">
+        <div>
+          {subscribedCategories && search.productCategoryName ? (
+            subscribedCategories.find(
+              (category) =>
+                category.productCategory.name === search.productCategoryName,
+            ) ? (
+              <Button
+                variant="outline"
+                className="border-black"
+                type="button"
+                onClick={handleClickUnsubscribe}
+              >
+                <div className="mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="size-5 fill-black"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                    />
+                  </svg>
+                </div>
+                Watching
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                className="border-black"
+                type="button"
+                onClick={handleClickSubscribe}
+              >
+                <div className="mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="size-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                    />
+                  </svg>
+                </div>
+                Create watchlist
+              </Button>
+            )
+          ) : null}
+        </div>
+        <div
+          className={
+            search.productCategoryName ||
+            search.query ||
+            search.condition !== null ||
+            search.minimumPrice ||
+            search.maximumPrice
+              ? ""
+              : "hidden"
+          }
+        >
+          <Button variant="ghost" className="p-1" onClick={handleReset}>
+            <Image
+              src="/images/trash.svg"
+              alt="Clear filters"
+              width={20}
+              height={20}
+            />
+            <p className="ml-1 text-base">Clear search</p>
+          </Button>
+        </div>
       </div>
 
       {products ? (
