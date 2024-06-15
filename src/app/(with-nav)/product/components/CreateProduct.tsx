@@ -28,6 +28,8 @@ export default function CreateProduct() {
   const [year, setYear] = useState<number>();
   //End of states for the example product
 
+  const [submitting, setSubmitting] = useState(false);
+
   const submittable =
     category !== "" &&
     selectedFiles?.length &&
@@ -145,6 +147,7 @@ export default function CreateProduct() {
   };
 
   const handleSubmit = (formData: FormData) => {
+    setSubmitting(true);
     const name = formData.get("name")?.toString();
     const productCategory = formData.get("productCategory")?.toString();
     const price = parseInt(formData.get("price")?.toString() || "0", 10);
@@ -173,6 +176,7 @@ export default function CreateProduct() {
       productCategory === undefined ||
       description === undefined
     ) {
+      setSubmitting(false);
       return;
     }
 
@@ -203,12 +207,14 @@ export default function CreateProduct() {
             description: "Your product is missing Category or Condition",
             variant: "destructive",
           });
+          setSubmitting(false);
         } else {
           toast({
             title: "Please try again",
             description: "Your product could not be created",
             variant: "destructive",
           });
+          setSubmitting(false);
         }
 
         return (
@@ -217,7 +223,10 @@ export default function CreateProduct() {
           </h1>
         );
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setSubmitting(false);
+        console.log(err);
+      });
   };
 
   return (
@@ -378,7 +387,6 @@ export default function CreateProduct() {
               Production Year (optional)
             </p>
             <input
-              required
               placeholder="When was the product made?"
               type="number"
               id="productionYear"
@@ -393,8 +401,9 @@ export default function CreateProduct() {
 
           <div className="mx-auto my-5 flex w-11/12 flex-col">
             <button
+              disabled={submitting}
               type="submit"
-              className={`${submittable ? "" : "hidden"} mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 hover:drop-shadow-xl hover:ease-in-out`}
+              className={`${submittable ? "" : "hidden"} mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 disabled:bg-gray-300`}
             >
               Submit
             </button>
