@@ -84,7 +84,9 @@ export default function Product(props: Props) {
           All categories
         </Link>
         <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
-        <p className="text-sm text-gray-500">{product.productCategory.name}</p>
+        <p className="text-sm text-gray-500 first-letter:uppercase">
+          {product.productCategory.name}
+        </p>
       </div>
 
       <div className="flex w-full overflow-x-auto bg-gray-200">

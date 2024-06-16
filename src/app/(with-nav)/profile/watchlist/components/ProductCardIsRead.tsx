@@ -50,15 +50,12 @@ export default function ProductCardIsRead(props: {
       <div className="mt-2 flex h-auto w-full flex-col sm:mt-0 sm:w-3/5 sm:pl-3">
         <div className="flex justify-between">
           <Link
-            href="#"
+            href={`/?category=${product.productCategory.name}`}
             className="z-10 text-gray-600 hover:underline"
-            onMouseDown={() => {
-              if (props.setCategory) {
-                props.setCategory(props.product.productCategory);
-              }
-            }}
           >
-            {product.productCategory.name}
+            <div className="first-letter:uppercase">
+              {product.productCategory.name}
+            </div>
           </Link>
           <p className="text-gray-500">
             {createdAt.getDate() +
