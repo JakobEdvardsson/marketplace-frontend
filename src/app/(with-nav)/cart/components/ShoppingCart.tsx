@@ -34,16 +34,17 @@ export function ShoppingCart() {
             className="relative mb-4 flex items-center justify-between border-b border-gray-200 py-4 last:border-0 "
           >
             <div className="flex items-center">
-              <Link href={`/product/${item.productId}`}>
-                <div className="mr-4">
-                  <Image
-                    className="w-full object-contain sm:h-64 md:h-64 lg:h-48"
-                    src={item.imageUrls[0]}
-                    alt={item.name}
-                    width={1000}
-                    height={1000}
-                  />
-                </div>
+              <Link
+                className="mr-4 flex size-48 shrink-0 justify-center bg-gray-100"
+                href={`/product/${item.productId}`}
+              >
+                <Image
+                  className="size-full object-contain"
+                  src={item.imageUrls[0]}
+                  alt={item.name}
+                  width={1000}
+                  height={1000}
+                />
               </Link>
               <div className="flex flex-col">
                 <Link
