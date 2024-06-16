@@ -81,7 +81,15 @@ export default function ProductCardIsRead(props: {
         </Link>
 
         {props.isRead ? null : (
-          <div className="w-fit rounded bg-blue-200 p-1 text-blue-600">New</div>
+          <div className="flex w-fit rounded bg-blue-200 p-1 text-blue-600">
+            <Image
+              src="/images/notif.svg"
+              alt="Notification"
+              width={20}
+              height={20}
+            />
+            <p className="mx-1">New</p>
+          </div>
         )}
 
         <div className="flex grow flex-row" />
