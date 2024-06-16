@@ -37,11 +37,11 @@ export function ShoppingCart() {
               <Link href={`/product/${item.productId}`}>
                 <div className="mr-4">
                   <Image
-                    className="w-full object-contain sm:h-1/2 md:h-1/2 lg:h-48"
+                    className="w-full object-contain sm:h-64 md:h-64 lg:h-48"
                     src={item.imageUrls[0]}
                     alt={item.name}
-                    width={180}
-                    height={180}
+                    width={1000}
+                    height={1000}
                   />
                 </div>
               </Link>
