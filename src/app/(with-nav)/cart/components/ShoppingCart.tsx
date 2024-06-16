@@ -15,6 +15,8 @@ export function ShoppingCart() {
 
   const { items, removeFromCart } = useCart();
 
+  // TODO: Do not let remove button resize on mobile
+  //
   return (
     <div className="mt-4 basis-3/4 rounded bg-white p-4">
       <div className=" flex flex-row justify-between">
