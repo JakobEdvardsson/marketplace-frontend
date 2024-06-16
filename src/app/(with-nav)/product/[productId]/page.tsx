@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function Page({ params }: Props) {
   return (
-    <div className="mx-auto my-3 flex w-11/12 justify-center 2md:w-8/12">
+    <div className="mx-auto my-3 w-11/12 2md:w-8/12">
       <Product id={params.productId} />
     </div>
   );
