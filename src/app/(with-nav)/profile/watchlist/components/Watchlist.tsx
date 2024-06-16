@@ -85,7 +85,7 @@ export default function MyWatchlist() {
   };
 
   return (
-    <div className="mt-10 flex w-full flex-col 2md:flex-row">
+    <div className="flex w-full flex-col 2md:flex-row">
       <div className="mr-4 2md:w-1/3">
         <h1 className="text-2xl font-bold">Watchlist</h1>
         <Link

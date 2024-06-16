@@ -42,7 +42,7 @@ export default function MyPurchases() {
 
   return (
     <div className="mx-auto w-full">
-      <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
+      <h1 className="mb-6 text-2xl font-bold">My Purchases</h1>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -113,8 +113,7 @@ export default function MyPurchases() {
 function SkeletonLoader() {
   return (
     <div className="mx-auto w-full">
-      <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
-      <br />
+      <h1 className="mb-6 text-2xl font-bold">My Purchases</h1>
       <div className="-mx-2 flex flex-wrap">
         <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
