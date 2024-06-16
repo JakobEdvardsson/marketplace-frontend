@@ -14,7 +14,7 @@ export default function Logout() {
       .then((response) => {
         if (response.ok) {
           authContextLogout();
-          router.push("/");
+          window.location.href = "/";
         }
       })
       .catch((error) => {
