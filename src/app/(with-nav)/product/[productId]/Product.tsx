@@ -41,6 +41,7 @@ export default async function Product(props: Props) {
     return product.imageUrls.map((url) => (
       <div key={product.name} className="mx-auto h-[60vh] w-full shrink-0 pr-2">
         <Image
+          priority
           src={url}
           alt={product.name}
           className="size-full rounded object-contain"
