@@ -1,13 +1,10 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { logout } from "@/utils/api-calls";
 import { useAuth } from "@/components/AuthContext";
-import { useRouter } from "next/navigation";
 
 export default function Logout() {
-  const router = useRouter();
   const { logout: authContextLogout } = useAuth();
 
   const handleLogout = () => {
@@ -15,7 +12,7 @@ export default function Logout() {
       .then((response) => {
         if (response.ok) {
           authContextLogout();
-          router.push("/");
+          window.location.href = "/";
         }
       })
       .catch((error) => {
@@ -24,10 +21,10 @@ export default function Logout() {
   };
 
   return (
-    <div className="mx-auto w-full">
-      <Separator />
-      <br />
-      <Button onClick={handleLogout}>Logout</Button>
+    <div className="w-full">
+      <Button size="lg" variant="default" onClick={handleLogout}>
+        Log out
+      </Button>
     </div>
   );
 }

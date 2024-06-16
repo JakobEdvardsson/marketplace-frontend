@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { passwordUpdate } from "@/utils/api-calls";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -59,10 +58,8 @@ export default function PasswordChangeForm() {
 
   return (
     <div className="w-full text-center">
-      <h1 className="text-2xl">Change password</h1>
       <form onSubmit={handleSubmit}>
         <div className="my-4">
-          <Label htmlFor="password">Current password</Label>
           <Input
             required
             placeholder="Current password"
@@ -74,7 +71,6 @@ export default function PasswordChangeForm() {
           />
         </div>
         <div className="my-4">
-          <Label htmlFor="newPassword">New password</Label>
           <Input
             required
             placeholder="New password"
@@ -86,7 +82,6 @@ export default function PasswordChangeForm() {
           />
         </div>
         <div className="my-4">
-          <Label htmlFor="confirmPassword">Confirm new password</Label>
           <Input
             required
             placeholder="Confirm new password"
@@ -98,7 +93,7 @@ export default function PasswordChangeForm() {
           />
         </div>
         <div className="my-5 flex justify-center">
-          <Button type="submit">Reset password</Button>
+          <Button type="submit">Change password</Button>
         </div>
       </form>
     </div>

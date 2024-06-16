@@ -36,20 +36,16 @@ export default function MyPurchases() {
     return <SkeletonLoader />;
   }
 
-  if (data && data.orders.length === 0) {
-    return <p className="-mx-2">No purchases found.</p>;
-  }
-
   return (
     <div className="mx-auto w-full">
-      <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
+      <h1 className="mb-6 text-2xl font-bold">My Purchases</h1>
       <Popover>
         <PopoverTrigger asChild>
           <Button
             id="date"
             variant="outline"
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "w-full justify-start text-center font-normal 2md:w-[300px]",
               !date && "text-muted-foreground",
             )}
           >
@@ -79,12 +75,13 @@ export default function MyPurchases() {
           />
         </PopoverContent>
       </Popover>
-      <div className="-mx-2 mt-5 flex flex-wrap">
+
+      <div className="mt-5 flex flex-wrap">
         {data ? (
           data.orders.map((order) =>
             order.orderItems.length ? (
-              <div key={order.orderId} className="m-2">
-                <Card className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 p-5 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
+              <div key={order.orderId} className="w-full 2md:mr-1 2md:w-72">
+                <Card className="w-full rounded-lg border border-gray-300 bg-gray-50 p-5 shadow-sm transition duration-300 ease-in-out hover:shadow-md">
                   <Link href={`/order/${order.orderId}`}>
                     <h1 className="mb-5 font-bold">Order items</h1>
                     <div className="text-xs">
@@ -103,7 +100,7 @@ export default function MyPurchases() {
             ) : null,
           )
         ) : (
-          <p className="mx-2 mt-5">No purchases found</p>
+          <p className="">No purchases found.</p>
         )}
       </div>
     </div>
@@ -113,8 +110,7 @@ export default function MyPurchases() {
 function SkeletonLoader() {
   return (
     <div className="mx-auto w-full">
-      <h1 className="mb-6 text-3xl font-bold">My Purchases</h1>
-      <br />
+      <h1 className="mb-6 text-2xl font-bold">My Purchases</h1>
       <div className="-mx-2 flex flex-wrap">
         <div className="m-2 w-full sm:w-1/2 lg:w-1/4">
           <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-50 shadow-sm transition duration-300 ease-in-out hover:shadow-md">

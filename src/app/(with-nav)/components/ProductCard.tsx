@@ -37,7 +37,9 @@ export default function ProductCard(props: {
               }
             }}
           >
-            {product.productCategory.name}
+            <div className="first-letter:uppercase">
+              {product.productCategory.name}
+            </div>
           </Link>
           <p className="text-gray-500">
             {createdAt.getDate() +

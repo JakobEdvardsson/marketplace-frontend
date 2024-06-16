@@ -4,10 +4,16 @@ import MyMarketplace from "@/app/(with-nav)/profile/components/MyMarketplace";
 
 export default function Profile() {
   return (
-    <div className="mx-auto mt-5 w-8/12">
-      <MyProfile />
-      <MyMarketplace />
-      <Logout />
+    <div className="mx-auto mt-5 flex w-11/12 flex-col 2md:w-8/12">
+      <div>
+        <MyProfile />
+      </div>
+      <div className="border-b">
+        <MyMarketplace />
+      </div>
+      <div className="mt-5">
+        <Logout />
+      </div>
     </div>
   );
 }

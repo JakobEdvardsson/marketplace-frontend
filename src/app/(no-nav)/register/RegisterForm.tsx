@@ -81,7 +81,7 @@ export default function RegisterForm() {
       </div>
       <h1 className="text-2xl font-bold">Create account</h1>
       <div className="grid grid-cols-2 gap-1">
-        <div className="m-5 h-14">
+        <div className="m-5 mr-1 h-14 sm:mr-5">
           <input
             required
             type="text"
@@ -94,7 +94,7 @@ export default function RegisterForm() {
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14">
+        <div className="relative m-5 ml-1 h-14 sm:ml-5">
           <input
             required
             type="text"
@@ -107,7 +107,7 @@ export default function RegisterForm() {
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14">
+        <div className="relative m-5 mr-1 h-14 sm:mr-5">
           <input
             required
             type="date"
@@ -119,7 +119,7 @@ export default function RegisterForm() {
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14">
+        <div className="relative m-5 ml-1 h-14 sm:ml-5">
           <input
             required
             type="text"
@@ -146,7 +146,7 @@ export default function RegisterForm() {
           </p>
           <p className="m-1 text-xs text-gray-500">*Required field</p>
         </div>
-        <div className="relative m-5 h-14">
+        <div className="relative m-5 mr-1 h-14 sm:mr-5">
           <input
             required
             type="password"
@@ -165,7 +165,7 @@ export default function RegisterForm() {
             {passwordsMatch ? "*Required field" : "Passwords are not matching"}
           </p>
         </div>
-        <div className="relative m-5 h-14">
+        <div className="relative m-5 ml-1 h-14 sm:ml-5">
           <input
             required
             type="password"

@@ -13,22 +13,23 @@ import { testAuth } from "@/utils/api-calls";
 interface AuthContextType {
   login: () => void;
   logout: () => void;
-  loggedIn: boolean;
+  loggedIn: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider(props: { readonly children: ReactNode }) {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<string>("");
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
         const response = await testAuth();
         if (response.ok) {
-          setLoggedIn(true);
+          const res = await response.json();
+          setLoggedIn(res.username);
         } else {
-          setLoggedIn(false);
+          setLoggedIn("");
         }
       } catch (error) {
         console.error(error);
@@ -38,12 +39,22 @@ export function AuthProvider(props: { readonly children: ReactNode }) {
     checkAuthStatus();
   }, []);
 
-  const login = () => {
-    setLoggedIn(true);
+  const login = async () => {
+    try {
+      const response = await testAuth();
+      if (response.ok) {
+        const res = await response.json();
+        setLoggedIn(res.username);
+      } else {
+        setLoggedIn("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const logout = () => {
-    setLoggedIn(false);
+    setLoggedIn("");
   };
 
   const contextValue = useMemo(() => ({ login, logout, loggedIn }), [loggedIn]);
