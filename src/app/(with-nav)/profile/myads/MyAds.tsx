@@ -1,10 +1,7 @@
 "use client";
 
 import { deleteProductById, handleBuyOrderRequest } from "@/utils/api-calls";
-import {
-  mutateMyActiveListings,
-  useMyActiveListings,
-} from "@/utils/api-calls-swr";
+import { useMyActiveListings } from "@/utils/api-calls-swr";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,30 +10,63 @@ import { Button } from "@/components/ui/button";
 export default function MyAds() {
   const { toast } = useToast();
 
-  const { data: products } = useMyActiveListings();
+  const { data: products, mutate } = useMyActiveListings();
 
-  const setProductStatus = (id: string, status: boolean) => {
-    handleBuyOrderRequest(id, status).then((res) => {
-      if (res.ok) {
+  const setProductStatus = async (id: string, accept: boolean) => {
+    if (!products) {
+      return;
+    }
+
+    const updatedProducts = products.activeListings.filter(
+      (product) => product.id !== id,
+    );
+
+    mutate({ activeListings: updatedProducts }, false);
+
+    handleBuyOrderRequest(id, accept)
+      .then((res) => {
+        if (!res.ok) {
+          toast({
+            title: "Failed to handle purchase request.",
+            variant: "destructive",
+          });
+        }
+      })
+      .catch(() => {
         toast({
-          title: "Purchase request handled.",
-          variant: "default",
+          title: "Failed to handle purchase request.",
+          variant: "destructive",
         });
-        mutateMyActiveListings();
-      }
-    });
+      })
+      .finally(() => mutate());
   };
 
   const deleteProduct = (id: string) => {
-    deleteProductById(id).then((res) => {
-      if (res.ok) {
+    if (!products) {
+      return;
+    }
+
+    const updatedProducts = products.activeListings.filter(
+      (product) => product.id !== id,
+    );
+    mutate({ activeListings: updatedProducts }, false);
+
+    deleteProductById(id)
+      .then((res) => {
+        if (!res.ok) {
+          toast({
+            title: "Product deletion failed.",
+            variant: "destructive",
+          });
+        }
+      })
+      .catch(() => {
         toast({
-          title: "Product deleted.",
-          variant: "default",
+          title: "Product deletion failed.",
+          variant: "destructive",
         });
-        mutateMyActiveListings();
-      }
-    });
+      })
+      .finally(() => mutate());
   };
 
   const unpackedProducts = products ? (
@@ -49,13 +79,12 @@ export default function MyAds() {
           <h1>{product.productName}</h1>
           <p>{product.productCategoryName}</p>
           <p>{product.price + " kr"}</p>
-          <button
-            className="cursor-help font-bold text-red-700"
-            type="button"
+          <Button
+            variant="destructive"
             onClick={() => deleteProduct(product.id)}
           >
             Delete
-          </button>
+          </Button>
         </div>
         {product.productStatus === 1 ? (
           <div className="my-3 flex flex-col items-center">
@@ -63,7 +92,6 @@ export default function MyAds() {
             <div>
               <Button
                 className="m-2 bg-green-500 hover:bg-green-600"
-                type="button"
                 onClick={() => {
                   setProductStatus(product.id, true);
                 }}
@@ -72,7 +100,6 @@ export default function MyAds() {
               </Button>
               <Button
                 className="m-2 bg-red-500 hover:bg-red-800"
-                type="button"
                 onClick={() => {
                   setProductStatus(product.id, false);
                 }}
