@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 export default function MyAds() {
   const { toast } = useToast();
 
-  const { data: products, mutate } = useMyActiveListings();
+  const { data: products, isLoading, mutate } = useMyActiveListings();
 
   const setProductStatus = async (id: string, accept: boolean) => {
     if (!products) {
@@ -69,60 +69,63 @@ export default function MyAds() {
       .finally(() => mutate());
   };
 
-  const unpackedProducts = products ? (
-    products.activeListings.map((product) => (
-      <div
-        key={product.id}
-        className=" my-3 flex flex-col items-center justify-between rounded-lg bg-white p-5 shadow-md"
-      >
-        <div className="flex w-full items-center justify-between">
-          <h1>{product.productName}</h1>
-          <p>{product.productCategoryName}</p>
-          <p>{product.price + " kr"}</p>
-          <Button
-            variant="destructive"
-            onClick={() => deleteProduct(product.id)}
+  const unpackedProducts =
+    products && products.activeListings.length
+      ? products.activeListings.map((product) => (
+          <div
+            key={product.id}
+            className=" my-3 flex flex-col items-center justify-between rounded-lg bg-white p-5 shadow-md"
           >
-            Delete
-          </Button>
-        </div>
-        {product.productStatus === 1 ? (
-          <div className="my-3 flex flex-col items-center">
-            <p className="mt-2 font-bold">Purchase request:</p>
-            <div>
+            <div className="flex w-full items-center justify-between">
+              <h1>{product.productName}</h1>
               <Button
-                className="m-2 bg-green-500 hover:bg-green-600"
-                onClick={() => {
-                  setProductStatus(product.id, true);
-                }}
+                variant="destructive"
+                onClick={() => deleteProduct(product.id)}
               >
-                Accept
-              </Button>
-              <Button
-                className="m-2 bg-red-500 hover:bg-red-800"
-                onClick={() => {
-                  setProductStatus(product.id, false);
-                }}
-              >
-                Deny
+                Delete
               </Button>
             </div>
+            {product.productStatus === 1 ? (
+              <div className="my-3 flex flex-col items-center">
+                <p className="mt-2 font-bold">Purchase request:</p>
+                <div>
+                  <Button
+                    className="m-2 bg-green-500 hover:bg-green-600"
+                    onClick={() => {
+                      setProductStatus(product.id, true);
+                    }}
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    className="m-2 bg-red-500 hover:bg-red-800"
+                    onClick={() => {
+                      setProductStatus(product.id, false);
+                    }}
+                  >
+                    Deny
+                  </Button>
+                </div>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
-    ))
-  ) : (
-    <div>
-      <h1 className="text-2xl font-bold">Loading...</h1>
+        ))
+      : null;
 
-      <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-      <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-      <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-      <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-      <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-      <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-    </div>
-  );
+  if (isLoading) {
+    return (
+      <div>
+        <h1 className="text-2xl font-bold">Loading...</h1>
+
+        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -135,7 +138,7 @@ export default function MyAds() {
       </div>
 
       <h1 className="my-5 text-4xl font-bold">My Ads</h1>
-      {unpackedProducts}
+      {unpackedProducts ? unpackedProducts : <p>No active ads found.</p>}
     </div>
   );
 }
