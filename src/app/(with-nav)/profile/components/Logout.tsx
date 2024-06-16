@@ -1,6 +1,5 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { logout } from "@/utils/api-calls";
 import { useAuth } from "@/components/AuthContext";
@@ -24,10 +23,10 @@ export default function Logout() {
   };
 
   return (
-    <div className="mx-auto w-full">
-      <Separator />
-      <br />
-      <Button onClick={handleLogout}>Logout</Button>
+    <div className="w-full">
+      <Button size="lg" variant="default" onClick={handleLogout}>
+        Log out
+      </Button>
     </div>
   );
 }
