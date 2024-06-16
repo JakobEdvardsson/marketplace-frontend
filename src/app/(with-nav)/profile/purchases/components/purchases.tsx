@@ -36,10 +36,6 @@ export default function MyPurchases() {
     return <SkeletonLoader />;
   }
 
-  if (data && data.orders.length === 0) {
-    return <p className="-mx-2">No purchases found.</p>;
-  }
-
   return (
     <div className="mx-auto w-full">
       <h1 className="mb-6 text-2xl font-bold">My Purchases</h1>
@@ -104,7 +100,7 @@ export default function MyPurchases() {
             ) : null,
           )
         ) : (
-          <p className="mx-2 mt-5">No purchases found</p>
+          <p className="">No purchases found.</p>
         )}
       </div>
     </div>
