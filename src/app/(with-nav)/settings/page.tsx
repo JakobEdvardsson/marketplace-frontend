@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="mx-auto mt-3 flex w-11/12 flex-col 2md:w-8/12">
-      <Navigation name="Profile" />
+      <Navigation name="Settings" />
 
       <div className="mt-8">
         <MyUserProfile />
