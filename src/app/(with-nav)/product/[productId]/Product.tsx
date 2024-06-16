@@ -4,22 +4,29 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
 import { useCart } from "@/components/CartContext";
-import { useProductById, useProfile } from "@/utils/api-calls-swr";
+import { useProfile } from "@/utils/api-calls-swr";
 import { getMyProfile } from "@/utils/api-calls";
-import { MyProfileResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  MyProfileResponseDTO,
+  ProductGetResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function Product({ id }: { readonly id: string }) {
+type Props = {
+  readonly product: ProductGetResponseDTO | undefined;
+};
+
+export default function Product(props: Props) {
   const currencyFormat = new Intl.NumberFormat("sv-SE", {
     style: "currency",
     currency: "SEK",
     maximumFractionDigits: 0,
   });
 
-  const { addToCart, removeFromCart, items } = useCart();
+  const { product } = props;
 
-  const { data: product } = useProductById(id);
+  const { addToCart, removeFromCart, items } = useCart();
 
   const { data: seller } = useProfile(product ? product.seller : null);
 
