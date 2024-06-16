@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { passwordUpdate } from "@/utils/api-calls";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";

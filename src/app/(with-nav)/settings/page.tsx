@@ -3,14 +3,7 @@ import PasswordChangeForm from "@/app/(with-nav)/settings/components/PasswordCha
 import Navigation from "@/app/(with-nav)/profile/watchlist/components/Navigation";
 import { Metadata } from "next";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Settings | Marketplace",

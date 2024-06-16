@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  ProductCategoryDTO,
-  ProductGetResponseDTO,
-} from "@/types/endpoint-types-incoming";
+import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import Image from "next/image";
 import { mutateAllInboxMessages } from "@/utils/api-calls-swr";
 import { getInboxMessageById } from "@/utils/api-calls";
@@ -12,7 +9,6 @@ import Link from "next/link";
 
 export default function ProductCardIsRead(props: {
   readonly product: ProductGetResponseDTO;
-  readonly setCategory?: (_: ProductCategoryDTO) => void;
   readonly isRead: boolean;
 }) {
   const { product } = props;
