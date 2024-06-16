@@ -16,6 +16,12 @@ export default function ProductCardIsRead(props: {
   readonly isRead: boolean;
 }) {
   const { product } = props;
+  const createdAt: Date = new Date(product.createdAt);
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
 
   const router = useRouter();
 
@@ -31,13 +37,6 @@ export default function ProductCardIsRead(props: {
     }, 0);
     router.push(`/product/${product.productId}`);
   };
-
-  const createdAt: Date = new Date(product.createdAt);
-  const currencyFormat = new Intl.NumberFormat("sv-SE", {
-    style: "currency",
-    currency: "SEK",
-    maximumFractionDigits: 0,
-  });
 
   return (
     <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
