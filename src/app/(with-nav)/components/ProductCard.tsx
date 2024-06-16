@@ -20,6 +20,7 @@ export default function ProductCard(props: {
   return (
     <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
       <Image
+        priority
         src={product.imageUrls[0] || "/images/emptyImage.jpg"}
         className="h-2/3 rounded bg-gray-50 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
