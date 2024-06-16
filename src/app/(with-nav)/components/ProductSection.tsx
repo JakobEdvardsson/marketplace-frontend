@@ -81,7 +81,7 @@ export default function ProductSection(props: {
     search.condition,
     search.sortMode,
     search.query,
-    props.fallbackData,
+    searchParams.size ? undefined : props.fallbackData,
   );
 
   const handleReset = () => {
