@@ -13,7 +13,10 @@ import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { WatchListResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  ProductGetAllResponseDTO,
+  WatchListResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -29,7 +32,9 @@ interface SearchParams {
 }
 
 // eslint-disable-next-line complexity
-export default function ProductSection() {
+export default function ProductSection(props: {
+  readonly fallbackData: ProductGetAllResponseDTO | undefined;
+}) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
@@ -76,6 +81,7 @@ export default function ProductSection() {
     search.condition,
     search.sortMode,
     search.query,
+    props.fallbackData,
   );
 
   const handleReset = () => {

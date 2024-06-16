@@ -70,6 +70,7 @@ export function useProducts(
   condition: ProductCondition | null,
   sortMode: ProductSortMode | null,
   query?: string,
+  fallbackData?: ProductGetAllResponseDTO | undefined,
 ) {
   let url = `${BACKEND_URL}/products?`;
 
@@ -105,7 +106,7 @@ export function useProducts(
     url = url.slice(0, -1);
   }
 
-  return useSWR<ProductGetAllResponseDTO>(url, fetcher);
+  return useSWR<ProductGetAllResponseDTO>(url, fetcher, { fallbackData });
 }
 
 // eslint-disable-next-line max-params
