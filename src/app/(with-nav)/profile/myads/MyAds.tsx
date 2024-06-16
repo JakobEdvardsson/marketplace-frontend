@@ -114,15 +114,23 @@ export default function MyAds() {
 
   if (isLoading) {
     return (
-      <div>
-        <h1 className="text-2xl font-bold">Loading...</h1>
+      <div className="w-full">
+        <div className="flex space-x-2 ">
+          <Link className="text-sm hover:underline" href="/profile">
+            My Marketplace
+          </Link>
+          <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
+          <p className="text-sm text-gray-500">My Ads</p>
+        </div>
 
-        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
-        <div className=" my-3 flex h-24 animate-pulse flex-row items-center justify-between rounded-lg bg-gray-300 p-5 shadow-md" />
+        <h1 className="my-5 text-2xl font-bold">My Ads</h1>
+
+        <div className="my-3 h-24 animate-pulse rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className="my-3 h-24 animate-pulse rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className="my-3 h-24 animate-pulse rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className="my-3 h-24 animate-pulse rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className="my-3 h-24 animate-pulse rounded-lg bg-gray-300 p-5 shadow-md" />
+        <div className="my-3 h-24 animate-pulse rounded-lg bg-gray-300 p-5 shadow-md" />
       </div>
     );
   }
