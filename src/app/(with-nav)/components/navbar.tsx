@@ -156,14 +156,14 @@ export default function Navbar() {
     </div>
   ) : (
     <div className="flex h-14 w-full bg-white shadow-md drop-shadow-md">
-      <div className="mx-auto flex w-8/12 flex-row items-center justify-between">
+      <div className="mx-auto flex w-11/12 flex-row items-center justify-between 2md:w-8/12">
         <Link className="text-3xl font-black text-red-600" href="/">
           Plocket
         </Link>
         <div className="flex items-center justify-end">
-          <Link href="/login">
-            <Button className="mr-8">Login</Button>
-          </Link>
+          <Button variant="blue" className="">
+            <Link href="/login">Log in</Link>
+          </Button>
         </div>
       </div>
     </div>
