@@ -1,63 +1,37 @@
-"use client";
-
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
 import { ProductColor, ProductCondition } from "@/utils/api-call-types";
-import { useCart } from "@/components/CartContext";
-import { useProfile } from "@/utils/api-calls-swr";
-import { getMyProfile } from "@/utils/api-calls";
-import {
-  MyProfileResponseDTO,
-  ProductGetResponseDTO,
-} from "@/types/endpoint-types-incoming";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import AddToCartButton from "@/app/(with-nav)/product/[productId]/AddToCartButton";
+import ProductSeller from "@/app/(with-nav)/product/[productId]/ProductSeller";
+import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
+import { getProductById } from "@/utils/api-calls";
 
 type Props = {
-  readonly product: ProductGetResponseDTO | undefined;
+  readonly productId: string;
 };
 
-export default function Product(props: Props) {
+async function getProduct(
+  productId: string,
+): Promise<ProductGetResponseDTO | undefined> {
+  const product: ProductGetResponseDTO = await getProductById(productId).then(
+    (res) => res.json(),
+  );
+
+  if (product) {
+    return product;
+  }
+
+  return undefined;
+}
+
+export default async function Product(props: Props) {
   const currencyFormat = new Intl.NumberFormat("sv-SE", {
     style: "currency",
     currency: "SEK",
     maximumFractionDigits: 0,
   });
 
-  const { product } = props;
-
-  const { addToCart, removeFromCart, items } = useCart();
-
-  const { data: seller } = useProfile(product ? product.seller : null);
-
-  const [whoAmI, setWhoAmI] = useState<MyProfileResponseDTO | undefined>();
-
-  useEffect(() => {
-    getMyProfile()
-      .then((response) => {
-        if (response.status === 401) {
-          setWhoAmI(undefined);
-          return;
-        }
-
-        response.json().then((res) => {
-          setWhoAmI(res);
-        });
-      })
-      .catch((e) => console.error(e));
-  }, []);
-
-  const handleAddToCart = () => {
-    if (product) {
-      addToCart(product);
-    }
-  };
-
-  const handleRemoveFromCart = () => {
-    if (product) {
-      removeFromCart(product.productId);
-    }
-  };
+  const product = await getProduct(props.productId);
 
   const renderFiles = () => {
     if (!product || !product.imageUrls || product.imageUrls.length === 0) {
@@ -131,30 +105,7 @@ export default function Product(props: Props) {
         ) : null}
       </div>
 
-      {product &&
-      product.status === 0 &&
-      whoAmI &&
-      seller &&
-      whoAmI.username !== seller.username ? (
-        items.find((element) => element.productId === product.productId) ===
-        undefined ? (
-          <div className="mt-4">
-            <Button
-              className="bg-blue-500 hover:bg-blue-400"
-              variant="default"
-              onMouseDown={handleAddToCart}
-            >
-              Add to cart
-            </Button>
-          </div>
-        ) : (
-          <div className="mt-4">
-            <Button variant="destructive" onMouseDown={handleRemoveFromCart}>
-              Remove from cart
-            </Button>
-          </div>
-        )
-      ) : null}
+      <AddToCartButton product={product} />
 
       <div className="mt-5">
         <h1 className="text-xl font-semibold">Description</h1>
@@ -174,56 +125,11 @@ export default function Product(props: Props) {
             width={50}
             height={50}
           />
-          <p className="ml-2">
-            {seller &&
-              `${seller.firstName} ${seller.lastName} (${seller.username})`}
-          </p>
+          <div className="ml-2">
+            <ProductSeller sellerId={product.seller} />
+          </div>
         </div>
       </div>
     </div>
-  ) : (
-    <div className="w-full">
-      <div className="mb-2 flex space-x-2">
-        <div className="h-4 w-20 animate-pulse rounded bg-gray-300" />
-        <Image src="/images/arrow.svg" alt="arrow" width="8" height="8" />
-        <div className="h-4 w-32 animate-pulse rounded bg-gray-300" />
-      </div>
-
-      <div className="flex w-full bg-gray-200">
-        <div className="h-64 w-full animate-pulse rounded bg-gray-300" />
-      </div>
-
-      <div className="mt-3 h-8 w-3/4 animate-pulse rounded bg-gray-300" />
-
-      <div className="w-full">
-        <div className="mt-3 h-8 w-1/4 animate-pulse rounded bg-gray-300" />
-      </div>
-
-      <div className="flex flex-wrap justify-start">
-        <div className="w-fit">
-          <div className="mt-3 h-6 w-32 animate-pulse rounded bg-gray-300" />
-        </div>
-        <div className="w-fit">
-          <div className="mt-3 h-6 w-40 animate-pulse rounded bg-gray-300" />
-        </div>
-        <div className="w-fit">
-          <div className="mt-3 h-6 w-24 animate-pulse rounded bg-gray-300" />
-        </div>
-      </div>
-
-      <div className="mt-5">
-        <div className="h-6 w-1/4 animate-pulse rounded bg-gray-300" />
-        <div className="mt-2 h-20 w-full animate-pulse rounded bg-gray-300" />
-      </div>
-
-      <div className="my-5 h-0.5 w-full bg-gray-300 dark:bg-slate-800" />
-
-      <div className="w-full">
-        <div className="mt-2 flex items-center">
-          <div className="size-12 animate-pulse rounded-full bg-gray-300" />
-          <div className="ml-2 h-6 w-1/2 animate-pulse rounded bg-gray-300" />
-        </div>
-      </div>
-    </div>
-  );
+  ) : null;
 }
