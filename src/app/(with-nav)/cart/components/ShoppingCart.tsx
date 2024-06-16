@@ -15,8 +15,6 @@ export function ShoppingCart() {
 
   const { items, removeFromCart } = useCart();
 
-  // TODO: Do not let remove button resize on mobile
-  //
   return (
     <div className="mt-4 basis-3/4 rounded bg-white p-4">
       <div className=" flex flex-row justify-between">
@@ -33,9 +31,9 @@ export function ShoppingCart() {
         {items.map((item) => (
           <li
             key={item.productId}
-            className="mb-4 flex items-center justify-between border-b border-gray-200 py-4 last:border-0 "
+            className="relative mb-4 flex items-center justify-between border-b border-gray-200 py-4 last:border-0 "
           >
-            <div className="group flex items-center">
+            <div className="flex items-center">
               <Link href={`/product/${item.productId}`}>
                 <div className="mr-4">
                   <Image
@@ -47,11 +45,12 @@ export function ShoppingCart() {
                   />
                 </div>
               </Link>
-              <div className="cart-mobile-br:flex cart-mobile-br:flex-col">
-                <Link className="" href={`/product/${item.productId}`}>
-                  <div className="font-bold group-hover:underline">
-                    {item.name}
-                  </div>
+              <div className="flex flex-col">
+                <Link
+                  className="after:absolute after:inset-0 hover:underline"
+                  href={`/product/${item.productId}`}
+                >
+                  <div className="font-bold">{item.name}</div>
                 </Link>
                 <div className="text-gray-600">
                   Category: {item.productCategory.name}
@@ -60,7 +59,7 @@ export function ShoppingCart() {
                   {currencyFormat.format(item.price)}
                 </div>
                 <Button
-                  className="mt-2"
+                  className="z-10 mt-2 w-24 basis-0"
                   onClick={() => removeFromCart(item.productId)}
                 >
                   Remove
