@@ -1,19 +1,32 @@
 import MyUserProfile from "@/app/(with-nav)/settings/components/MyUserProfile";
 import PasswordChangeForm from "@/app/(with-nav)/settings/components/PasswordChangeForm";
 import Navigation from "@/app/(with-nav)/profile/watchlist/components/Navigation";
+import { Metadata } from "next";
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "Settings | Marketplace",
+  description: "Marketplace settings",
+};
 
 export default function Page() {
   return (
-    <div>
-      <div className="mx-auto mt-2 w-8/12 px-2">
-        <Navigation name="Profile" />
-        <div className="mt-8">
-          <MyUserProfile />
-        </div>
+    <div className="mx-auto mt-3 flex w-11/12 flex-col 2md:w-8/12">
+      <Navigation name="Settings" />
+
+      <div className="mt-8">
+        <MyUserProfile />
       </div>
-      <div className="mx-auto mt-10 px-2 sm:w-4/5 md:w-2/3 lg:w-1/3">
-        <PasswordChangeForm />
-      </div>
+
+      <Card className="mt-5 w-full">
+        <CardHeader>
+          <CardTitle>Change password</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <PasswordChangeForm />
+        </CardContent>
+      </Card>
     </div>
   );
 }

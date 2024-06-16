@@ -56,7 +56,9 @@ export default function ExampleProduct(props: {
       <h1
         className={`cursor-default text-sm text-gray-400 ${props.category ? "" : "text-gray-300"}`}
       >
-        {props.category ? "Category: " + props.category : ""}
+        {props.category
+          ? `Category: ${props.category[0].toUpperCase()}${props.category.slice(1)}`
+          : ""}
       </h1>
 
       <h1 className="cursor-default text-sm text-gray-400">
@@ -66,7 +68,7 @@ export default function ExampleProduct(props: {
             ProductCondition[props.condition]
               .replace(/_/g, " ")
               .toLowerCase()
-              .replace(/\b\w/g, (char) => char.toUpperCase())}
+              .replace(/^[a-zA-Z]/, (char) => char.toUpperCase())}
       </h1>
 
       <h1 className="cursor-default text-sm text-gray-400">
@@ -84,7 +86,7 @@ export default function ExampleProduct(props: {
       </h1>
 
       <p
-        className={`my-3 cursor-default text-xl ${props.price ? "" : "text-gray-300"}`}
+        className={`my-3 cursor-default text-xl ${props.price ? "" : "text-gray-300 "} ${props.price === 420 && "rainbow-text"} `}
       >
         {props.price ? currencyFormat.format(props.price) : "No price"}
       </p>

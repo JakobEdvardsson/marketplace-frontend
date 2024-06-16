@@ -61,7 +61,7 @@ export default function CreateProduct() {
     if (categories.length > 0) {
       return categories.map((category) => (
         <option key={category.id} value={category.id}>
-          {category.name}
+          {category.name[0].toUpperCase() + category.name.slice(1)}
         </option>
       ));
     }
@@ -317,7 +317,7 @@ export default function CreateProduct() {
               <option value={0}>Brand new</option>
               <option value={1}>New</option>
               <option value={2}>Used</option>
-              <option value={3}>Used poor condition</option>
+              <option value={3}>Poor condition</option>
               <option value={4}>Not working</option>
             </select>
           </div>

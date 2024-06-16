@@ -7,8 +7,14 @@ export default function ProductCardSlim(props: {
   readonly productPrice: number;
   readonly isError: boolean;
 }) {
+  const currencyFormat = new Intl.NumberFormat("sv-SE", {
+    style: "currency",
+    currency: "SEK",
+    maximumFractionDigits: 0,
+  });
+
   return (
-    <div className="mx-auto mt-2 flex w-1/3 flex-col items-center justify-center rounded-2xl bg-gray-50 p-3">
+    <div className="flex w-full flex-col items-center bg-gray-200 p-3">
       <h1 className={props.isError ? "line-through" : ""}>
         {props.productName}
       </h1>
@@ -17,7 +23,7 @@ export default function ProductCardSlim(props: {
           This item has already been purchased by another user!
         </p>
       )}
-      <b>{props.productPrice} kr</b>
+      <p className="font-bold">{currencyFormat.format(props.productPrice)}</p>
 
       <Button type="button">
         <Link href={`/product/${props.productId}`}>More info</Link>

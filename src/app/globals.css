@@ -21,6 +21,21 @@ body {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
+@keyframes rainbow {
+  0% { color: #FF0000; }
+  14.28% { color: #FF7F00; }
+  28.56% { color: #FFFF00; }
+  42.84% { color: #00FF00; }
+  57.12% { color: #0000FF; }
+  71.40% { color: #4B0082; }
+  85.68% { color: #8B00FF; }
+  100% { color: #FF0000; }
+}
+
+.rainbow-text {
+  animation: rainbow 5s linear infinite;
+}
+
 /*
 
 body {

@@ -24,17 +24,18 @@ export default function Page({
   }, [params.orderId]);
 
   return (
-    <div>
+    <div className="mx-auto w-11/12 2md:w-8/12">
       <h1 className="my-5 text-center text-3xl font-medium">Your order</h1>
       {product
         ? product.orderItems.map((item) => (
-            <ProductCardSlim
-              key={item.productId}
-              isError={false}
-              productId={item.productId}
-              productName={item.productName}
-              productPrice={item.price}
-            />
+            <div key={item.productId} className="">
+              <ProductCardSlim
+                isError={false}
+                productId={item.productId}
+                productName={item.productName}
+                productPrice={item.price}
+              />
+            </div>
           ))
         : null}
     </div>

@@ -9,34 +9,32 @@ import Image from "next/image";
 
 export default function MyMarketplace() {
   return (
-    <div className="mx-auto w-full">
+    <div className="w-full">
       <h1 className="text-3xl font-bold">My Marketplace</h1>
-      <br />
-      <div className="flex flex-wrap">
-        <Card>
+      <div className="mt-5 flex flex-wrap">
+        <Card className="mr-0 w-full 2md:mr-4 2md:w-72">
           <Link href="/profile/myads">
             <CardHeader>
               <Image
                 src="/images/pen.png"
-                className="w-8"
                 alt="Product Image"
-                width={1000}
-                height={1000}
+                width={32}
+                height={32}
               />
               <CardTitle>My ads</CardTitle>
               <CardDescription>View and manage your own ads</CardDescription>
             </CardHeader>
           </Link>
         </Card>
-        <Card>
+
+        <Card className="mr-0 w-full 2md:mr-4 2md:w-72">
           <Link href="/profile/watchlist">
             <CardHeader>
               <Image
                 src="/images/bell.png"
-                className="w-8"
                 alt="Product Image"
-                width={1000}
-                height={1000}
+                width={32}
+                height={32}
               />
               <CardTitle>Watchlist</CardTitle>
               <CardDescription>New ads from your watchlist</CardDescription>
@@ -44,15 +42,14 @@ export default function MyMarketplace() {
           </Link>
         </Card>
 
-        <Card>
+        <Card className="mr-0 w-full 2md:mr-4 2md:w-72">
           <Link href="/settings">
             <CardHeader>
               <Image
                 src="/images/settings.webp"
-                className="w-8"
                 alt="Product Image"
-                width={1000}
-                height={1000}
+                width={32}
+                height={32}
               />
               <CardTitle>Settings</CardTitle>
               <CardDescription>View and manage your profile</CardDescription>
@@ -60,15 +57,14 @@ export default function MyMarketplace() {
           </Link>
         </Card>
 
-        <Card>
+        <Card className="mb-0 mr-0 w-full 2md:mb-4 2md:mr-4 2md:w-72">
           <Link href="/profile/purchases">
             <CardHeader>
               <Image
                 src="/images/purchased.png"
-                className="w-12"
                 alt="Product Image"
-                width={1000}
-                height={1000}
+                width={32}
+                height={32}
               />
               <CardTitle>My purchases</CardTitle>
               <CardDescription>View your purchases</CardDescription>
