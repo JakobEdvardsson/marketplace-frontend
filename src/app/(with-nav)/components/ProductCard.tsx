@@ -22,7 +22,7 @@ export default function ProductCard(props: {
       <Image
         priority
         src={product.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="h-2/3 rounded bg-gray-50 object-contain sm:h-full sm:w-2/5"
+        className="h-2/3 rounded bg-gray-200 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
