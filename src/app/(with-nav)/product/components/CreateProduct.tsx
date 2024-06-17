@@ -1,13 +1,18 @@
 "use client";
 
-import { getAllProductCategories, postProduct } from "@/utils/api-calls";
-import React, { useEffect, useState } from "react";
-import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
+import { postProduct } from "@/utils/api-calls";
+import React, { useState } from "react";
 import ExampleProduct from "@/app/(with-nav)/product/components/ExampleProduct";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
 
-export default function CreateProduct() {
+type Props = {
+  readonly categories: ProductCategoryDTO[] | undefined;
+};
+
+export default function CreateProduct(props: Props) {
+  const { categories } = props;
   const { toast } = useToast();
 
   const currentYear = new Date().getFullYear();
@@ -15,7 +20,6 @@ export default function CreateProduct() {
   const router = useRouter();
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>();
-  const [categories, setCategories] = useState<ProductCategoryDTO[]>([]);
 
   //This is the states for the example product
   const [name, setName] = useState<string>("");
@@ -37,16 +41,8 @@ export default function CreateProduct() {
     description !== "" &&
     price !== undefined;
 
-  useEffect(() => {
-    getAllProductCategories()
-      .then((res) => {
-        res.json().then((data) => setCategories(data as ProductCategoryDTO[]));
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   const extractName = (selectValue: string) => {
-    const selectedCategory = categories.find(
+    const selectedCategory = categories?.find(
       (category) => category.id === selectValue,
     );
     if (selectedCategory) {
@@ -57,7 +53,7 @@ export default function CreateProduct() {
   };
 
   const renderCategories = () => {
-    if (categories.length > 0) {
+    if (categories && categories.length > 0) {
       return categories.map((category) => (
         <option key={category.id} value={category.id}>
           {category.name[0].toUpperCase() + category.name.slice(1)}
