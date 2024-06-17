@@ -258,14 +258,14 @@ export default function ProductSection(props: {
           <Input
             className="mr-1"
             type="number"
-            placeholder="Min price"
+            placeholder="Minimum price"
             min={0}
             value={search.minimumPrice ? search.minimumPrice : ""}
             onChange={handleMinimumPriceChange}
           />
           <Input
             type="number"
-            placeholder="Max price"
+            placeholder="Maximum price"
             min={search.minimumPrice ? search.minimumPrice : 0}
             value={search.maximumPrice ? search.maximumPrice : ""}
             onChange={handleMaximumPriceChange}
