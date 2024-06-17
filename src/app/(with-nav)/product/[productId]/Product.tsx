@@ -5,6 +5,7 @@ import AddToCartButton from "@/app/(with-nav)/product/[productId]/AddToCartButto
 import ProductSeller from "@/app/(with-nav)/product/[productId]/ProductSeller";
 import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
 import { getProductById } from "@/utils/api-calls";
+import { PostedDate } from "@/app/(with-nav)/product/[productId]/PostedDate";
 
 type Props = {
   readonly productId: string;
@@ -116,15 +117,7 @@ export default async function Product(props: Props) {
           {product.description}
         </div>
         <div className="mt-7 flex text-sm text-gray-500">
-          {`Posted: ${new Date(product.createdAt).toLocaleString(
-            ["en-SE", "en-US"],
-            {
-              day: "numeric",
-              month: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-            },
-          )} in `}
+          <PostedDate createdAt={product.createdAt} />
           <div className="ml-1 first-letter:uppercase">
             <Link
               className="text-blue-500"
