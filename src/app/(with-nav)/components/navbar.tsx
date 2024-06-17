@@ -158,9 +158,11 @@ export default function Navbar() {
         Plocket
       </Link>
       <div className="flex items-center justify-end">
-        <Button variant="blue" className="">
-          <Link href="/login">Log in</Link>
-        </Button>
+        <Link href="/login">
+          <Button variant="blue" className="">
+            Log in
+          </Button>
+        </Link>
       </div>
     </>
   );
