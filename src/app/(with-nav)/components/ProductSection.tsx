@@ -74,15 +74,25 @@ export default function ProductSection(props: {
   const { data: subscribedCategories, mutate: mutateSubscribedCategories } =
     useAllWatchlistEntries();
 
-  const { data: products } = useProducts(
+  const { data: searchProducts } = useProducts(
     search.productCategoryName,
     search.minimumPrice,
     search.maximumPrice,
     search.condition,
     search.sortMode,
     search.query,
-    searchParams.size ? undefined : props.fallbackData,
   );
+
+  const products =
+    searchParams.size ||
+    search.productCategoryName ||
+    search.minimumPrice ||
+    search.maximumPrice ||
+    search.condition !== null ||
+    search.sortMode !== null ||
+    search.query
+      ? searchProducts
+      : props.fallbackData;
 
   const handleReset = () => {
     setSearch({
