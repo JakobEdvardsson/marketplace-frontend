@@ -115,6 +115,25 @@ export default async function Product(props: Props) {
         <div className="mt-2 w-full whitespace-pre-wrap font-light">
           {product.description}
         </div>
+        <div className="mt-7 flex text-sm text-gray-500">
+          {`Posted: ${new Date(product.createdAt).toLocaleString(
+            ["en-SE", "en-US"],
+            {
+              day: "numeric",
+              month: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            },
+          )} in `}
+          <div className="ml-1 first-letter:uppercase">
+            <Link
+              className="text-blue-500"
+              href={`/?category=${product.productCategory.name}`}
+            >
+              {product.productCategory.name}
+            </Link>
+          </div>
+        </div>
       </div>
 
       <div className="my-5 h-0.5 w-full shrink-0 bg-gray-300 dark:bg-slate-800" />
