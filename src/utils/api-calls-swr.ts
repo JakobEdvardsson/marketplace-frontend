@@ -224,8 +224,8 @@ export function mutateInboxMessageById(messageId: string) {
   mutate(url);
 }
 
-export function useAllWatchlistEntries() {
-  const url = `${BACKEND_URL}/watchlist`;
+export function useAllWatchlistEntries(loggedIn: boolean) {
+  const url = loggedIn ? `${BACKEND_URL}/watchlist` : null;
   return useSWR<WatchListResponseDTO[]>(url, authedFetcher);
 }
 

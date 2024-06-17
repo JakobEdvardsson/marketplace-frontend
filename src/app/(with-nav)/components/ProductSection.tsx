@@ -21,6 +21,7 @@ import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
+import { useAuth } from "@/components/AuthContext";
 
 interface SearchParams {
   productCategoryName: string | null;
@@ -35,10 +36,13 @@ interface SearchParams {
 export default function ProductSection(props: {
   readonly fallbackData: ProductGetAllResponseDTO | undefined;
 }) {
-  const pathname = usePathname();
   const { replace } = useRouter();
+  const { toast } = useToast();
+  const { loggedIn } = useAuth();
 
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
   const minimumPriceParam = Number(searchParams.get("minPrice"));
@@ -48,8 +52,6 @@ export default function ProductSection(props: {
       ? -1
       : Number(searchParams.get("condition"));
   const sortModeParam = Number(searchParams.get("sort"));
-
-  const { toast } = useToast();
 
   const [search, setSearch] = useState<SearchParams>({
     productCategoryName: categoryParam ? categoryParam : null,
@@ -72,7 +74,7 @@ export default function ProductSection(props: {
   });
 
   const { data: subscribedCategories, mutate: mutateSubscribedCategories } =
-    useAllWatchlistEntries();
+    useAllWatchlistEntries(Boolean(loggedIn));
 
   const { data: searchProducts } = useProducts(
     search.productCategoryName,
