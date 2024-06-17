@@ -12,9 +12,11 @@ type Props = {
 async function getProduct(
   productId: string,
 ): Promise<ProductGetResponseDTO | undefined> {
-  const product: ProductGetResponseDTO = await getProductById(productId).then(
-    (res) => res.json(),
-  );
+  const product: ProductGetResponseDTO = await getProductById(productId)
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log(error);
+    });
 
   if (product) {
     return product;

@@ -4,9 +4,11 @@ import { ProductGetAllResponseDTO } from "@/types/endpoint-types-incoming";
 import React, { Suspense } from "react";
 
 async function getProducts(): Promise<ProductGetAllResponseDTO | undefined> {
-  const product: ProductGetAllResponseDTO = await get20LatestProducts().then(
-    (res) => res.json(),
-  );
+  const product: ProductGetAllResponseDTO = await get20LatestProducts()
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log(error);
+    });
 
   if (product) {
     return product;

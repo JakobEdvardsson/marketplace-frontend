@@ -13,14 +13,18 @@ export default function Page({
   const [product, setProduct] = useState<OrderGetResponseDTO>();
 
   useEffect(() => {
-    getBuyOrderById(params.orderId).then((response) => {
-      if (response.ok) {
-        response.json().then((res) => {
-          const data = res as OrderGetResponseDTO;
-          setProduct(data);
-        });
-      }
-    });
+    getBuyOrderById(params.orderId)
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((res) => {
+            const data = res as OrderGetResponseDTO;
+            setProduct(data);
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [params.orderId]);
 
   return (

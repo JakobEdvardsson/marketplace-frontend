@@ -6,9 +6,11 @@ type Props = {
 };
 
 async function getSeller(sellerId: string) {
-  const seller: ProfileResponseDTO = await getProfile(sellerId).then((res) =>
-    res.json(),
-  );
+  const seller: ProfileResponseDTO = await getProfile(sellerId)
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log(error);
+    });
 
   if (seller) {
     return seller;
