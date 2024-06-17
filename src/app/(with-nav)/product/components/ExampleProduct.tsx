@@ -86,7 +86,7 @@ export default function ExampleProduct(props: {
       </h1>
 
       <p
-        className={`my-3 cursor-default text-xl ${props.price ? "" : "text-gray-300 "} ${props.price === 420 && "rainbow-text"} `}
+        className={`my-3 cursor-default text-xl ${props.price ? "" : "text-gray-300 "} ${props.price === 1337 && "rainbow-text"} `}
       >
         {props.price ? currencyFormat.format(props.price) : "No price"}
       </p>

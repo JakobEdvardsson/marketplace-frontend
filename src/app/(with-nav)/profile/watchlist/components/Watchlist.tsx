@@ -57,7 +57,7 @@ export default function MyWatchlist() {
   const [selected, setSelected] = useState("-1");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
-  const { data: categories } = useAllWatchlistEntries();
+  const { data: categories } = useAllWatchlistEntries(true);
 
   const { data: messages } = useAllInboxMessages();
 

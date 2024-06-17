@@ -32,12 +32,7 @@ export default function CategorySelector(props: {
             className="flex flex-col items-center hover:scale-105"
             onClick={() => props.setProductCategoryName(category.name)}
           >
-            <Image
-              src={category.image}
-              alt={category.name}
-              width={24}
-              height={24}
-            />
+            <Image src={category.image} alt="" width={24} height={24} />
             <span>
               {category.name
                 .toLowerCase()

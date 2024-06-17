@@ -188,6 +188,7 @@ export function getProducts(
   }
 
   return fetch(url, {
+    next: { revalidate: 0 },
     method: "GET",
     credentials: "omit",
   });

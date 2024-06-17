@@ -3,48 +3,26 @@
 import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/components/CartContext";
 
 export default function Navbar() {
   const { items } = useCart();
   const { loggedIn } = useAuth();
 
-  const router = useRouter();
-  const handleClickLogin = () => {
-    router.push("/login");
-  };
-
-  const handleClickCart = () => {
-    router.push("/cart");
-  };
-
-  const handleClickPostAd = () => {
-    router.push("/product");
-  };
-
-  const handleClickSearchAds = () => {
-    router.push("/");
-  };
-
-  const handleClickProfile = () => {
-    router.push("/profile");
-  };
-
   return loggedIn ? (
-    <div className="flex h-14 w-full bg-white shadow-md drop-shadow-md">
-      <div className="mx-auto flex w-8/12 flex-row items-center mobile-br:w-11/12 mobile-br:justify-between">
-        <Link
-          className="grow pr-6 text-3xl font-black text-red-600 mobile-br:grow-0"
-          href="/"
-        >
-          <span className="mobile-br:hidden">Plocket</span>
-          <span className="hidden mobile-br:block">P</span>
+    <>
+      <div className="grow pr-6 text-3xl font-black text-red-600 mobile-br:grow-0">
+        <Link href="/" className="mobile-br:hidden">
+          Plocket
         </Link>
+        <Link href="/" className="hidden mobile-br:block">
+          P
+        </Link>
+      </div>
+      <Link href="/product">
         <Button
           className="bg-blue-500 pr-8 hover:bg-blue-400 mobile-br:hidden"
           size="sm"
-          onClick={handleClickPostAd}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -62,11 +40,12 @@ export default function Navbar() {
           </svg>
           Post ad
         </Button>
+      </Link>
+      <Link href="/product">
         <Button
           variant="link"
           className="hidden mobile-br:flex mobile-br:flex-col mobile-br:py-0 mobile-br:text-xs"
           size="sm"
-          onClick={handleClickPostAd}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -84,10 +63,11 @@ export default function Navbar() {
           </svg>
           Post ad
         </Button>
+      </Link>
+      <Link href="/">
         <Button
           variant="link"
           className="border-white mobile-br:flex-col mobile-br:py-0 mobile-br:text-xs"
-          onClick={handleClickSearchAds}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -105,10 +85,11 @@ export default function Navbar() {
           </svg>
           Ads
         </Button>
+      </Link>
+      <Link href="/cart">
         <Button
           variant="link"
           className="border-white mobile-br:flex-col mobile-br:py-0 mobile-br:text-xs"
-          onClick={handleClickCart}
         >
           <div className="relative inline-block">
             <svg
@@ -146,11 +127,12 @@ export default function Navbar() {
           </div>
           Cart
         </Button>
+      </Link>
 
+      <Link href="/profile">
         <Button
           variant="link"
           className="border-white pr-0 mobile-br:flex-col mobile-br:py-0 mobile-br:text-xs"
-          onClick={handleClickProfile}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -168,20 +150,20 @@ export default function Navbar() {
           </svg>
           {loggedIn}
         </Button>
-      </div>
-    </div>
+      </Link>
+    </>
   ) : (
-    <div className="flex h-14 w-full bg-white shadow-md drop-shadow-md">
-      <div className="mx-auto flex w-8/12 flex-row items-center justify-between">
-        <Link className="text-3xl font-black text-red-600" href="/">
-          Plocket
-        </Link>
-        <div className="flex items-center justify-end">
-          <Button className="mr-8" onClick={handleClickLogin}>
-            Login
+    <>
+      <Link className="text-3xl font-black text-red-600" href="/">
+        Plocket
+      </Link>
+      <div className="flex items-center justify-end">
+        <Link href="/login">
+          <Button variant="blue" className="">
+            Log in
           </Button>
-        </div>
+        </Link>
       </div>
-    </div>
+    </>
   );
 }

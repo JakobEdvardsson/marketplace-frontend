@@ -1,14 +1,18 @@
 "use client";
 
-import { getAllProductCategories, postProduct } from "@/utils/api-calls";
-import React, { useEffect, useState } from "react";
-import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
+import { postProduct } from "@/utils/api-calls";
+import React, { useState } from "react";
 import ExampleProduct from "@/app/(with-nav)/product/components/ExampleProduct";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import Navigation from "@/app/(with-nav)/product/components/Navigation";
+import { ProductCategoryDTO } from "@/types/endpoint-types-incoming";
 
-export default function CreateProduct() {
+type Props = {
+  readonly categories: ProductCategoryDTO[] | undefined;
+};
+
+export default function CreateProduct(props: Props) {
+  const { categories } = props;
   const { toast } = useToast();
 
   const currentYear = new Date().getFullYear();
@@ -16,7 +20,6 @@ export default function CreateProduct() {
   const router = useRouter();
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>();
-  const [categories, setCategories] = useState<ProductCategoryDTO[]>([]);
 
   //This is the states for the example product
   const [name, setName] = useState<string>("");
@@ -38,16 +41,8 @@ export default function CreateProduct() {
     description !== "" &&
     price !== undefined;
 
-  useEffect(() => {
-    getAllProductCategories()
-      .then((res) => {
-        res.json().then((data) => setCategories(data as ProductCategoryDTO[]));
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   const extractName = (selectValue: string) => {
-    const selectedCategory = categories.find(
+    const selectedCategory = categories?.find(
       (category) => category.id === selectValue,
     );
     if (selectedCategory) {
@@ -58,7 +53,7 @@ export default function CreateProduct() {
   };
 
   const renderCategories = () => {
-    if (categories.length > 0) {
+    if (categories && categories.length > 0) {
       return categories.map((category) => (
         <option key={category.id} value={category.id}>
           {category.name[0].toUpperCase() + category.name.slice(1)}
@@ -230,222 +225,219 @@ export default function CreateProduct() {
   };
 
   return (
-    <div className="mx-auto w-8/12 mobile-br:w-11/12">
-      <Navigation name="Post Ad" />
-      <form
-        className="mt-3 flex product-form-br:flex-col"
-        action={handleSubmit}
-      >
-        <div className="shrink-0 basis-[550px] rounded-md bg-white py-4">
-          <div className="m-5 flex">
-            <label className="text-3xl font-black mobile-br:text-2xl">
-              Post Ad
-            </label>
-            <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
-              Free!
-            </p>
-          </div>
+    <form
+      className="mt-3 flex w-full product-form-br:flex-col"
+      action={handleSubmit}
+    >
+      <div className="shrink-0 basis-[550px] rounded-md bg-white py-4">
+        <div className="m-5 flex">
+          <label className="text-3xl font-black mobile-br:text-2xl">
+            Post Ad
+          </label>
+          <p className="ml-3 rounded-md bg-red-50 p-2 text-center font-medium text-red-700">
+            Free!
+          </p>
+        </div>
 
-          <div className="mx-auto my-10 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Category</p>
-            <select
-              id="productCategory"
-              name="productCategory"
-              className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              onChange={(e) => extractName(e.target.value)}
+        <div className="mx-auto my-10 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Category</p>
+          <select
+            id="productCategory"
+            name="productCategory"
+            className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            onChange={(e) => extractName(e.target.value)}
+          >
+            <option>Select category</option>
+            {renderCategories()}
+          </select>
+        </div>
+
+        <div className="mx-auto my-10 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Pictures</p>
+          <input
+            multiple
+            type="file"
+            id="files"
+            name="data"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+          <div className="my-3 grid grid-cols-5 gap-2">
+            {renderSelectedFiles()}
+          </div>
+          <label htmlFor="files" className="w-full">
+            <div
+              className="flex h-56 w-full cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
             >
-              <option>Select category</option>
-              {renderCategories()}
-            </select>
-          </div>
-
-          <div className="mx-auto my-10 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Pictures</p>
-            <input
-              multiple
-              type="file"
-              id="files"
-              name="data"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <div className="my-3 grid grid-cols-5 gap-2">
-              {renderSelectedFiles()}
+              {" "}
+              <span className="text-gray-500">Upload photos</span>
             </div>
-            <label htmlFor="files" className="w-full">
-              <div
-                className="flex h-56 w-full cursor-pointer items-center justify-center rounded border-2 border-dashed border-gray-300 bg-white"
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-              >
-                {" "}
-                <span className="text-gray-500">Upload photos</span>
-              </div>
-            </label>
-          </div>
+          </label>
+        </div>
 
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Name</p>
-            <input
-              required
-              type="text"
-              id="name"
-              name="name"
-              placeholder="What is the name of the product?"
-              className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Name</p>
+          <input
+            required
+            type="text"
+            id="name"
+            name="name"
+            placeholder="What is the name of the product?"
+            className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
 
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Condition</p>
-            <select
-              id="condition"
-              name="condition"
-              className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              onChange={(e) => {
-                if (e.target.value === "-1") {
-                  setCondition(undefined);
-                } else {
-                  setCondition(parseInt(e.target.value, 10));
-                }
-              }}
-            >
-              <option value={-1}>Select condition</option>
-              <option value={0}>Brand new</option>
-              <option value={1}>New</option>
-              <option value={2}>Used</option>
-              <option value={3}>Poor condition</option>
-              <option value={4}>Not working</option>
-            </select>
-          </div>
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Condition</p>
+          <select
+            id="condition"
+            name="condition"
+            className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            onChange={(e) => {
+              if (e.target.value === "-1") {
+                setCondition(undefined);
+              } else {
+                setCondition(parseInt(e.target.value, 10));
+              }
+            }}
+          >
+            <option value={-1}>Select condition</option>
+            <option value={0}>Brand new</option>
+            <option value={1}>New</option>
+            <option value={2}>Used</option>
+            <option value={3}>Poor condition</option>
+            <option value={4}>Not working</option>
+          </select>
+        </div>
 
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Description</p>
-            <textarea
-              required
-              placeholder="Description of the product. Avoid writing personal details for example your address."
-              id="description"
-              name="description"
-              className="h-36 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Description</p>
+          <textarea
+            required
+            placeholder="Description of the product. Avoid writing personal details for example your address."
+            id="description"
+            name="description"
+            className="h-36 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
 
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Price</p>
-            <input
-              required
-              min={1}
-              placeholder="Choose price more than 0"
-              type="number"
-              id="price"
-              name="price"
-              className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              value={price}
-              onChange={(e) => {
-                if (e.target.value) {
-                  setPrice(parseInt(e.target.value, 10));
-                } else {
-                  setPrice(undefined);
-                }
-              }}
-            />
-          </div>
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Price</p>
+          <input
+            required
+            min={1}
+            placeholder="Choose price more than 0"
+            type="number"
+            id="price"
+            name="price"
+            className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            value={price}
+            onChange={(e) => {
+              if (e.target.value) {
+                setPrice(parseInt(e.target.value, 10));
+              } else {
+                setPrice(undefined);
+              }
+            }}
+          />
+        </div>
 
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">Color (optional)</p>
-            <select
-              id="color"
-              name="color"
-              value={color}
-              className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              onChange={(e) => setColor(parseInt(e.target.value, 10))}
-            >
-              <option value={0}>None selected</option>
-              <option value={1}>Black</option>
-              <option value={2}>White</option>
-              <option value={3}>Red</option>
-              <option value={4}>Blue</option>
-              <option value={5}>Green</option>
-              <option value={6}>Yellow</option>
-              <option value={7}>Orange</option>
-              <option value={8}>Purple</option>
-              <option value={9}>Pink</option>
-              <option value={10}>Gray</option>
-              <option value={11}>Brown</option>
-              <option value={12}>Silver</option>
-              <option value={13}>Gold</option>
-            </select>
-          </div>
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">Color (optional)</p>
+          <select
+            id="color"
+            name="color"
+            value={color}
+            className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            onChange={(e) => setColor(parseInt(e.target.value, 10))}
+          >
+            <option value={0}>None selected</option>
+            <option value={1}>Black</option>
+            <option value={2}>White</option>
+            <option value={3}>Red</option>
+            <option value={4}>Blue</option>
+            <option value={5}>Green</option>
+            <option value={6}>Yellow</option>
+            <option value={7}>Orange</option>
+            <option value={8}>Purple</option>
+            <option value={9}>Pink</option>
+            <option value={10}>Gray</option>
+            <option value={11}>Brown</option>
+            <option value={12}>Silver</option>
+            <option value={13}>Gold</option>
+          </select>
+        </div>
 
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
-            <p className="font-semibold text-gray-700">
-              Production Year (optional)
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <p className="font-semibold text-gray-700">
+            Production Year (optional)
+          </p>
+          <input
+            placeholder="When was the product made?"
+            type="number"
+            id="productionYear"
+            min={0}
+            max={currentYear}
+            name="productionYear"
+            className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
+            value={year}
+            onChange={(e) => setYear(parseInt(e.target.value, 10))}
+          />
+        </div>
+
+        <div className="mx-auto my-5 flex w-11/12 flex-col">
+          <button
+            disabled={submitting}
+            type="submit"
+            className={`${submittable ? "" : "hidden"} mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 disabled:bg-gray-300`}
+          >
+            Submit
+          </button>
+          <div
+            className={`${submittable ? "hidden" : "bg-red-50 text-center"}`}
+          >
+            <p className="rounded-md p-1 font-medium text-red-700">
+              Required fields are missing:
             </p>
-            <input
-              placeholder="When was the product made?"
-              type="number"
-              id="productionYear"
-              min={0}
-              max={currentYear}
-              name="productionYear"
-              className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
-              value={year}
-              onChange={(e) => setYear(parseInt(e.target.value, 10))}
-            />
-          </div>
-
-          <div className="mx-auto my-5 flex w-11/12 flex-col">
+            <ul>
+              {category === "" ? <li>Category</li> : null}
+              {selectedFiles?.length ? null : <li>Image</li>}
+              {name === "" ? <li>Name</li> : null}
+              {condition === undefined ? <li>Condition</li> : null}
+              {description === "" ? <li>Description</li> : null}
+              {price === undefined ? <li>Price</li> : null}
+            </ul>
             <button
-              disabled={submitting}
-              type="submit"
-              className={`${submittable ? "" : "hidden"} mx-auto mt-2 h-10 w-full rounded bg-blue-600 font-semibold text-white duration-200 hover:bg-blue-500 disabled:bg-gray-300`}
+              disabled
+              type="button"
+              className="mx-auto mt-2 h-10 w-full rounded bg-gray-300 font-semibold text-white"
             >
               Submit
             </button>
-            <div
-              className={`${submittable ? "hidden" : "bg-red-50 text-center"}`}
-            >
-              <p className="rounded-md p-1 font-medium text-red-700">
-                Required fields are missing:
-              </p>
-              <ul>
-                {category === "" ? <li>Category</li> : null}
-                {selectedFiles?.length ? null : <li>Image</li>}
-                {name === "" ? <li>Name</li> : null}
-                {condition === undefined ? <li>Condition</li> : null}
-                {description === "" ? <li>Description</li> : null}
-                {price === undefined ? <li>Price</li> : null}
-              </ul>
-              <button
-                disabled
-                type="button"
-                className="mx-auto mt-2 h-10 w-full rounded bg-gray-300 font-semibold text-white"
-              >
-                Submit
-              </button>
-            </div>
           </div>
         </div>
-        <div className="product-form--br:my-6 relative flex-1 basis-[350px]">
-          <div className="sticky top-2">
-            <ExampleProduct
-              files={selectedFiles}
-              name={name}
-              price={price}
-              category={category}
-              condition={condition}
-              description={description}
-              color={color}
-              year={year}
-            />
-          </div>
+      </div>
+      <div className="product-form--br:my-6 relative flex-1 basis-[350px]">
+        <div className="sticky top-2 mt-2 2md:mt-0">
+          <ExampleProduct
+            files={selectedFiles}
+            name={name}
+            price={price}
+            category={category}
+            condition={condition}
+            description={description}
+            color={color}
+            year={year}
+          />
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }

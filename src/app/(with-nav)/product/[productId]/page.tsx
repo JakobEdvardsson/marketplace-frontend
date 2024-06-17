@@ -1,10 +1,41 @@
 import Product from "@/app/(with-nav)/product/[productId]/Product";
 import { Suspense } from "react";
 import Image from "next/image";
+import { Metadata } from "next";
+import { ProductGetResponseDTO } from "@/types/endpoint-types-incoming";
+import { getProductById } from "@/utils/api-calls";
 
 type Props = {
   readonly params: { productId: string };
 };
+
+async function getProduct(
+  productId: string,
+): Promise<ProductGetResponseDTO | undefined> {
+  const product: ProductGetResponseDTO = await getProductById(productId)
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log(error);
+    });
+
+  if (product) {
+    return product;
+  }
+
+  return undefined;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const product = await getProduct(params.productId);
+
+  return {
+    title: `${product ? product.name : "Product"} | Marketplace`,
+    description: product?.description,
+    openGraph: {
+      images: product?.imageUrls[0],
+    },
+  };
+}
 
 export default async function Page({ params }: Props) {
   return (

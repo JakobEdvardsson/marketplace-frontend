@@ -13,9 +13,11 @@ type Props = {
 async function getProduct(
   productId: string,
 ): Promise<ProductGetResponseDTO | undefined> {
-  const product: ProductGetResponseDTO = await getProductById(productId).then(
-    (res) => res.json(),
-  );
+  const product: ProductGetResponseDTO = await getProductById(productId)
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log(error);
+    });
 
   if (product) {
     return product;
@@ -41,6 +43,7 @@ export default async function Product(props: Props) {
     return product.imageUrls.map((url) => (
       <div key={product.name} className="mx-auto h-[60vh] w-full shrink-0 pr-2">
         <Image
+          priority
           src={url}
           alt={product.name}
           className="size-full rounded object-contain"
@@ -111,6 +114,25 @@ export default async function Product(props: Props) {
         <h1 className="text-xl font-semibold">Description</h1>
         <div className="mt-2 w-full whitespace-pre-wrap font-light">
           {product.description}
+        </div>
+        <div className="mt-7 flex text-sm text-gray-500">
+          {`Posted: ${new Date(product.createdAt).toLocaleString(
+            ["en-SE", "en-US"],
+            {
+              day: "numeric",
+              month: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            },
+          )} in `}
+          <div className="ml-1 first-letter:uppercase">
+            <Link
+              className="text-blue-500"
+              href={`/?category=${product.productCategory.name}`}
+            >
+              {product.productCategory.name}
+            </Link>
+          </div>
         </div>
       </div>
 

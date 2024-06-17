@@ -13,11 +13,15 @@ import { Button } from "@/components/ui/button";
 import ConditionSelector from "@/app/(with-nav)/components/ConditionSelector";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { WatchListResponseDTO } from "@/types/endpoint-types-incoming";
+import {
+  ProductGetAllResponseDTO,
+  WatchListResponseDTO,
+} from "@/types/endpoint-types-incoming";
 import { useAllWatchlistEntries, useProducts } from "@/utils/api-calls-swr";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import Image from "next/image";
+import { useAuth } from "@/components/AuthContext";
 
 interface SearchParams {
   productCategoryName: string | null;
@@ -29,11 +33,16 @@ interface SearchParams {
 }
 
 // eslint-disable-next-line complexity
-export default function ProductSection() {
-  const pathname = usePathname();
+export default function ProductSection(props: {
+  readonly fallbackData: ProductGetAllResponseDTO | undefined;
+}) {
   const { replace } = useRouter();
+  const { toast } = useToast();
+  const { loggedIn } = useAuth();
 
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+
   const categoryParam = searchParams.get("category");
   const queryParam = searchParams.get("q");
   const minimumPriceParam = Number(searchParams.get("minPrice"));
@@ -43,8 +52,6 @@ export default function ProductSection() {
       ? -1
       : Number(searchParams.get("condition"));
   const sortModeParam = Number(searchParams.get("sort"));
-
-  const { toast } = useToast();
 
   const [search, setSearch] = useState<SearchParams>({
     productCategoryName: categoryParam ? categoryParam : null,
@@ -67,9 +74,9 @@ export default function ProductSection() {
   });
 
   const { data: subscribedCategories, mutate: mutateSubscribedCategories } =
-    useAllWatchlistEntries();
+    useAllWatchlistEntries(Boolean(loggedIn));
 
-  const { data: products } = useProducts(
+  const { data: searchProducts } = useProducts(
     search.productCategoryName,
     search.minimumPrice,
     search.maximumPrice,
@@ -77,6 +84,17 @@ export default function ProductSection() {
     search.sortMode,
     search.query,
   );
+
+  const products =
+    searchParams.size ||
+    search.productCategoryName ||
+    search.minimumPrice ||
+    search.maximumPrice ||
+    search.condition !== null ||
+    search.sortMode !== null ||
+    search.query
+      ? searchProducts
+      : props.fallbackData;
 
   const handleReset = () => {
     setSearch({
@@ -242,14 +260,14 @@ export default function ProductSection() {
           <Input
             className="mr-1"
             type="number"
-            placeholder="Min price"
+            placeholder="Minimum price"
             min={0}
             value={search.minimumPrice ? search.minimumPrice : ""}
             onChange={handleMinimumPriceChange}
           />
           <Input
             type="number"
-            placeholder="Max price"
+            placeholder="Maximum price"
             min={search.minimumPrice ? search.minimumPrice : 0}
             value={search.maximumPrice ? search.maximumPrice : ""}
             onChange={handleMaximumPriceChange}

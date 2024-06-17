@@ -11,17 +11,65 @@ export default function ProductCard(props: {
 }) {
   const { product } = props;
   const createdAt: Date = new Date(product.createdAt);
+
+  const today = new Date();
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+
+  const yesterday = new Date();
+  yesterday.setHours(0);
+  yesterday.setMinutes(0);
+  yesterday.setSeconds(0);
+  yesterday.setDate(today.getDate() - 1);
+
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setHours(0);
+  twoDaysAgo.setMinutes(0);
+  twoDaysAgo.setSeconds(0);
+  twoDaysAgo.setDate(today.getDate() - 2);
+
   const currencyFormat = new Intl.NumberFormat("sv-SE", {
     style: "currency",
     currency: "SEK",
     maximumFractionDigits: 0,
   });
 
+  function renderDate() {
+    if (createdAt.getDate() === today.getDate()) {
+      return `Today ${createdAt.toLocaleString(["en-SE", "en-US"], {
+        hour: "numeric",
+        minute: "numeric",
+      })}`;
+    }
+
+    if (createdAt.getDate() === yesterday.getDate()) {
+      return `Yesterday ${createdAt.toLocaleString(["en-SE", "en-US"], {
+        hour: "numeric",
+        minute: "numeric",
+      })}`;
+    }
+
+    if (createdAt.getDate() === twoDaysAgo.getDate()) {
+      return createdAt.toLocaleString(["en-SE", "en-US"], {
+        weekday: "long",
+        hour: "numeric",
+        minute: "numeric",
+      });
+    }
+
+    return createdAt.toLocaleString(["en-SE", "en-US"], {
+      day: "numeric",
+      month: "numeric",
+    });
+  }
+
   return (
     <div className="relative flex h-96 w-full flex-col sm:h-48 sm:flex-row">
       <Image
+        priority
         src={product.imageUrls[0] || "/images/emptyImage.jpg"}
-        className="h-2/3 rounded bg-gray-50 object-contain sm:h-full sm:w-2/5"
+        className="h-2/3 rounded bg-gray-200 object-contain sm:h-full sm:w-2/5"
         alt="Product Image"
         width={1000}
         height={1000}
@@ -41,15 +89,7 @@ export default function ProductCard(props: {
               {product.productCategory.name}
             </div>
           </Link>
-          <p className="text-gray-500">
-            {createdAt.getDate() +
-              "/" +
-              (createdAt.getMonth() + 1) +
-              " " +
-              createdAt.getHours() +
-              ":" +
-              createdAt.getMinutes()}
-          </p>
+          <p className="text-gray-500">{renderDate()}</p>
         </div>
 
         <Link
