@@ -12,8 +12,10 @@ type Props = {
 };
 
 export default function CreateProduct(props: Props) {
-  const MAX_FILE_UPLOAD_SIZE_BYTES =
-    process.env.NEXT_PUBLIC_MAX_FILE_UPLOAD_SIZE_BYTES || 10_000_000;
+  const MAX_FILE_UPLOAD_SIZE_BYTES = process.env
+    .NEXT_PUBLIC_MAX_FILE_UPLOAD_SIZE_BYTES
+    ? Number(process.env.NEXT_PUBLIC_MAX_FILE_UPLOAD_SIZE_BYTES)
+    : 10_000_000;
 
   const { categories } = props;
   const { toast } = useToast();
