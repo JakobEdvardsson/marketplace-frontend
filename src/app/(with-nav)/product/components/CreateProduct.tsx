@@ -1,7 +1,7 @@
 "use client";
 
 import { postProduct } from "@/utils/api-calls";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ExampleProduct from "@/app/(with-nav)/product/components/ExampleProduct";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
@@ -12,6 +12,11 @@ type Props = {
 };
 
 export default function CreateProduct(props: Props) {
+  const MAX_FILE_UPLOAD_SIZE_BYTES = process.env
+    .NEXT_PUBLIC_MAX_FILE_UPLOAD_SIZE_BYTES
+    ? Number(process.env.NEXT_PUBLIC_MAX_FILE_UPLOAD_SIZE_BYTES)
+    : 10_000_000;
+
   const { categories } = props;
   const { toast } = useToast();
 
@@ -20,6 +25,17 @@ export default function CreateProduct(props: Props) {
   const router = useRouter();
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>();
+  const currentFileUsage: number = useMemo(() => {
+    let totalFileSize = 0;
+
+    if (selectedFiles) {
+      selectedFiles.forEach((file) => {
+        totalFileSize += file.size;
+      });
+    }
+
+    return totalFileSize;
+  }, [selectedFiles]);
 
   //This is the states for the example product
   const [name, setName] = useState<string>("");
@@ -36,6 +52,7 @@ export default function CreateProduct(props: Props) {
   const submittable =
     category !== "" &&
     selectedFiles?.length &&
+    currentFileUsage <= MAX_FILE_UPLOAD_SIZE_BYTES &&
     name !== "" &&
     condition !== undefined &&
     description !== "" &&
@@ -87,7 +104,7 @@ export default function CreateProduct(props: Props) {
         const objectUrl = URL.createObjectURL(file);
         return (
           <div key={file.name} className="">
-            <button type="submit" onClick={() => handleRemoveImage(index)}>
+            <button type="button" onClick={() => handleRemoveImage(index)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -145,9 +162,9 @@ export default function CreateProduct(props: Props) {
     setSubmitting(true);
     const name = formData.get("name")?.toString();
     const productCategory = formData.get("productCategory")?.toString();
-    const price = parseInt(formData.get("price")?.toString() || "0", 10);
+    const price = parseInt(formData.get("price")?.toString() || "-1", 10);
     const condition = parseInt(
-      formData.get("condition")?.toString() || "0",
+      formData.get("condition")?.toString() || "-1",
       10,
     );
     const description = formData.get("description")?.toString();
@@ -157,6 +174,17 @@ export default function CreateProduct(props: Props) {
       10,
     );
 
+    if (
+      name === undefined ||
+      productCategory === undefined ||
+      price === -1 ||
+      condition === -1 ||
+      description === undefined
+    ) {
+      setSubmitting(false);
+      return;
+    }
+
     formData.delete("data");
     if (selectedFiles) {
       selectedFiles.forEach((file) => {
@@ -165,15 +193,6 @@ export default function CreateProduct(props: Props) {
     }
 
     const data = formData.getAll("data");
-
-    if (
-      name === undefined ||
-      productCategory === undefined ||
-      description === undefined
-    ) {
-      setSubmitting(false);
-      return;
-    }
 
     postProduct(
       name,
@@ -186,27 +205,27 @@ export default function CreateProduct(props: Props) {
       data,
     )
       .then((res) => {
-        //TODO: change to toaster
         if (res.ok) {
           toast({
             title: "Product created",
             description: "Your product is available for purchase",
             variant: "default",
+            duration: 7_000,
           });
           res.json().then((data) => {
             router.push(`/product/${data.id}`);
           });
-        } else if (res.status === 403) {
+        } else if (res.status === 413) {
           toast({
-            title: "Please try again",
-            description: "Your product is missing Category or Condition",
+            title: "Max image usage exceeded",
+            description: `Max image usage of ${MAX_FILE_UPLOAD_SIZE_BYTES / 1_000_000} MB exceeded`,
             variant: "destructive",
           });
           setSubmitting(false);
         } else {
           toast({
             title: "Please try again",
-            description: "Your product could not be created",
+            description: "Your product could not be posted",
             variant: "destructive",
           });
           setSubmitting(false);
@@ -219,6 +238,11 @@ export default function CreateProduct(props: Props) {
         );
       })
       .catch((err) => {
+        toast({
+          title: "Please try again",
+          description: "Your product could not be posted",
+          variant: "destructive",
+        });
         setSubmitting(false);
         console.log(err);
       });
@@ -247,15 +271,25 @@ export default function CreateProduct(props: Props) {
             className="h-12 appearance-none rounded-md border border-gray-300 p-3 outline-none"
             onChange={(e) => extractName(e.target.value)}
           >
-            <option>Select category</option>
+            <option value={undefined}>Select category</option>
             {renderCategories()}
           </select>
         </div>
 
         <div className="mx-auto my-10 flex w-11/12 flex-col">
-          <p className="font-semibold text-gray-700">Pictures</p>
+          <p className="font-semibold text-gray-700">Images</p>
+          <div
+            className={
+              currentFileUsage > MAX_FILE_UPLOAD_SIZE_BYTES
+                ? "text-red-500"
+                : ""
+            }
+          >
+            {`Current image usage: ${(currentFileUsage / 1_000_000).toFixed(2)} / ${MAX_FILE_UPLOAD_SIZE_BYTES / 1_000_000} MB`}
+          </div>
           <input
             multiple
+            accept="image/png, image/jpeg"
             type="file"
             id="files"
             name="data"
@@ -273,7 +307,7 @@ export default function CreateProduct(props: Props) {
               onDrop={handleDrop}
             >
               {" "}
-              <span className="text-gray-500">Upload photos</span>
+              <span className="text-gray-500">Select or drop images here</span>
             </div>
           </label>
         </div>
@@ -319,7 +353,7 @@ export default function CreateProduct(props: Props) {
           <p className="font-semibold text-gray-700">Description</p>
           <textarea
             required
-            placeholder="Description of the product. Avoid writing personal details for example your address."
+            placeholder="Description of the product. Avoid writing personal details like your address."
             id="description"
             name="description"
             className="h-36 appearance-none rounded-md border border-gray-300 p-3 outline-none"
@@ -406,13 +440,19 @@ export default function CreateProduct(props: Props) {
             <p className="rounded-md p-1 font-medium text-red-700">
               Required fields are missing:
             </p>
-            <ul>
+            <ul className="px-2">
               {category === "" ? <li>Category</li> : null}
               {selectedFiles?.length ? null : <li>Image</li>}
               {name === "" ? <li>Name</li> : null}
               {condition === undefined ? <li>Condition</li> : null}
               {description === "" ? <li>Description</li> : null}
               {price === undefined ? <li>Price</li> : null}
+              {currentFileUsage > MAX_FILE_UPLOAD_SIZE_BYTES ? (
+                <li>
+                  Max image usage of {MAX_FILE_UPLOAD_SIZE_BYTES / 1_000_000} MB
+                  exceeded
+                </li>
+              ) : null}
             </ul>
             <button
               disabled
